@@ -70,7 +70,9 @@ public class CreateCourseCommandHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Name");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateCourseCommand>(x => x.Name) &&
+            e.Description == CreateCourseCommandValidator.ErrorMessages.NameRequired);
     }
 
     [Fact]
@@ -89,7 +91,9 @@ public class CreateCourseCommandHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Name");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateCourseCommand>(x => x.Name) &&
+            e.Description == CreateCourseCommandValidator.ErrorMessages.NameMinLength);
     }
 
     [Fact]
@@ -108,7 +112,9 @@ public class CreateCourseCommandHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Name");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateCourseCommand>(x => x.Name) &&
+            e.Description == CreateCourseCommandValidator.ErrorMessages.NameMaxLength);
     }
 
     [Fact]
@@ -205,7 +211,9 @@ public class CreateCourseCommandHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "MinimumPassingMarks");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateCourseCommand>(x => x.MinimumPassingMarks) &&
+            e.Description == CreateCourseCommandValidator.ErrorMessages.MinimumPassingMarksMin);
     }
 
     [Fact]
@@ -224,7 +232,9 @@ public class CreateCourseCommandHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "MinimumPassingMarks");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateCourseCommand>(x => x.MinimumPassingMarks) &&
+            e.Description == CreateCourseCommandValidator.ErrorMessages.MinimumPassingMarksMin);
     }
 
     [Fact]
@@ -243,7 +253,9 @@ public class CreateCourseCommandHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "MaximumMarks");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateCourseCommand>(x => x.MaximumMarks) &&
+            e.Description == CreateCourseCommandValidator.ErrorMessages.MaximumMarksMin);
     }
 
     [Fact]
@@ -262,6 +274,9 @@ public class CreateCourseCommandHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
+        result.Errors.Should().Contain(e =>
+            e.Code == string.Empty &&
+            e.Description == CreateCourseCommandValidator.ErrorMessages.MarksComparisonInvalid);
     }
 
     [Fact]

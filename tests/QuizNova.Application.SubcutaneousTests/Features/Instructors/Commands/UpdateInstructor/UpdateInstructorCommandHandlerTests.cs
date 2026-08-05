@@ -35,7 +35,9 @@ public class UpdateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Id" && e.Description.Contains("required"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateInstructorCommand>(x => x.Id) &&
+            e.Description == UpdateInstructorCommandValidator.ErrorMessages.IdRequired);
     }
 
     [Fact]
@@ -128,7 +130,9 @@ public class UpdateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.Name" && e.Description.Contains("at least 3 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == $"{nameof(UpdateInstructorCommand.PersonalInformation)}.{nameof(PersonalInformationDto.Name)}" &&
+            e.Description == UpdateInstructorCommandValidator.ErrorMessages.NameMinLength);
     }
 
     [Fact]

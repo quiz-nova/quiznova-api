@@ -26,7 +26,9 @@ public class GetAdminByIdQueryHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Id");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAdminByIdQuery>(x => x.Id) &&
+            e.Description == GetAdminByIdQueryValidator.ErrorMessages.IdRequired);
     }
 
     [Fact]

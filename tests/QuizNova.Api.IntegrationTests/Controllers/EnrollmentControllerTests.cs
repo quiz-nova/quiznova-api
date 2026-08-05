@@ -2,8 +2,6 @@ using System.Net;
 
 using FluentAssertions;
 
-using Microsoft.EntityFrameworkCore;
-
 using MongoDB.Driver;
 
 using QuizNova.Api.DTOs.Requests;
@@ -60,7 +58,8 @@ public class EnrollmentControllerTests(CustomWebApplicationFactory factory) : IC
 
         using var scope = factory.Services.CreateScope();
         var mongoContext = scope.ServiceProvider.GetRequiredService<IMongoDbContext>();
-        var student = await mongoContext.Users.Find(u => u.UserRole == UserRole.Student).SortByDescending(s => s.PersonalInformation.Email).FirstAsync();
+        var student = await mongoContext.Users.Find(u => u.UserRole == UserRole.Student)
+            .SortByDescending(s => s.PersonalInformation.Email).FirstAsync();
         var course = await mongoContext.Courses.Find(_ => true).FirstAsync();
 
         // Remove student from course first in case they are already enrolled to ensure clean state
@@ -120,7 +119,8 @@ public class EnrollmentControllerTests(CustomWebApplicationFactory factory) : IC
 
         using var scope = factory.Services.CreateScope();
         var mongoContext = scope.ServiceProvider.GetRequiredService<IMongoDbContext>();
-        var student = await mongoContext.Users.Find(u => u.UserRole == UserRole.Student).SortByDescending(s => s.PersonalInformation.Email).FirstAsync();
+        var student = await mongoContext.Users.Find(u => u.UserRole == UserRole.Student)
+            .SortByDescending(s => s.PersonalInformation.Email).FirstAsync();
         var course = await mongoContext.Courses.Find(_ => true).FirstAsync();
 
         // Ensure enrollment exists

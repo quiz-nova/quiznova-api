@@ -4,10 +4,16 @@ namespace QuizNova.Application.Features.Courses.Queries.GetInstructorCoursesCoun
 
 public sealed class GetInstructorCoursesCountQueryValidator : AbstractValidator<GetInstructorCoursesCountQuery>
 {
+    public static class ErrorMessages
+    {
+        public const string InstructorIdRequired = "Instructor ID is required.";
+    }
+
     public GetInstructorCoursesCountQueryValidator()
     {
         RuleFor(query => query.InstructorId)
-            .NotEmpty().WithMessage("Instructor ID is required.");
+            .NotEmpty().WithMessage(ErrorMessages.InstructorIdRequired);
     }
 }
+
 

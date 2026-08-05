@@ -35,7 +35,9 @@ public class UpdateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Id" && e.Description.Contains("required"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateStudentCommand>(x => x.Id) &&
+            e.Description == UpdateStudentCommandValidator.ErrorMessages.IdRequired);
     }
 
     [Fact]
@@ -128,7 +130,9 @@ public class UpdateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.Name" && e.Description.Contains("at least 3 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateStudentCommand>(x => x.PersonalInformation.Name) &&
+            e.Description == UpdateStudentCommandValidator.ErrorMessages.NameMinLength);
     }
 
     [Fact]

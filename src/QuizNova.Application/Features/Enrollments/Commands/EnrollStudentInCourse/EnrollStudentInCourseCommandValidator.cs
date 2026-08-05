@@ -4,14 +4,21 @@ namespace QuizNova.Application.Features.Enrollments.Commands.EnrollStudentInCour
 
 public sealed class EnrollStudentInCourseCommandValidator : AbstractValidator<EnrollStudentInCourseCommand>
 {
+    public static class ErrorMessages
+    {
+        public const string CourseIdRequired = "Course ID is required.";
+        public const string StudentIdRequired = "Student ID is required.";
+    }
+
     public EnrollStudentInCourseCommandValidator()
     {
         RuleFor(command => command.CourseId)
             .NotEmpty()
-            .WithMessage("Course ID is required.");
+            .WithMessage(ErrorMessages.CourseIdRequired);
 
         RuleFor(command => command.StudentId)
             .NotEmpty()
-            .WithMessage("Student ID is required.");
+            .WithMessage(ErrorMessages.StudentIdRequired);
     }
 }
+

@@ -70,7 +70,8 @@ public class CreateAdminCommandHandlerTests(CustomWebApplicationFactory factory)
         // Assert
         result.IsError.Should().BeTrue();
         result.Errors.Should().Contain(e =>
-            e.Code == "PersonalInformation.Name" && e.Description.Contains("at least 3 characters"));
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateAdminCommand>(x => x.PersonalInformation.Name) &&
+            e.Description == CreateAdminCommandValidator.ErrorMessages.NameMinLength);
     }
 
     [Fact]
@@ -88,8 +89,9 @@ public class CreateAdminCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should()
-            .Contain(e => e.Code == "PersonalInformation.Email" && e.Description.Contains("required"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateAdminCommand>(x => x.PersonalInformation.Email) &&
+            e.Description == CreateAdminCommandValidator.ErrorMessages.EmailRequired);
     }
 
     [Fact]
@@ -108,7 +110,8 @@ public class CreateAdminCommandHandlerTests(CustomWebApplicationFactory factory)
         // Assert
         result.IsError.Should().BeTrue();
         result.Errors.Should().Contain(e =>
-            e.Code == "PersonalInformation.Email" && e.Description.Contains("valid email address"));
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateAdminCommand>(x => x.PersonalInformation.Email) &&
+            e.Description == CreateAdminCommandValidator.ErrorMessages.EmailInvalid);
     }
 
     [Fact]
@@ -126,7 +129,8 @@ public class CreateAdminCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateAdminCommand>(x => x.Password));
     }
 
     [Fact]
@@ -144,7 +148,9 @@ public class CreateAdminCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Role" && e.Description.Contains("Role must be 'Admin'"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateAdminCommand>(x => x.Role) &&
+            e.Description == CreateAdminCommandValidator.ErrorMessages.RoleInvalid);
     }
 
     [Fact]
@@ -162,9 +168,9 @@ public class CreateAdminCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should()
-            .Contain(e =>
-                e.Code == "PersonalInformation.PhoneNumber" && e.Description.Contains("between 7 and 15 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateAdminCommand>(x => x.PersonalInformation.PhoneNumber) &&
+            e.Description == CreateAdminCommandValidator.ErrorMessages.PhoneNumberLength);
     }
 
     [Fact]
@@ -182,9 +188,9 @@ public class CreateAdminCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should()
-            .Contain(e =>
-                e.Code == "PersonalInformation.PhoneNumber" && e.Description.Contains("between 7 and 15 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateAdminCommand>(x => x.PersonalInformation.PhoneNumber) &&
+            e.Description == CreateAdminCommandValidator.ErrorMessages.PhoneNumberLength);
     }
 
     [Fact]

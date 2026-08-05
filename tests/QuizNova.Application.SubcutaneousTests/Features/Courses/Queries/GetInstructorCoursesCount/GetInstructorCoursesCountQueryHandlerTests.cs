@@ -32,7 +32,9 @@ public class GetInstructorCoursesCountQueryHandlerTests(CustomWebApplicationFact
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "InstructorId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetInstructorCoursesCountQuery>(x => x.InstructorId) &&
+            e.Description == GetInstructorCoursesCountQueryValidator.ErrorMessages.InstructorIdRequired);
     }
 
     [Fact]

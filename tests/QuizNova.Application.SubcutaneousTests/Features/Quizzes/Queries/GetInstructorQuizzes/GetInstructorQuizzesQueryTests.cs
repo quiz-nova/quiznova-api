@@ -26,7 +26,9 @@ public class GetInstructorQuizzesQueryTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(query);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "InstructorId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetInstructorQuizzesQuery>(x => x.InstructorId) &&
+            e.Description == GetInstructorQuizzesQueryValidator.ErrorMessages.InstructorIdRequired);
     }
 
     [Fact]

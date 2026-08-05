@@ -26,7 +26,9 @@ public class GetStudentByIdQueryHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Id");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetStudentByIdQuery>(x => x.Id) &&
+            e.Description == GetStudentByIdQueryValidator.ErrorMessages.IdRequired);
     }
 
     [Fact]

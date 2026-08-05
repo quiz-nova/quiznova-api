@@ -35,7 +35,9 @@ public class DisenrollStudentFromCourseCommandHandlerTests(CustomWebApplicationF
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "EnrollmentId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<DisenrollStudentFromCourseCommand>(x => x.EnrollmentId) &&
+            e.Description == DisenrollStudentFromCourseCommandValidator.ErrorMessages.EnrollmentIdRequired);
     }
 
     [Fact]
@@ -51,7 +53,9 @@ public class DisenrollStudentFromCourseCommandHandlerTests(CustomWebApplicationF
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "StudentId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<DisenrollStudentFromCourseCommand>(x => x.StudentId) &&
+            e.Description == DisenrollStudentFromCourseCommandValidator.ErrorMessages.StudentIdRequired);
     }
 
     [Fact]

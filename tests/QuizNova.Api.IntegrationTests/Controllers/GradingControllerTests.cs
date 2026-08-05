@@ -2,8 +2,6 @@ using System.Net;
 
 using FluentAssertions;
 
-using Microsoft.EntityFrameworkCore;
-
 using MongoDB.Driver;
 
 using QuizNova.Api.DTOs.Requests;
@@ -191,7 +189,8 @@ public class GradingControllerTests(CustomWebApplicationFactory factory) : IClas
         var mongoContext = scope.ServiceProvider.GetRequiredService<IMongoDbContext>();
 
         var instructor = await mongoContext.Users
-                             .Find(u => u.UserRole == UserRole.Instructor && u.PersonalInformation.Email == instructorEmail)
+                             .Find(u => u.UserRole == UserRole.Instructor &&
+                                        u.PersonalInformation.Email == instructorEmail)
                              .FirstOrDefaultAsync()
                          ?? throw new InvalidOperationException($"Instructor {instructorEmail} not found.");
 
@@ -237,8 +236,7 @@ public class GradingControllerTests(CustomWebApplicationFactory factory) : IClas
             questionId,
             attemptId,
             "REST stands for Representational State Transfer...",
-            10,
-            null).Value;
+            10).Value;
 
         var attempt = QuizAttempt.Start(
             attemptId,

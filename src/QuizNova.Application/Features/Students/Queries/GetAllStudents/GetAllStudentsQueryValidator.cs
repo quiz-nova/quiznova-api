@@ -1,32 +1,42 @@
 using FluentValidation;
 
+using QuizNova.Application.Common.Validation;
+
 namespace QuizNova.Application.Features.Students.Queries.GetAllStudents;
 
 public sealed class GetAllStudentsQueryValidator : AbstractValidator<GetAllStudentsQuery>
 {
+    public static class ErrorMessages
+    {
+        public const string EnrolledCoursesCountMin = "Enrolled courses count cannot be negative.";
+        public const string CourseIdInvalid = "Course ID must be a valid GUID.";
+        public const string IsEnrolledInCourseRequired = "Enrollment filter is required when course ID is provided.";
+    }
+
     public GetAllStudentsQueryValidator()
     {
         RuleFor(query => query.PageNumber)
-            .GreaterThan(0).WithMessage("Page number must be greater than 0.");
+            .GreaterThan(0).WithMessage(ValidationMessages.Pagination.PageNumberMin);
 
         RuleFor(query => query.PageSize)
-            .GreaterThan(0).WithMessage("Page size must be greater than 0.")
-            .LessThanOrEqualTo(100).WithMessage("Page size must not exceed 100.");
+            .GreaterThan(0).WithMessage(ValidationMessages.Pagination.PageSizeMin)
+            .LessThanOrEqualTo(100).WithMessage(ValidationMessages.Pagination.PageSizeMax(100));
 
         RuleFor(query => query.EnrolledCoursesCount)
-            .GreaterThanOrEqualTo(0).WithMessage("Enrolled courses count cannot be negative.")
+            .GreaterThanOrEqualTo(0).WithMessage(ErrorMessages.EnrolledCoursesCountMin)
             .When(query => query.EnrolledCoursesCount.HasValue);
 
         RuleFor(query => query.CourseId)
-            .NotEqual(Guid.Empty).WithMessage("Course ID must be a valid GUID.")
+            .NotEqual(Guid.Empty).WithMessage(ErrorMessages.CourseIdInvalid)
             .When(query => query.CourseId.HasValue);
 
         RuleFor(query => query.IsEnrolledInCourse)
-            .NotNull().WithMessage("Enrollment filter is required when course ID is provided.")
+            .NotNull().WithMessage(ErrorMessages.IsEnrolledInCourseRequired)
             .When(query => query.CourseId.HasValue);
 
         RuleFor(query => query.SearchTerm)
-            .MaximumLength(200).WithMessage("Search term must not exceed 200 characters.")
+            .MaximumLength(200).WithMessage(ValidationMessages.Pagination.SearchTermMax(200))
             .When(query => !string.IsNullOrWhiteSpace(query.SearchTerm));
     }
 }
+

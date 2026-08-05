@@ -27,7 +27,9 @@ public class GetInstructorQuizzesCountQueryHandlerTests(CustomWebApplicationFact
         var result = await mediator.Send(query);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "InstructorId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetInstructorQuizzesCountQuery>(x => x.InstructorId) &&
+            e.Description == GetInstructorQuizzesCountQueryValidator.ErrorMessages.InstructorIdRequired);
     }
 
     // --- Domain tests ---

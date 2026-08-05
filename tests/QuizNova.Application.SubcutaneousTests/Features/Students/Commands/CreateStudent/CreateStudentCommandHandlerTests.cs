@@ -1,6 +1,5 @@
 using FluentAssertions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using MongoDB.Driver;
@@ -67,7 +66,9 @@ public class CreateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.Name" && e.Description.Contains("at least 3 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateStudentCommand>(x => x.PersonalInformation.Name) &&
+            e.Description == CreateStudentCommandValidator.ErrorMessages.NameMinLength);
     }
 
     [Fact]
@@ -85,7 +86,9 @@ public class CreateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.Email" && e.Description.Contains("required"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateStudentCommand>(x => x.PersonalInformation.Email) &&
+            e.Description == CreateStudentCommandValidator.ErrorMessages.EmailRequired);
     }
 
     [Fact]
@@ -103,7 +106,9 @@ public class CreateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.Email" && e.Description.Contains("valid email address"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateStudentCommand>(x => x.PersonalInformation.Email) &&
+            e.Description == CreateStudentCommandValidator.ErrorMessages.EmailInvalid);
     }
 
     [Fact]
@@ -121,7 +126,8 @@ public class CreateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateStudentCommand>(x => x.Password));
     }
 
     [Fact]
@@ -139,7 +145,9 @@ public class CreateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Role" && e.Description.Contains("Role must be 'Student'"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateStudentCommand>(x => x.Role) &&
+            e.Description == CreateStudentCommandValidator.ErrorMessages.RoleInvalid);
     }
 
     [Fact]
@@ -157,7 +165,9 @@ public class CreateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.PhoneNumber" && e.Description.Contains("between 7 and 15 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateStudentCommand>(x => x.PersonalInformation.PhoneNumber) &&
+            e.Description == CreateStudentCommandValidator.ErrorMessages.PhoneNumberLength);
     }
 
     [Fact]
@@ -175,7 +185,9 @@ public class CreateStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.PhoneNumber" && e.Description.Contains("between 7 and 15 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateStudentCommand>(x => x.PersonalInformation.PhoneNumber) &&
+            e.Description == CreateStudentCommandValidator.ErrorMessages.PhoneNumberLength);
     }
 
     [Fact]

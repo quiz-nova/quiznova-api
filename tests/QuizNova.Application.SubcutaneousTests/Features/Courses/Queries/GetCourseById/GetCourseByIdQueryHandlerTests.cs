@@ -25,7 +25,9 @@ public class GetCourseByIdQueryHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "CourseId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetCourseByIdQuery>(x => x.CourseId) &&
+            e.Description == GetCourseByIdQueryValidator.ErrorMessages.CourseIdRequired);
     }
 
     [Fact]

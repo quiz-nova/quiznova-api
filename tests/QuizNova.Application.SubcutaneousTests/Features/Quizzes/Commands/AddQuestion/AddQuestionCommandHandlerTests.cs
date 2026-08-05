@@ -29,7 +29,9 @@ public class AddQuestionCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "QuizId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<AddQuestionCommand>(x => x.QuizId) &&
+            e.Description == AddQuestionCommandValidator.ErrorMessages.QuizIdRequired);
     }
 
     [Fact]
@@ -42,7 +44,9 @@ public class AddQuestionCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "QuestionText");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuestionCommand>(x => x.QuestionText) &&
+            e.Description == CreateQuestionCommandValidator.ErrorMessages.QuestionTextMin);
     }
 
     [Fact]
@@ -55,7 +59,9 @@ public class AddQuestionCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Marks");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuestionCommand>(x => x.Marks) &&
+            e.Description == CreateQuestionCommandValidator.ErrorMessages.MarksRange);
     }
 
     // --- Domain tests ---

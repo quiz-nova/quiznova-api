@@ -32,7 +32,9 @@ public class GetQuizAttemptByIdQueryHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "QuizAttemptId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetQuizAttemptByIdQuery>(x => x.QuizAttemptId) &&
+            e.Description == GetQuizAttemptByIdQueryValidator.ErrorMessages.QuizAttemptIdRequired);
     }
 
     [Fact]

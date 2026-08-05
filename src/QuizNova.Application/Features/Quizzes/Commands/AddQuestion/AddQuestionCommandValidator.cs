@@ -6,13 +6,19 @@ namespace QuizNova.Application.Features.Quizzes.Commands.AddQuestion;
 
 public sealed class AddQuestionCommandValidator : AbstractValidator<AddQuestionCommand>
 {
+    public static class ErrorMessages
+    {
+        public const string QuizIdRequired = "Quiz ID is required.";
+        public const string QuestionRequired = "Question is required.";
+    }
+
     public AddQuestionCommandValidator()
     {
         RuleFor(x => x.QuizId)
-            .NotEmpty().WithMessage("Quiz ID is required.");
+            .NotEmpty().WithMessage(ErrorMessages.QuizIdRequired);
 
         RuleFor(x => x.Question)
-            .NotNull().WithMessage("Question is required.");
+            .NotNull().WithMessage(ErrorMessages.QuestionRequired);
 
         RuleFor(x => x.Question).Custom((question, ctx) =>
         {
@@ -36,3 +42,4 @@ public sealed class AddQuestionCommandValidator : AbstractValidator<AddQuestionC
         });
     }
 }
+

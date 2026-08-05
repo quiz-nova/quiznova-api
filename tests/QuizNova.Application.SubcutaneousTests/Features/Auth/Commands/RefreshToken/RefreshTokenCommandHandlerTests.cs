@@ -29,8 +29,12 @@ public class RefreshTokenCommandHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "RefreshToken");
-        result.Errors.Should().Contain(e => e.Code == "ExpiredAccessToken");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<RefreshTokenCommand>(x => x.RefreshToken) &&
+            e.Description == RefreshTokenCommandValidator.ErrorMessages.RefreshTokenRequired);
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<RefreshTokenCommand>(x => x.ExpiredAccessToken) &&
+            e.Description == RefreshTokenCommandValidator.ErrorMessages.ExpiredAccessTokenRequired);
     }
 
     [Fact]

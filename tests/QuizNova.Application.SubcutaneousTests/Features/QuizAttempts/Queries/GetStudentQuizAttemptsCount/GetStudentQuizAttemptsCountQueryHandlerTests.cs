@@ -29,7 +29,9 @@ public class GetStudentQuizAttemptsCountQueryHandlerTests(CustomWebApplicationFa
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "StudentId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetStudentQuizAttemptsCountQuery>(x => x.StudentId) &&
+            e.Description == GetStudentQuizAttemptsCountQueryValidator.ErrorMessages.StudentIdRequired);
     }
 
     [Fact]

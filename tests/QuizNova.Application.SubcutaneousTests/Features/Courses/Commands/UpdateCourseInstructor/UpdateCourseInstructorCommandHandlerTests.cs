@@ -35,7 +35,9 @@ public class UpdateCourseInstructorCommandHandlerTests(CustomWebApplicationFacto
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "CourseId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateCourseInstructorCommand>(x => x.CourseId) &&
+            e.Description == UpdateCourseInstructorCommandValidator.ErrorMessages.CourseIdRequired);
     }
 
     [Fact]

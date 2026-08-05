@@ -1,6 +1,5 @@
 using FluentAssertions;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using MongoDB.Driver;
@@ -27,7 +26,9 @@ public class UpdateQuizMetadataCommandHandlerTests(CustomWebApplicationFactory f
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "QuizId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateQuizMetadataCommand>(x => x.QuizId) &&
+            e.Description == UpdateQuizMetadataCommandValidator.ErrorMessages.QuizIdRequired);
     }
 
     [Fact]
@@ -40,7 +41,9 @@ public class UpdateQuizMetadataCommandHandlerTests(CustomWebApplicationFactory f
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Title");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateQuizMetadataCommand>(x => x.Title) &&
+            e.Description == UpdateQuizMetadataCommandValidator.ErrorMessages.TitleRequired);
     }
 
     [Fact]
@@ -53,7 +56,9 @@ public class UpdateQuizMetadataCommandHandlerTests(CustomWebApplicationFactory f
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Title");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateQuizMetadataCommand>(x => x.Title) &&
+            e.Description == UpdateQuizMetadataCommandValidator.ErrorMessages.TitleMin);
     }
 
     [Fact]
@@ -66,7 +71,9 @@ public class UpdateQuizMetadataCommandHandlerTests(CustomWebApplicationFactory f
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Title");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateQuizMetadataCommand>(x => x.Title) &&
+            e.Description == UpdateQuizMetadataCommandValidator.ErrorMessages.TitleMax);
     }
 
     [Fact]
@@ -79,7 +86,9 @@ public class UpdateQuizMetadataCommandHandlerTests(CustomWebApplicationFactory f
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "EndsAtUtc");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<UpdateQuizMetadataCommand>(x => x.EndsAtUtc) &&
+            e.Description == UpdateQuizMetadataCommandValidator.ErrorMessages.EndsAtAfterStart);
     }
 
     // --- Domain tests ---

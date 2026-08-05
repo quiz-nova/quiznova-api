@@ -2,9 +2,8 @@ using FluentAssertions;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using MongoDB.Driver;
-
 using QuizNova.Application.Common.Interfaces;
+using QuizNova.Application.Common.Validation;
 using QuizNova.Application.Features.Students.Queries.GetAllStudents;
 using QuizNova.Application.SubcutaneousTests.Common;
 using QuizNova.Tests.Common.Courses;
@@ -35,12 +34,13 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
     }
 
     [Theory]
-    [InlineData(0, 10, "PageNumber")]
-    [InlineData(-5, 10, "PageNumber")]
-    [InlineData(1, 0, "PageSize")]
-    [InlineData(1, -10, "PageSize")]
-    [InlineData(1, 101, "PageSize")]
-    public async Task Handle_WithInvalidPagination_ShouldReturnValidationError(int pageNumber, int pageSize, string expectedErrorProperty)
+    [InlineData(0, 10, nameof(GetAllStudentsQuery.PageNumber))]
+    [InlineData(-5, 10, nameof(GetAllStudentsQuery.PageNumber))]
+    [InlineData(1, 0, nameof(GetAllStudentsQuery.PageSize))]
+    [InlineData(1, -10, nameof(GetAllStudentsQuery.PageSize))]
+    [InlineData(1, 101, nameof(GetAllStudentsQuery.PageSize))]
+    public async Task Handle_WithInvalidPagination_ShouldReturnValidationError(int pageNumber, int pageSize,
+        string expectedErrorProperty)
     {
         // Arrange
         var mediator = factory.CreateMediator();
@@ -66,7 +66,9 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "EnrolledCoursesCount");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAllStudentsQuery>(x => x.EnrolledCoursesCount) &&
+            e.Description == GetAllStudentsQueryValidator.ErrorMessages.EnrolledCoursesCountMin);
     }
 
     [Fact]
@@ -81,7 +83,9 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "CourseId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAllStudentsQuery>(x => x.CourseId) &&
+            e.Description == GetAllStudentsQueryValidator.ErrorMessages.CourseIdInvalid);
     }
 
     [Fact]
@@ -96,7 +100,9 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "IsEnrolledInCourse");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAllStudentsQuery>(x => x.IsEnrolledInCourse) &&
+            e.Description == GetAllStudentsQueryValidator.ErrorMessages.IsEnrolledInCourseRequired);
     }
 
     [Fact]
@@ -111,7 +117,9 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "SearchTerm");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAllStudentsQuery>(x => x.SearchTerm) &&
+            e.Description == ValidationMessages.Pagination.SearchTermMax(200));
     }
 
     [Fact]
@@ -135,7 +143,6 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
         {
             var mongoContext = scope.ServiceProvider.GetRequiredService<IMongoDbContext>();
             await mongoContext.Users.InsertManyAsync([student1, student2]);
-
         }
 
         var query = new GetAllStudentsQuery(SearchTerm: uniqueSearchTerm);
@@ -174,7 +181,6 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
             await mongoContext.Users.InsertManyAsync([studentNoCourses, studentWithCourse]);
             await mongoContext.Courses.InsertOneAsync(course);
             await mongoContext.Enrollments.InsertOneAsync(enrollment);
-
         }
 
         var queryZero = new GetAllStudentsQuery(EnrolledCoursesCount: 0);
@@ -219,7 +225,6 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
             await mongoContext.Users.InsertManyAsync([enrolledStudent, notEnrolledStudent]);
             await mongoContext.Courses.InsertOneAsync(course);
             await mongoContext.Enrollments.InsertOneAsync(enrollment);
-
         }
 
         var query = new GetAllStudentsQuery(CourseId: course.Id, IsEnrolledInCourse: true);
@@ -258,7 +263,6 @@ public class GetAllStudentsQueryHandlerTests(CustomWebApplicationFactory factory
             await mongoContext.Users.InsertManyAsync([enrolledStudent, notEnrolledStudent]);
             await mongoContext.Courses.InsertOneAsync(course);
             await mongoContext.Enrollments.InsertOneAsync(enrollment);
-
         }
 
         var query = new GetAllStudentsQuery(CourseId: course.Id, IsEnrolledInCourse: false);

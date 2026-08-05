@@ -33,7 +33,9 @@ public class DeleteStudentCommandHandlerTests(CustomWebApplicationFactory factor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Id" && e.Description.Contains("required"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<DeleteStudentCommand>(x => x.Id) &&
+            e.Description == DeleteStudentCommandValidator.ErrorMessages.IdRequired);
     }
 
     [Fact]

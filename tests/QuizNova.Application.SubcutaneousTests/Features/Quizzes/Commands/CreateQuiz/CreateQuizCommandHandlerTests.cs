@@ -37,7 +37,9 @@ public class CreateQuizCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Title");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuizCommand>(x => x.Title) &&
+            e.Description == CreateQuizCommandValidator.ErrorMessages.TitleRequired);
     }
 
     [Fact]
@@ -50,7 +52,9 @@ public class CreateQuizCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Title");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuizCommand>(x => x.Title) &&
+            e.Description == CreateQuizCommandValidator.ErrorMessages.TitleMin);
     }
 
     [Fact]
@@ -63,7 +67,9 @@ public class CreateQuizCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Title");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuizCommand>(x => x.Title) &&
+            e.Description == CreateQuizCommandValidator.ErrorMessages.TitleMax);
     }
 
     [Fact]
@@ -76,7 +82,9 @@ public class CreateQuizCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "CourseId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuizCommand>(x => x.CourseId) &&
+            e.Description == CreateQuizCommandValidator.ErrorMessages.CourseIdRequired);
     }
 
     [Fact]
@@ -89,7 +97,9 @@ public class CreateQuizCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "StartsAtUtc");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuizCommand>(x => x.StartsAtUtc) &&
+            e.Description == CreateQuizCommandValidator.ErrorMessages.StartsAtPast);
     }
 
     [Fact]
@@ -103,7 +113,9 @@ public class CreateQuizCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "EndsAtUtc");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuizCommand>(x => x.EndsAtUtc) &&
+            e.Description == CreateQuizCommandValidator.ErrorMessages.EndsAtAfterStart);
     }
 
     [Fact]
@@ -117,7 +129,9 @@ public class CreateQuizCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "EndsAtUtc");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuizCommand>(x => x.EndsAtUtc) &&
+            e.Description == CreateQuizCommandValidator.ErrorMessages.QuizTimeApart);
     }
 
     [Fact]
@@ -131,7 +145,9 @@ public class CreateQuizCommandHandlerTests(CustomWebApplicationFactory factory)
         var result = await mediator.Send(command);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Questions");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateQuizCommand>(x => x.Questions) &&
+            e.Description == CreateQuizCommandValidator.ErrorMessages.QuestionsRequired);
     }
 
     // --- Domain Rules / Handler level tests ---

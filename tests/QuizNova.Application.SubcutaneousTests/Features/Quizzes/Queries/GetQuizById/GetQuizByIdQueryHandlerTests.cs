@@ -27,7 +27,9 @@ public class GetQuizByIdQueryHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "QuizId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetQuizByIdQuery>(x => x.QuizId) &&
+            e.Description == GetQuizByIdQueryValidator.ErrorMessages.QuizIdRequired);
     }
 
     [Fact]

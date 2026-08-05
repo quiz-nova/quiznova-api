@@ -4,9 +4,15 @@ namespace QuizNova.Application.Features.Enrollments.Queries.GetStudentEnrollment
 
 public sealed class GetStudentEnrollmentsCountQueryValidator : AbstractValidator<GetStudentEnrollmentsCountQuery>
 {
+    public static class ErrorMessages
+    {
+        public const string StudentIdRequired = "Student ID is required.";
+    }
+
     public GetStudentEnrollmentsCountQueryValidator()
     {
         RuleFor(query => query.StudentId)
-            .NotEmpty().WithMessage("Student ID is required.");
+            .NotEmpty().WithMessage(ErrorMessages.StudentIdRequired);
     }
 }
+

@@ -31,7 +31,9 @@ public class GetStudentQuizzesQueryHandlerTests(CustomWebApplicationFactory fact
         var result = await mediator.Send(query);
 
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "StudentId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetStudentQuizzesQuery>(x => x.StudentId) &&
+            e.Description == GetStudentQuizzesQueryValidator.ErrorMessages.StudentIdRequired);
     }
 
     [Fact]

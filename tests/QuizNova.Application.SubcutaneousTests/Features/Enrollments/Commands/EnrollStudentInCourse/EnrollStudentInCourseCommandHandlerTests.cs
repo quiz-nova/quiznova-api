@@ -75,7 +75,9 @@ public class EnrollStudentInCourseCommandHandlerTests(CustomWebApplicationFactor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "CourseId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<EnrollStudentInCourseCommand>(x => x.CourseId) &&
+            e.Description == EnrollStudentInCourseCommandValidator.ErrorMessages.CourseIdRequired);
     }
 
     [Fact]
@@ -90,7 +92,9 @@ public class EnrollStudentInCourseCommandHandlerTests(CustomWebApplicationFactor
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "StudentId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<EnrollStudentInCourseCommand>(x => x.StudentId) &&
+            e.Description == EnrollStudentInCourseCommandValidator.ErrorMessages.StudentIdRequired);
     }
 
     [Fact]

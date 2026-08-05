@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 
 using QuizNova.Application.Common.Interfaces;
+using QuizNova.Application.Common.Validation;
 using QuizNova.Application.Features.Quizzes.Queries.GetAllQuizzes;
 using QuizNova.Application.SubcutaneousTests.Common;
 using QuizNova.Infrastructure.Data.MongoDb;
@@ -27,7 +28,9 @@ public class GetAllQuizzesQueryHandlerTests(CustomWebApplicationFactory factory)
         var query = new GetAllQuizzesQuery(PageNumber: pageNumber);
         var result = await mediator.Send(query);
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PageNumber");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAllQuizzesQuery>(x => x.PageNumber) &&
+            e.Description == ValidationMessages.Pagination.PageNumberMin);
     }
 
     [Theory]
@@ -40,7 +43,10 @@ public class GetAllQuizzesQueryHandlerTests(CustomWebApplicationFactory factory)
         var query = new GetAllQuizzesQuery(PageSize: pageSize);
         var result = await mediator.Send(query);
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PageSize");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAllQuizzesQuery>(x => x.PageSize) &&
+            (e.Description == ValidationMessages.Pagination.PageSizeMin ||
+             e.Description == ValidationMessages.Pagination.PageSizeMax(100)));
     }
 
     [Fact]
@@ -50,7 +56,9 @@ public class GetAllQuizzesQueryHandlerTests(CustomWebApplicationFactory factory)
         var query = new GetAllQuizzesQuery(Marks: -1);
         var result = await mediator.Send(query);
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Marks");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAllQuizzesQuery>(x => x.Marks) &&
+            e.Description == GetAllQuizzesQueryValidator.ErrorMessages.MarksMin);
     }
 
     [Fact]
@@ -60,7 +68,9 @@ public class GetAllQuizzesQueryHandlerTests(CustomWebApplicationFactory factory)
         var query = new GetAllQuizzesQuery(SearchTerm: new string('a', 201));
         var result = await mediator.Send(query);
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "SearchTerm");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetAllQuizzesQuery>(x => x.SearchTerm) &&
+            e.Description == ValidationMessages.Pagination.SearchTermMax(200));
     }
 
     // --- Handler tests ---

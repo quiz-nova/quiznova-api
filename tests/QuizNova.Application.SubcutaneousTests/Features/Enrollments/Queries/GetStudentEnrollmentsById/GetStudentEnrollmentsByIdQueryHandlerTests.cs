@@ -28,7 +28,9 @@ public class GetStudentEnrollmentsByIdQueryHandlerTests(CustomWebApplicationFact
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "StudentId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<GetStudentEnrollmentsByIdQuery>(x => x.StudentId) &&
+            e.Description == GetStudentEnrollmentsByIdQueryValidator.ErrorMessages.StudentIdRequired);
     }
 
     [Fact]

@@ -28,8 +28,12 @@ public class LoginCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Email");
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Email) &&
+            e.Description == LoginCommandValidator.ErrorMessages.EmailRequired);
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Password) &&
+            e.Description == LoginCommandValidator.ErrorMessages.PasswordRequired);
     }
 
     [Fact]
@@ -44,7 +48,9 @@ public class LoginCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Email");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Email) &&
+            e.Description == LoginCommandValidator.ErrorMessages.EmailInvalid);
     }
 
     [Fact]
@@ -59,7 +65,9 @@ public class LoginCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Password) &&
+            e.Description == LoginCommandValidator.ErrorMessages.PasswordRequired);
     }
 
     [Fact]
@@ -74,7 +82,9 @@ public class LoginCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Password) &&
+            e.Description == LoginCommandValidator.ErrorMessages.PasswordMinLength);
     }
 
     [Fact]
@@ -89,7 +99,9 @@ public class LoginCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Password) &&
+            e.Description == LoginCommandValidator.ErrorMessages.PasswordUpper);
     }
 
     [Fact]
@@ -104,7 +116,9 @@ public class LoginCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Password) &&
+            e.Description == LoginCommandValidator.ErrorMessages.PasswordLower);
     }
 
     [Fact]
@@ -119,7 +133,9 @@ public class LoginCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Password) &&
+            e.Description == LoginCommandValidator.ErrorMessages.PasswordDigit);
     }
 
     [Fact]
@@ -134,7 +150,9 @@ public class LoginCommandHandlerTests(CustomWebApplicationFactory factory)
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<LoginCommand>(x => x.Password) &&
+            e.Description == LoginCommandValidator.ErrorMessages.PasswordSpecial);
     }
 
     // --- Handler layer tests ---

@@ -32,7 +32,9 @@ public class DeleteCourseByIdCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "CourseId");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<DeleteCourseByIdCommand>(x => x.CourseId) &&
+            e.Description == DeleteCourseByIdCommandValidator.ErrorMessages.CourseIdRequired);
     }
 
     [Fact]

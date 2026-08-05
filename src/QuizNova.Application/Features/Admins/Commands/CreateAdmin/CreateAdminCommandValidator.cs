@@ -6,31 +6,50 @@ namespace QuizNova.Application.Features.Admins.Commands.CreateAdmin;
 
 public sealed class CreateAdminCommandValidator : AbstractValidator<CreateAdminCommand>
 {
+    public static class ErrorMessages
+    {
+        public const string NameRequired = "Name is required.";
+        public const string NameMinLength = "Name must be at least 3 characters.";
+        public const string EmailRequired = "Email is required.";
+        public const string EmailInvalid = "A valid email address is required.";
+        public const string PasswordRequired = "Password is required.";
+        public const string PasswordMinLength = "Password must be at least 8 characters.";
+        public const string PasswordUppercase = "Password must contain at least one uppercase letter.";
+        public const string PasswordLowercase = "Password must contain at least one lowercase letter.";
+        public const string PasswordDigit = "Password must contain at least one number.";
+        public const string PasswordSpecial = "Password must contain at least one special character.";
+        public const string PhoneNumberRequired = "Phone number is required.";
+        public const string PhoneNumberLength = "Phone number must be between 7 and 15 characters.";
+        public const string RoleRequired = "Role is required.";
+        public static readonly string RoleInvalid = $"Role must be '{UserRole.Admin}'.";
+    }
+
     public CreateAdminCommandValidator()
     {
         RuleFor(command => command.PersonalInformation.Name)
-            .NotEmpty().WithMessage("Name is required.")
-            .MinimumLength(3).WithMessage("Name must be at least 3 characters.");
+            .NotEmpty().WithMessage(ErrorMessages.NameRequired)
+            .MinimumLength(3).WithMessage(ErrorMessages.NameMinLength);
 
         RuleFor(command => command.PersonalInformation.Email)
-            .NotEmpty().WithMessage("Email is required.")
-            .EmailAddress().WithMessage("A valid email address is required.");
+            .NotEmpty().WithMessage(ErrorMessages.EmailRequired)
+            .EmailAddress().WithMessage(ErrorMessages.EmailInvalid);
 
         RuleFor(command => command.Password)
-            .NotEmpty().WithMessage("Password is required.")
-            .MinimumLength(8).WithMessage("Password must be at least 8 characters.")
-            .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter.")
-            .Matches("[a-z]").WithMessage("Password must contain at least one lowercase letter.")
-            .Matches("[0-9]").WithMessage("Password must contain at least one number.")
-            .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character.");
+            .NotEmpty().WithMessage(ErrorMessages.PasswordRequired)
+            .MinimumLength(8).WithMessage(ErrorMessages.PasswordMinLength)
+            .Matches("[A-Z]").WithMessage(ErrorMessages.PasswordUppercase)
+            .Matches("[a-z]").WithMessage(ErrorMessages.PasswordLowercase)
+            .Matches("[0-9]").WithMessage(ErrorMessages.PasswordDigit)
+            .Matches("[^a-zA-Z0-9]").WithMessage(ErrorMessages.PasswordSpecial);
 
         RuleFor(command => command.PersonalInformation.PhoneNumber)
-            .NotEmpty().WithMessage("Phone number is required.")
-            .Length(7, 15).WithMessage("Phone number must be between 7 and 15 characters.");
+            .NotEmpty().WithMessage(ErrorMessages.PhoneNumberRequired)
+            .Length(7, 15).WithMessage(ErrorMessages.PhoneNumberLength);
 
         RuleFor(command => command.Role)
-            .NotEmpty().WithMessage("Role is required.")
+            .NotEmpty().WithMessage(ErrorMessages.RoleRequired)
             .Must(role => string.Equals(role, nameof(UserRole.Admin), StringComparison.OrdinalIgnoreCase))
-            .WithMessage($"Role must be '{UserRole.Admin}'.");
+            .WithMessage(ErrorMessages.RoleInvalid);
     }
 }
+

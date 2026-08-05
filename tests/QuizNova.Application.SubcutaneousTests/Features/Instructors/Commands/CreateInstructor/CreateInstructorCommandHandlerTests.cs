@@ -67,7 +67,9 @@ public class CreateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.Name" && e.Description.Contains("at least 3 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == $"{nameof(CreateInstructorCommand.PersonalInformation)}.{nameof(PersonalInformationDto.Name)}" &&
+            e.Description == CreateInstructorCommandValidator.ErrorMessages.NameMinLength);
     }
 
     [Fact]
@@ -85,7 +87,9 @@ public class CreateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.Email" && e.Description.Contains("required"));
+        result.Errors.Should().Contain(e =>
+            e.Code == $"{nameof(CreateInstructorCommand.PersonalInformation)}.{nameof(PersonalInformationDto.Email)}" &&
+            e.Description == CreateInstructorCommandValidator.ErrorMessages.EmailRequired);
     }
 
     [Fact]
@@ -103,7 +107,9 @@ public class CreateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.Email" && e.Description.Contains("valid email address"));
+        result.Errors.Should().Contain(e =>
+            e.Code == $"{nameof(CreateInstructorCommand.PersonalInformation)}.{nameof(PersonalInformationDto.Email)}" &&
+            e.Description == CreateInstructorCommandValidator.ErrorMessages.EmailInvalid);
     }
 
     [Fact]
@@ -121,7 +127,9 @@ public class CreateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Password");
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateInstructorCommand>(x => x.Password) &&
+            e.Description == CreateInstructorCommandValidator.ErrorMessages.PasswordMinLength);
     }
 
     [Fact]
@@ -139,7 +147,9 @@ public class CreateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "Role" && e.Description.Contains("Role must be 'Instructor'"));
+        result.Errors.Should().Contain(e =>
+            e.Code == ValidationTestExtensions.GetPropertyPath<CreateInstructorCommand>(x => x.Role) &&
+            e.Description == CreateInstructorCommandValidator.ErrorMessages.RoleMustBeInstructor);
     }
 
     [Fact]
@@ -157,7 +167,9 @@ public class CreateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.PhoneNumber" && e.Description.Contains("between 7 and 15 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == $"{nameof(CreateInstructorCommand.PersonalInformation)}.{nameof(PersonalInformationDto.PhoneNumber)}" &&
+            e.Description == CreateInstructorCommandValidator.ErrorMessages.PhoneNumberLength);
     }
 
     [Fact]
@@ -175,7 +187,9 @@ public class CreateInstructorCommandHandlerTests(CustomWebApplicationFactory fac
 
         // Assert
         result.IsError.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Code == "PersonalInformation.PhoneNumber" && e.Description.Contains("between 7 and 15 characters"));
+        result.Errors.Should().Contain(e =>
+            e.Code == $"{nameof(CreateInstructorCommand.PersonalInformation)}.{nameof(PersonalInformationDto.PhoneNumber)}" &&
+            e.Description == CreateInstructorCommandValidator.ErrorMessages.PhoneNumberLength);
     }
 
     [Fact]

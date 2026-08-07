@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-no-pending-grades',
+  selector: 'qn-no-pending-grades',
   imports: [],
   template: `
     <div class="empty-state" role="status">

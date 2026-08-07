@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-questions-outline-placeholder',
+  selector: 'qn-questions-outline-placeholder',
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

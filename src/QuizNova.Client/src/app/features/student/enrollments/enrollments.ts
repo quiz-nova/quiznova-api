@@ -11,12 +11,12 @@ import { RoleDashboardHeader } from '@shared/components/role-dashboard-header/ro
 import { EnrollmentService } from '@shared/services/enrollment.service';
 
 @Component({
-  selector: 'app-student-courses',
+  selector: 'qn-student-courses',
   imports: [ProgressSpinner, DatePipe, RoleDashboardHeader, OperationFailed],
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="My Enrolled Courses"
           description="View and access the courses you are currently enrolled in"
         />
@@ -27,9 +27,9 @@ import { EnrollmentService } from '@shared/services/enrollment.service';
           <p-progress-spinner ariaLabel="Loading courses" />
         </div>
       } @else if (coursesResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load your courses. Please try again later.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else if (!(coursesResource.value()?.length ?? 0)) {
         <p class="feedback">You are not enrolled in any courses yet.</p>
       } @else {

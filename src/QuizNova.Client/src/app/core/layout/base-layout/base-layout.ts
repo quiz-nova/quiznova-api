@@ -9,11 +9,11 @@ import { distinctUntilChanged } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-base-layout',
+  selector: 'qn-base-layout',
   imports: [RouterOutlet, TopBar, SideBar],
   template: `
     <section class="base-layout" [class.sidebar-open]="isSidebarOpen()">
-      <app-top-bar [isSidebarOpen]="isSidebarOpen()" (toggleMenu)="toggleSidebar()"></app-top-bar>
+      <qn-top-bar [isSidebarOpen]="isSidebarOpen()" (toggleMenu)="toggleSidebar()"></qn-top-bar>
 
       <div class="base-layout__body">
         @if (isMobile() && isSidebarOpen()) {
@@ -27,11 +27,11 @@ import { map } from 'rxjs/operators';
           ></button>
         }
 
-        <app-side-bar
+        <qn-side-bar
           class="base-layout__sidebar"
           id="main-sidebar"
           [class.opened]="isSidebarOpen()"
-        ></app-side-bar>
+        ></qn-side-bar>
 
         <main class="base-layout__content">
           <router-outlet></router-outlet>

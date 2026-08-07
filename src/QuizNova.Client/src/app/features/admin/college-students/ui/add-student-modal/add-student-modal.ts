@@ -27,7 +27,7 @@ type AddStudentFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-add-student-modal',
+  selector: 'qn-add-student-modal',
   imports: [ReactiveFormsModule, FloatLabel, InputText, Password, Dialog, FieldError, Button],
   template: `
     <p-button (onClick)="openDialog()" label="Add Student" severity="success" type="button" />
@@ -56,11 +56,11 @@ type AddStudentFormGroup = FormGroup<{
           </p-floatlabel>
           @if (nameControl.invalid && nameControl.touched) {
             @if (nameControl.hasError('required')) {
-              <app-field-error id="name-is-required-error">Name is required.</app-field-error>
+              <qn-field-error id="name-is-required-error">Name is required.</qn-field-error>
             }
             @if (nameControl.hasError('minlength')) {
-              <app-field-error id="name-minlength-error"
-                >Name must be at least 3 characters.</app-field-error
+              <qn-field-error id="name-minlength-error"
+                >Name must be at least 3 characters.</qn-field-error
               >
             }
           }
@@ -81,10 +81,10 @@ type AddStudentFormGroup = FormGroup<{
           </p-floatlabel>
           @if (emailControl.invalid && emailControl.touched) {
             @if (emailControl.hasError('required')) {
-              <app-field-error id="email-is-required-error">Email is required.</app-field-error>
+              <qn-field-error id="email-is-required-error">Email is required.</qn-field-error>
             } @else if (emailControl.hasError('email')) {
-              <app-field-error id="please-enter-a-valid-email-address-error"
-                >Please enter a valid email address.</app-field-error
+              <qn-field-error id="please-enter-a-valid-email-address-error"
+                >Please enter a valid email address.</qn-field-error
               >
             }
           }
@@ -107,19 +107,17 @@ type AddStudentFormGroup = FormGroup<{
           </p-floatlabel>
           @if (passwordControl.invalid && passwordControl.touched) {
             @if (passwordControl.hasError('required')) {
-              <app-field-error id="password-is-required-error"
-                >Password is required.</app-field-error
-              >
+              <qn-field-error id="password-is-required-error">Password is required.</qn-field-error>
             }
             @if (passwordControl.hasError('minlength')) {
-              <app-field-error id="password-minlength-error"
-                >Password must be at least 8 characters.</app-field-error
+              <qn-field-error id="password-minlength-error"
+                >Password must be at least 8 characters.</qn-field-error
               >
             }
             @if (passwordControl.hasError('strongPassword')) {
-              <app-field-error id="password-strong-error"
+              <qn-field-error id="password-strong-error"
                 >Password must contain uppercase, lowercase, number, and special
-                character.</app-field-error
+                character.</qn-field-error
               >
             }
           }
@@ -142,18 +140,18 @@ type AddStudentFormGroup = FormGroup<{
           </p-floatlabel>
           @if (phoneNumberControl.invalid && phoneNumberControl.touched) {
             @if (phoneNumberControl.hasError('required')) {
-              <app-field-error id="phone-number-is-required-error"
-                >Phone number is required.</app-field-error
+              <qn-field-error id="phone-number-is-required-error"
+                >Phone number is required.</qn-field-error
               >
             }
             @if (phoneNumberControl.hasError('minlength')) {
-              <app-field-error id="phone-minlength-error"
-                >Phone number must be at least 7 characters.</app-field-error
+              <qn-field-error id="phone-minlength-error"
+                >Phone number must be at least 7 characters.</qn-field-error
               >
             }
             @if (phoneNumberControl.hasError('maxlength')) {
-              <app-field-error id="phone-maxlength-error"
-                >Phone number cannot exceed 15 characters.</app-field-error
+              <qn-field-error id="phone-maxlength-error"
+                >Phone number cannot exceed 15 characters.</qn-field-error
               >
             }
           }

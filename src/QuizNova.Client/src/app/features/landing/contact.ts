@@ -15,14 +15,14 @@ export const productLinks: ProductLinks[] = [
 ];
 
 @Component({
-  selector: 'app-contact',
+  selector: 'qn-contact',
   imports: [Logo],
   template: `
     <footer class="footer" id="contact">
       <div class="container">
         <div class="footer__top">
           <div class="footer__brand">
-            <app-logo />
+            <qn-logo />
             <p>The modern quiz platform built for educational institutions.</p>
           </div>
 

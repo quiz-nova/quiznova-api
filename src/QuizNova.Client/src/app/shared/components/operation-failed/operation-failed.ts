@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-operation-failed',
+  selector: 'qn-operation-failed',
   imports: [],
   template: `
     <div class="status-container error-state" role="alert">

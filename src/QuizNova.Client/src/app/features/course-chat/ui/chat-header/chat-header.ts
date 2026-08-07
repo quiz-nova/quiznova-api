@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CourseChatStore } from '../../course-chat.store';
 
 @Component({
-  selector: 'app-chat-header',
+  selector: 'qn-chat-header',
   standalone: true,
   template: `
     <header class="chat-header">

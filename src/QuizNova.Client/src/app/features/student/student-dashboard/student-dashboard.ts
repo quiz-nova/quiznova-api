@@ -15,7 +15,7 @@ import { QuizAttemptService } from '@shared/services/quiz-attempt.service';
 import { StudentDashboardCharts } from './ui/student-dashboard-charts/student-dashboard-charts';
 
 @Component({
-  selector: 'app-student-dashboard',
+  selector: 'qn-student-dashboard',
   imports: [
     ProgressSpinner,
     RoleDashboardHeader,
@@ -26,7 +26,7 @@ import { StudentDashboardCharts } from './ui/student-dashboard-charts/student-da
   template: `
     <section class="dashboard">
       <header class="dashboard-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           [description]="'Welcome back, ' + welcomeName()"
           title="Student Dashboard"
         />
@@ -37,13 +37,13 @@ import { StudentDashboardCharts } from './ui/student-dashboard-charts/student-da
           <p-progress-spinner ariaLabel="Loading student dashboard" />
         </div>
       } @else if (summaryResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load dashboard data.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else {
         <section class="card-grid" aria-label="Student summary">
           @for (card of cards(); track card.title) {
-            <app-role-dashboard-card
+            <qn-role-dashboard-card
               [title]="card.title"
               [value]="card.value"
               [icon]="card.icon"
@@ -53,7 +53,7 @@ import { StudentDashboardCharts } from './ui/student-dashboard-charts/student-da
         </section>
 
         <div class="charts-section">
-          <app-student-dashboard-charts [quizAttempts]="summaryResource.value().attempts" />
+          <qn-student-dashboard-charts [quizAttempts]="summaryResource.value().attempts" />
         </div>
       }
     </section>

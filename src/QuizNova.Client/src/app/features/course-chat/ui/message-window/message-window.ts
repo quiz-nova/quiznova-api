@@ -15,7 +15,7 @@ import { CourseChatStore } from '../../course-chat.store';
 import { ReactionList } from '../reaction-list/reaction-list';
 
 @Component({
-  selector: 'app-message-window',
+  selector: 'qn-message-window',
   standalone: true,
   imports: [CommonModule, ReactionList],
   template: `
@@ -72,7 +72,7 @@ import { ReactionList } from '../reaction-list/reaction-list';
                   </div>
                 </div>
 
-                <app-reaction-list [message]="msg" />
+                <qn-reaction-list [message]="msg" />
               </div>
             </div>
           }

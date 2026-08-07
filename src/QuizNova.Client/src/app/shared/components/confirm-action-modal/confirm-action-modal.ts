@@ -7,7 +7,7 @@ import { Dialog } from 'primeng/dialog';
 import { InputText } from 'primeng/inputtext';
 
 @Component({
-  selector: 'app-confirm-action-modal',
+  selector: 'qn-confirm-action-modal',
   imports: [FormsModule, Dialog, Button, InputText, SharedModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

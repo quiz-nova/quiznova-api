@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-field-error',
+  selector: 'qn-field-error',
   imports: [],
   template: `
     <div class="field-error" [attr.id]="id()" aria-live="polite" role="status">

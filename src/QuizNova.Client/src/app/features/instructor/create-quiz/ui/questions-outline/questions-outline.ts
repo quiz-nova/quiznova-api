@@ -7,7 +7,7 @@ import { Question } from '@shared/models/quiz/question.model';
 import { CreateQuizStore } from '../../stores/create-quiz.store';
 
 @Component({
-  selector: 'app-questions-outline',
+  selector: 'qn-questions-outline',
   imports: [Tag],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

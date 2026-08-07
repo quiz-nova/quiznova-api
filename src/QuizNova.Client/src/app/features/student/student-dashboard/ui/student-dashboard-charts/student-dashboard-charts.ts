@@ -7,7 +7,7 @@ import { QuizAttempt } from '@shared/models/quiz-attempt/quiz-attempt.model';
 import { chartColor } from '@shared/utils/chart-colors';
 
 @Component({
-  selector: 'app-student-dashboard-charts',
+  selector: 'qn-student-dashboard-charts',
   imports: [UIChart, ChartPlaceholder],
   template: `
     <section class="charts-grid" aria-label="Student analytics">
@@ -22,7 +22,7 @@ import { chartColor } from '@shared/utils/chart-colors';
               height="300"
             />
           } @placeholder {
-            <app-chart-placeholder />
+            <qn-chart-placeholder />
           }
         </div>
       </article>

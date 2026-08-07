@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  selector: 'app-role-dashboard-header',
+  selector: 'qn-role-dashboard-header',
   imports: [],
   template: `
     <div>

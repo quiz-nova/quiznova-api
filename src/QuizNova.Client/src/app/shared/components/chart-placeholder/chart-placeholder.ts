@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-chart-placeholder',
+  selector: 'qn-chart-placeholder',
   imports: [],
   template: `
     <div class="chart-placeholder">

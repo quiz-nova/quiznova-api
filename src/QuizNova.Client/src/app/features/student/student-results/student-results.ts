@@ -15,7 +15,7 @@ import { QuizAttempt } from '@shared/models/quiz-attempt/quiz-attempt.model';
 import { QuizAttemptService } from '@shared/services/quiz-attempt.service';
 
 @Component({
-  selector: 'app-student-results',
+  selector: 'qn-student-results',
   imports: [
     DatePipe,
     ProgressSpinner,
@@ -27,7 +27,7 @@ import { QuizAttemptService } from '@shared/services/quiz-attempt.service';
   ],
   template: `
     <section class="page">
-      <app-role-dashboard-header
+      <qn-role-dashboard-header
         title="My Results"
         description="View and analyze your quiz attempts, scores, and feedback"
       />
@@ -37,9 +37,9 @@ import { QuizAttemptService } from '@shared/services/quiz-attempt.service';
           <p-progress-spinner ariaLabel="Loading results" />
         </div>
       } @else if (resultsResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load results.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else {
         @if (results().length === 0) {
           <div class="card empty-state">

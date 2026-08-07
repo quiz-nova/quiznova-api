@@ -24,7 +24,7 @@ import { QuizAttemptService } from '@shared/services/quiz-attempt.service';
 import { shortId } from '@shared/utils/utilities';
 
 @Component({
-  selector: 'app-college-quizzes-attempts',
+  selector: 'qn-college-quizzes-attempts',
   imports: [
     TableModule,
     Skeleton,
@@ -37,7 +37,7 @@ import { shortId } from '@shared/utils/utilities';
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="Attempts Overview"
           description="Review student submissions, answers, and scores."
         />

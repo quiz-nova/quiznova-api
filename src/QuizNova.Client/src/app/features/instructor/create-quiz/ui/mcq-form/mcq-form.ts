@@ -39,16 +39,16 @@ type McqFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-mcq-form',
+  selector: 'qn-mcq-form',
   imports: [ReactiveFormsModule, QuestionTitle, RadioButton, FieldError, Button, InputText],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="mcq-container">
       <form class="mcq-form" [formGroup]="mcqForm">
-        <app-question-title
+        <qn-question-title
           [control]="questionTextControl"
           (titleBlur)="onTitleBlur($event)"
-        ></app-question-title>
+        ></qn-question-title>
         <fieldset class="radio-group" formArrayName="choices">
           <legend class="sr-only">Multiple Choice Options</legend>
           @for (choiceControl of choicesArray.controls; track choiceControl; let index = $index) {
@@ -95,18 +95,18 @@ type McqFormGroup = FormGroup<{
 
             @if (choiceControl.invalid && choiceControl.touched) {
               @if (choiceControl.hasError('required')) {
-                <app-field-error id="choice-text-is-required-error"
-                  >Choice text is required.</app-field-error
+                <qn-field-error id="choice-text-is-required-error"
+                  >Choice text is required.</qn-field-error
                 >
               }
               @if (choiceControl.hasError('minlength')) {
-                <app-field-error id="choice-text-minlength-error"
-                  >Choice text must be at least 3 characters.</app-field-error
+                <qn-field-error id="choice-text-minlength-error"
+                  >Choice text must be at least 3 characters.</qn-field-error
                 >
               }
               @if (choiceControl.hasError('maxlength')) {
-                <app-field-error id="choice-text-maxlength-error"
-                  >Choice text cannot exceed 100 characters.</app-field-error
+                <qn-field-error id="choice-text-maxlength-error"
+                  >Choice text cannot exceed 100 characters.</qn-field-error
                 >
               }
             }
@@ -115,8 +115,8 @@ type McqFormGroup = FormGroup<{
 
         @if (correctChoiceControl.invalid && correctChoiceControl.touched) {
           @if (correctChoiceControl.hasError('required')) {
-            <app-field-error id="please-select-the-correct-answer-error"
-              >Please select the correct answer.</app-field-error
+            <qn-field-error id="please-select-the-correct-answer-error"
+              >Please select the correct answer.</qn-field-error
             >
           }
         }

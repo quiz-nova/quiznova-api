@@ -15,7 +15,7 @@ interface SidebarCourse {
 }
 
 @Component({
-  selector: 'app-your-courses',
+  selector: 'qn-your-courses',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `

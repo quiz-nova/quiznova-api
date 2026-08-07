@@ -8,7 +8,7 @@ export interface GradingStat {
 }
 
 @Component({
-  selector: 'app-pending-grades-stats',
+  selector: 'qn-pending-grades-stats',
   imports: [],
   template: `
     <section class="stats-row" aria-label="Grading summary">

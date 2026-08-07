@@ -9,27 +9,27 @@ import { MessageWindow } from './ui/message-window/message-window';
 import { NoCourseChatSelectedPlaceholder } from './ui/no-course-chat-selected-placeholder/no-course-chat-selected-placeholder';
 
 @Component({
-  selector: 'app-course-chat',
+  selector: 'qn-course-chat',
   standalone: true,
   imports: [YourCourses, ChatFooter, ChatHeader, MessageWindow, NoCourseChatSelectedPlaceholder],
   providers: [CourseChatStore],
   template: `
     <div class="chat-layout">
       <aside class="sidebar-aside">
-        <app-your-courses></app-your-courses>
+        <qn-your-courses></qn-your-courses>
       </aside>
 
       <main class="chat-viewport">
         @if (store.selectedCourseId()) {
           <div class="chat-room-container">
-            <app-chat-header />
+            <qn-chat-header />
 
-            <app-message-window />
+            <qn-message-window />
 
-            <app-chat-footer />
+            <qn-chat-footer />
           </div>
         } @else {
-          <app-no-course-chat-selected-placeholder />
+          <qn-no-course-chat-selected-placeholder />
         }
       </main>
     </div>

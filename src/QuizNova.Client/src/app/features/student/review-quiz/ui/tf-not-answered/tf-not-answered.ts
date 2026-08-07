@@ -5,7 +5,7 @@ import { Question } from '@shared/models/quiz/question.model';
 import { isTf, Tf } from '@shared/models/quiz/questions/tf.model';
 
 @Component({
-  selector: 'app-tf-question-not-answered',
+  selector: 'qn-tf-question-not-answered',
   imports: [],
   template: `
     <article class="review-question" aria-label="Unanswered tf question">

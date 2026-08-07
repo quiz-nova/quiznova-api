@@ -5,7 +5,7 @@ import { Question } from '@shared/models/quiz/question.model';
 import { isMcq, Mcq } from '@shared/models/quiz/questions/mcq.model';
 
 @Component({
-  selector: 'app-mcq-not-answered',
+  selector: 'qn-mcq-not-answered',
   imports: [],
   template: `
     <article class="review-question" aria-label="Unanswered multiple choice question">

@@ -24,12 +24,12 @@ export const headerLinks: HeaderLink[] = [
 ];
 
 @Component({
-  selector: 'app-header',
+  selector: 'qn-header',
   imports: [RouterLink, Logo, Button],
   template: `
     <div class="container">
       <header>
-        <app-logo />
+        <qn-logo />
 
         <button
           class="icon"

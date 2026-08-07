@@ -6,7 +6,7 @@ import { shortId } from '@shared/utils/utilities';
 import { ReviewQuizStore } from '../../review-quiz.store';
 
 @Component({
-  selector: 'app-review-quiz-header',
+  selector: 'qn-review-quiz-header',
   imports: [DatePipe],
   template: `
     <header class="review-header">

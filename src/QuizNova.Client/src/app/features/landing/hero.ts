@@ -6,7 +6,7 @@ import { Button } from 'primeng/button';
 import { FadeInOnScrollDirective } from '@shared/directives/fade-in-on-scroll.directive';
 
 @Component({
-  selector: 'app-hero',
+  selector: 'qn-hero',
   imports: [RouterLink, FadeInOnScrollDirective, Button],
   template: `
     <div class="container">

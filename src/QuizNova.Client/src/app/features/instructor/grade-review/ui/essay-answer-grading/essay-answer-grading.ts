@@ -24,7 +24,7 @@ import { QuizAttemptService } from '@shared/services/quiz-attempt.service';
 import { CustomValidators } from '@shared/validators/custom-validators';
 
 @Component({
-  selector: 'app-essay-answer-grading',
+  selector: 'qn-essay-answer-grading',
   imports: [ReactiveFormsModule, FieldError],
   template: `
     <div class="essay-section">
@@ -62,7 +62,7 @@ import { CustomValidators } from '@shared/validators/custom-validators';
             type="number"
             placeholder="0"
           />
-          <app-field-error [id]="'score-error-' + essayAnswer().answerId">
+          <qn-field-error [id]="'score-error-' + essayAnswer().answerId">
             @if (scoreControl.touched && scoreControl.errors?.['required']) {
               Score is required.
             } @else if (scoreControl.touched && scoreControl.errors?.['min']) {
@@ -70,7 +70,7 @@ import { CustomValidators } from '@shared/validators/custom-validators';
             } @else if (scoreControl.touched && scoreControl.errors?.['max']) {
               Score cannot exceed {{ question().marks }}.
             }
-          </app-field-error>
+          </qn-field-error>
         </div>
 
         <!-- Feedback -->
@@ -88,13 +88,13 @@ import { CustomValidators } from '@shared/validators/custom-validators';
             placeholder="Leave a note for the student (3–200 characters)..."
           ></textarea>
           <div class="feedback-footer">
-            <app-field-error [id]="'feedback-error-' + essayAnswer().answerId">
+            <qn-field-error [id]="'feedback-error-' + essayAnswer().answerId">
               @if (feedbackControl.touched && feedbackControl.errors?.['minlength']) {
                 Feedback must be at least 3 characters.
               } @else if (feedbackControl.touched && feedbackControl.errors?.['maxlength']) {
                 Feedback must not exceed 200 characters.
               }
-            </app-field-error>
+            </qn-field-error>
             <span class="char-count" [class.over-limit]="feedbackLength > 200">
               {{ feedbackLength }}/200
             </span>

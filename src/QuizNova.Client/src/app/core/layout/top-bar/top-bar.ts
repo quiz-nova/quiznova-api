@@ -5,7 +5,7 @@ import { AuthService } from '@Features/auth/auth.service';
 import { Button } from 'primeng/button';
 
 @Component({
-  selector: 'app-top-bar',
+  selector: 'qn-top-bar',
   imports: [Button],
   template: `
     <header class="dashboard-top-bar">

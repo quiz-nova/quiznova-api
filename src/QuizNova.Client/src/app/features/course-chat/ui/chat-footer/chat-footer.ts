@@ -7,7 +7,7 @@ import { CustomValidators } from '@shared/validators/custom-validators';
 import { CourseChatStore } from '../../course-chat.store';
 
 @Component({
-  selector: 'app-chat-footer',
+  selector: 'qn-chat-footer',
   standalone: true,
   imports: [ReactiveFormsModule, FieldError],
   template: `
@@ -48,8 +48,8 @@ import { CourseChatStore } from '../../course-chat.store';
 
       @if (messageControl.invalid && messageControl.touched) {
         @if (messageControl.hasError('maxlength')) {
-          <app-field-error id="message-maxlength-error"
-            >Message cannot exceed 500 characters.</app-field-error
+          <qn-field-error id="message-maxlength-error"
+            >Message cannot exceed 500 characters.</qn-field-error
           >
         }
       }

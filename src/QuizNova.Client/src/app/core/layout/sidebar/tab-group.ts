@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-tab-group',
+  selector: 'qn-tab-group',
   imports: [],
   template: `
     <nav class="tab-group" aria-label="Main Navigation">

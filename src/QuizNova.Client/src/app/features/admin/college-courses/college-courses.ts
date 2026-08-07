@@ -33,7 +33,7 @@ import { DeleteCourseModal } from './ui/delete-course-modal/delete-course-modal'
 import { ManageCourseModal } from './ui/manage-course-modal/manage-course-modal';
 
 @Component({
-  selector: 'app-college-courses',
+  selector: 'qn-college-courses',
   imports: [
     AddCourseModal,
     DeleteCourseModal,
@@ -49,11 +49,11 @@ import { ManageCourseModal } from './ui/manage-course-modal/manage-course-modal'
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="Course Status"
           description="Each row shows ownership, enrollment, and quiz coverage."
         />
-        <app-add-course-modal (created)="reloadCourses()" />
+        <qn-add-course-modal (created)="reloadCourses()" />
       </header>
 
       <div class="filters-grid">
@@ -152,8 +152,8 @@ import { ManageCourseModal } from './ui/manage-course-modal/manage-course-modal'
                 <td>{{ course.quizzesCount }}</td>
                 <td>
                   <div class="actions">
-                    <app-manage-course-modal [course]="course" (changed)="reloadCourses()" />
-                    <app-delete-course-modal [course]="course" (deleted)="reloadCourses()" />
+                    <qn-manage-course-modal [course]="course" (changed)="reloadCourses()" />
+                    <qn-delete-course-modal [course]="course" (deleted)="reloadCourses()" />
                   </div>
                 </td>
               }

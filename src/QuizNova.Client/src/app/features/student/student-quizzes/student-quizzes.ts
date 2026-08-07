@@ -14,7 +14,7 @@ import { StudentAvailableQuizzes } from './ui/student-available-quizzes/student-
 import { StudentScheduledQuizzes } from './ui/student-scheduled-quizzes/student-scheduled-quizzes';
 
 @Component({
-  selector: 'app-student-quizzes',
+  selector: 'qn-student-quizzes',
   imports: [
     ProgressSpinner,
     RoleDashboardHeader,
@@ -24,7 +24,7 @@ import { StudentScheduledQuizzes } from './ui/student-scheduled-quizzes/student-
   ],
   template: `
     <section class="quizzes-page">
-      <app-role-dashboard-header
+      <qn-role-dashboard-header
         title="Quizzes"
         description="Take available quizzes before they expire and check upcoming schedules."
       />
@@ -34,18 +34,18 @@ import { StudentScheduledQuizzes } from './ui/student-scheduled-quizzes/student-
           <p-progress-spinner ariaLabel="Loading quizzes" />
         </div>
       } @else if (quizzesResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load quizzes.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else {
         @if (availableQuizzes().length === 0 && scheduledQuizzes().length === 0) {
           <div class="empty-state" role="status">
             <p>You don't have any quizzes at the moment.</p>
           </div>
         } @else {
-          <app-student-available-quizzes [quizzes]="availableQuizzes()" [serverUtc]="serverUtc()" />
+          <qn-student-available-quizzes [quizzes]="availableQuizzes()" [serverUtc]="serverUtc()" />
 
-          <app-student-scheduled-quizzes [quizzes]="scheduledQuizzes()" [serverUtc]="serverUtc()" />
+          <qn-student-scheduled-quizzes [quizzes]="scheduledQuizzes()" [serverUtc]="serverUtc()" />
         }
       }
     </section>

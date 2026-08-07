@@ -24,7 +24,7 @@ export type McqAttemptForm = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-mcq-attempt',
+  selector: 'qn-mcq-attempt',
   imports: [],
   template: `
     <article class="question-card" aria-label="Multiple choice question">

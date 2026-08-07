@@ -29,7 +29,7 @@ type LoginFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-login',
+  selector: 'qn-login',
   imports: [
     ReactiveFormsModule,
     Logo,
@@ -44,18 +44,18 @@ type LoginFormGroup = FormGroup<{
     <section class="auth-page">
       <div class="auth-left-side">
         <div class="side-content">
-          <app-logo />
+          <qn-logo />
           <h2>Welcome back</h2>
           <p>
             Access your dashboard, manage quizzes, and track student performance - all in one place.
           </p>
 
-          <app-demo-credentials />
+          <qn-demo-credentials />
         </div>
       </div>
 
       <div class="auth-right-side">
-        <app-logo class="auth-logo"></app-logo>
+        <qn-logo class="auth-logo"></qn-logo>
         <div class="auth-header">
           <h2>Sign in</h2>
           <p>Don't have an account? Contact Your Admin</p>
@@ -79,10 +79,10 @@ type LoginFormGroup = FormGroup<{
 
             @if (emailControl.invalid && emailControl.touched) {
               @if (emailControl.hasError('required')) {
-                <app-field-error id="email-is-required-error">Email is required.</app-field-error>
+                <qn-field-error id="email-is-required-error">Email is required.</qn-field-error>
               } @else if (emailControl.hasError('email')) {
-                <app-field-error id="please-enter-a-valid-email-address-error"
-                  >Please enter a valid email address.</app-field-error
+                <qn-field-error id="please-enter-a-valid-email-address-error"
+                  >Please enter a valid email address.</qn-field-error
                 >
               }
             }
@@ -106,8 +106,8 @@ type LoginFormGroup = FormGroup<{
 
             @if (passwordControl.invalid && passwordControl.touched) {
               @if (passwordControl.hasError('required')) {
-                <app-field-error id="password-is-required-error"
-                  >Password is required.</app-field-error
+                <qn-field-error id="password-is-required-error"
+                  >Password is required.</qn-field-error
                 >
               }
             }

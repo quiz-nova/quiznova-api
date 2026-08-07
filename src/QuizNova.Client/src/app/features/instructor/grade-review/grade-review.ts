@@ -21,7 +21,7 @@ import { QuizAttemptService } from '@shared/services/quiz-attempt.service';
 import { NoAnswer } from './ui/no-answer/no-answer';
 
 @Component({
-  selector: 'app-grade-review',
+  selector: 'qn-grade-review',
   imports: [
     ProgressSpinner,
     DatePipe,
@@ -51,9 +51,9 @@ import { NoAnswer } from './ui/no-answer/no-answer';
           <p-progress-spinner ariaLabel="Loading attempt" />
         </div>
       } @else if (attemptResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load this attempt.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else if (attempt()) {
         <!-- ── Header card ── -->
         <header class="attempt-header">
@@ -100,7 +100,7 @@ import { NoAnswer } from './ui/no-answer/no-answer';
               <p class="question-text">{{ question.questionText }}</p>
 
               @if (!answer) {
-                <app-no-answer />
+                <qn-no-answer />
               } @else {
                 <ng-container
                   [ngComponentOutlet]="

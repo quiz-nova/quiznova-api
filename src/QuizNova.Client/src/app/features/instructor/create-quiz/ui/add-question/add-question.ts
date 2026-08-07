@@ -19,7 +19,7 @@ type AddQuestionFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-add-question',
+  selector: 'qn-add-question',
   imports: [ReactiveFormsModule, Select, Button],
   template: `
     <div class="add-question">

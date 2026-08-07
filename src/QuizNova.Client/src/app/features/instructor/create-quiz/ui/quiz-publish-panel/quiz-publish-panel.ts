@@ -5,7 +5,7 @@ import { Button } from 'primeng/button';
 import { CreateQuizStore } from '../../stores/create-quiz.store';
 
 @Component({
-  selector: 'app-quiz-publish-panel',
+  selector: 'qn-quiz-publish-panel',
   imports: [Button],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

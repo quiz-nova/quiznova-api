@@ -30,7 +30,7 @@
   color: var(--clr-white);
 }
 
-.auth-left-side .side-content app-logo {
+.auth-left-side .side-content qn-logo {
   --logo-color: white;
 }
 

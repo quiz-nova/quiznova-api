@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { ReviewQuizStore } from '../../review-quiz.store';
 
 @Component({
-  selector: 'app-review-quiz-status-card',
+  selector: 'qn-review-quiz-status-card',
   imports: [],
   template: `
     <section class="status-grid" aria-label="Attempt stats">

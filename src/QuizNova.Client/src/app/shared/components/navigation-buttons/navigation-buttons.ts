@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { Button } from 'primeng/button';
 
 @Component({
-  selector: 'app-navigation-buttons',
+  selector: 'qn-navigation-buttons',
   imports: [Button],
   template: `
     <nav class="nav-actions" [attr.aria-label]="ariaLabel()">

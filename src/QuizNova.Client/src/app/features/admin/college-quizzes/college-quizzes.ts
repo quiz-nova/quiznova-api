@@ -23,7 +23,7 @@ import { Quiz } from '@shared/models/quiz/quiz.model';
 import { QuizService } from '@shared/services/quiz.service';
 
 @Component({
-  selector: 'app-college-quizzes',
+  selector: 'qn-college-quizzes',
   imports: [
     TableModule,
     Skeleton,
@@ -36,7 +36,7 @@ import { QuizService } from '@shared/services/quiz.service';
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="Quiz Schedule"
           description="Track quiz ownership, score weight, and delivery state."
         />

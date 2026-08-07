@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BaseLayout } from '@Core/layout/base-layout/base-layout';
 
 @Component({
-  selector: 'app-student',
+  selector: 'qn-student',
   imports: [BaseLayout],
-  template: ` <app-base-layout></app-base-layout> `,
+  template: ` <qn-base-layout></qn-base-layout> `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

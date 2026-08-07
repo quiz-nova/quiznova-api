@@ -10,7 +10,7 @@ import {
 } from '@shared/models/quiz-attempt/question-answer.model';
 
 @Component({
-  selector: 'app-tf-answer-review',
+  selector: 'qn-tf-answer-review',
   imports: [],
   template: `
     <div class="auto-answer-section">

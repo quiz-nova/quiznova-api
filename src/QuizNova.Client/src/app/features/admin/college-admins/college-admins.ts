@@ -23,16 +23,16 @@ import { AdminService } from '@shared/services/admin.service';
 import { AddAdminModal } from './ui/add-admin-modal/add-admin-modal';
 
 @Component({
-  selector: 'app-college-admins',
+  selector: 'qn-college-admins',
   imports: [TableModule, Skeleton, AddAdminModal, FormsModule, InputText, RoleDashboardHeader],
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="Admin Directory"
           description="Manage administrative users and access ownership."
         />
-        <app-add-admin-modal (created)="reloadAdmins()"></app-add-admin-modal>
+        <qn-add-admin-modal (created)="reloadAdmins()"></qn-add-admin-modal>
       </header>
 
       <div class="filters-grid">

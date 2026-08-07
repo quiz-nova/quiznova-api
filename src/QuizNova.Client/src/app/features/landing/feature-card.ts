@@ -53,7 +53,7 @@ export const featureCards: FeatureCardData[] = [
 ];
 
 @Component({
-  selector: 'app-feature-card',
+  selector: 'qn-feature-card',
   standalone: true,
   template: `
     <article class="card">

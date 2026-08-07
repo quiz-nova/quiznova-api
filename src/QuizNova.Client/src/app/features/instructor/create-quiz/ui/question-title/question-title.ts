@@ -4,7 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FieldError } from '@shared/components/field-error/field-error';
 
 @Component({
-  selector: 'app-question-title',
+  selector: 'qn-question-title',
   imports: [ReactiveFormsModule, FieldError],
   template: `
     <div class="question-title">
@@ -21,18 +21,18 @@ import { FieldError } from '@shared/components/field-error/field-error';
 
       @if (control().invalid && control().touched) {
         @if (control().hasError('required')) {
-          <app-field-error id="question-text-is-required-error"
-            >Question text is required.</app-field-error
+          <qn-field-error id="question-text-is-required-error"
+            >Question text is required.</qn-field-error
           >
         }
         @if (control().hasError('minlength')) {
-          <app-field-error id="question-text-minlength-error"
-            >Question text must be at least 3 characters.</app-field-error
+          <qn-field-error id="question-text-minlength-error"
+            >Question text must be at least 3 characters.</qn-field-error
           >
         }
         @if (control().hasError('maxlength')) {
-          <app-field-error id="question-text-maxlength-error"
-            >Question text cannot exceed 1000 characters.</app-field-error
+          <qn-field-error id="question-text-maxlength-error"
+            >Question text cannot exceed 1000 characters.</qn-field-error
           >
         }
       }

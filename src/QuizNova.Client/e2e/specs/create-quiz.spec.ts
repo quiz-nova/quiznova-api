@@ -12,7 +12,7 @@ async function addQuizContent(createQuizPage: CreateQuizPage) {
 }
 
 async function clickSidebarTab(page: Page, name: string) {
-  await page.locator('app-tab').filter({ hasText: name }).locator('a').click();
+  await page.locator('qn-tab').filter({ hasText: name }).locator('a').click();
 }
 
 test.describe('Quiz Creation E2E & Validations', () => {
@@ -47,14 +47,14 @@ test.describe('Quiz Creation E2E & Validations', () => {
 
     await createQuizPage.titleInput.fill('ab');
     await createQuizPage.titleInput.blur();
-    await expect(page.locator('app-field-error#quiz-title-minlength-error')).toContainText(
+    await expect(page.locator('qn-field-error#quiz-title-minlength-error')).toContainText(
       'Quiz title must be at least 3 characters.',
     );
     await expect(createQuizPage.publishBtn).toBeDisabled();
 
     await createQuizPage.titleInput.fill('a'.repeat(31));
     await createQuizPage.titleInput.blur();
-    await expect(page.locator('app-field-error#quiz-title-maxlength-error')).toContainText(
+    await expect(page.locator('qn-field-error#quiz-title-maxlength-error')).toContainText(
       'Quiz title cannot exceed 30 characters.',
     );
     await expect(createQuizPage.publishBtn).toBeDisabled();
@@ -72,7 +72,7 @@ test.describe('Quiz Creation E2E & Validations', () => {
     await createQuizPage.endsAtInput.pressSequentially('12/12/2026 11:50 AM');
     await createQuizPage.endsAtInput.press('Enter');
 
-    await expect(page.locator('app-field-error#ends-at-before-start-error')).toContainText(
+    await expect(page.locator('qn-field-error#ends-at-before-start-error')).toContainText(
       'End time must be after start time.',
     );
     await expect(createQuizPage.publishBtn).toBeDisabled();
@@ -82,7 +82,7 @@ test.describe('Quiz Creation E2E & Validations', () => {
     await createQuizPage.endsAtInput.pressSequentially('12/12/2026 12:05 PM');
     await createQuizPage.endsAtInput.press('Enter');
 
-    await expect(page.locator('app-field-error#ends-at-less-than-ten-error')).toContainText(
+    await expect(page.locator('qn-field-error#ends-at-less-than-ten-error')).toContainText(
       'The difference between start and end time must be at least 10 minutes.',
     );
     await expect(createQuizPage.publishBtn).toBeDisabled();
@@ -92,7 +92,7 @@ test.describe('Quiz Creation E2E & Validations', () => {
     await createQuizPage.startsAtInput.pressSequentially('01/01/2020 10:00 AM');
     await createQuizPage.startsAtInput.press('Enter');
 
-    await expect(page.locator('app-field-error#starts-at-past-error')).toContainText(
+    await expect(page.locator('qn-field-error#starts-at-past-error')).toContainText(
       'Start time cannot be in the past.',
     );
     await expect(createQuizPage.publishBtn).toBeDisabled();
@@ -122,7 +122,7 @@ test.describe('Quiz Creation E2E & Validations', () => {
 
     await createQuizPage.mcqChoiceInputs.nth(4).fill('Special Fifth Option');
 
-    await createQuizPage.mcqForm.locator('app-delete-button').nth(4).click();
+    await createQuizPage.mcqForm.locator('qn-delete-button').nth(4).click();
 
     await expect(createQuizPage.mcqChoiceInputs).toHaveCount(4);
 

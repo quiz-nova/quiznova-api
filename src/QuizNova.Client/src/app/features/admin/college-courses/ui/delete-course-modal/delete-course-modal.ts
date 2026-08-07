@@ -7,7 +7,7 @@ import { Course } from '@shared/models/course/course.model';
 import { CoursesService } from '@shared/services/courses.service';
 
 @Component({
-  selector: 'app-delete-course-modal',
+  selector: 'qn-delete-course-modal',
   imports: [Dialog, Button],
   template: `
     <p-button

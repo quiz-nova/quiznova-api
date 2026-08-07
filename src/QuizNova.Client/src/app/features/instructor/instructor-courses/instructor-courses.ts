@@ -11,12 +11,12 @@ import { CoursesService } from '@shared/services/courses.service';
 import { shortId } from '@shared/utils/utilities';
 
 @Component({
-  selector: 'app-instructor-courses',
+  selector: 'qn-instructor-courses',
   imports: [ProgressSpinner, RoleDashboardHeader, OperationFailed],
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="My Courses"
           description="Manage your assigned courses, view students, and configure quizzes"
         />
@@ -27,9 +27,9 @@ import { shortId } from '@shared/utils/utilities';
           <p-progress-spinner ariaLabel="Loading instructor courses" />
         </div>
       } @else if (coursesResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load course data.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else if (!(coursesResource.value()?.length ?? 0)) {
         <p class="feedback">No courses are assigned to you yet.</p>
       } @else {

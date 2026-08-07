@@ -9,19 +9,19 @@ import { Logo } from '@shared/components/logo/logo';
 import { User } from '@shared/models/users/user.model';
 
 @Component({
-  selector: 'app-side-bar',
+  selector: 'qn-side-bar',
   imports: [Logo, TabGroup, Tab],
   template: `
     <aside class="side-bar" aria-label="Sidebar">
-      <app-logo />
+      <qn-logo />
 
       <p class="user-role">{{ currentUser()?.role }}</p>
 
-      <app-tab-group>
+      <qn-tab-group>
         @for (action of roleActions(); track action) {
-          <app-tab [tabName]="action"></app-tab>
+          <qn-tab [tabName]="action"></qn-tab>
         }
-      </app-tab-group>
+      </qn-tab-group>
     </aside>
   `,
   styles: [

@@ -22,7 +22,7 @@ export type TfAttemptForm = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-tf-attempt',
+  selector: 'qn-tf-attempt',
   imports: [],
   template: `
     <article class="question-card" aria-label="True or false question">

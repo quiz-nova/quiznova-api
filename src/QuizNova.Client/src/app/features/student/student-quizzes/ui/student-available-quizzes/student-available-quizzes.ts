@@ -11,7 +11,7 @@ import { durationInMinutes } from '@shared/utils/utilities';
 import { StudentQuizApiDto } from '../../models/student-quizzes.model';
 
 @Component({
-  selector: 'app-student-available-quizzes',
+  selector: 'qn-student-available-quizzes',
   imports: [RouterLink, QuizCountdownTag, Button, ConfirmActionModal, TableModule],
   template: `
     <section class="quiz-section" aria-labelledby="available-heading">
@@ -38,7 +38,7 @@ import { StudentQuizApiDto } from '../../models/student-quizzes.model';
                 <td>{{ quiz.questionsCount }}</td>
                 <td>{{ durationInMinutes(quiz.startsAtUtc, quiz.endsAtUtc) }} min</td>
                 <td>
-                  <app-quiz-countdown-tag
+                  <qn-quiz-countdown-tag
                     [endsAtUtc]="quiz.endsAtUtc"
                     [serverUtc]="serverUtc()"
                     (expired)="markQuizExpired(quiz.quizId)"
@@ -73,7 +73,7 @@ import { StudentQuizApiDto } from '../../models/student-quizzes.model';
     </section>
 
     @if (pendingQuiz(); as quiz) {
-      <app-confirm-action-modal
+      <qn-confirm-action-modal
         [warningMessage]="'You are about to start the quiz: ' + quiz.title"
         (confirmed)="onConfirmStart()"
         (cancelled)="onCancelStart()"

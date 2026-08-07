@@ -35,16 +35,16 @@ type TfFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-tf-form',
+  selector: 'qn-tf-form',
   imports: [ReactiveFormsModule, QuestionTitle, RadioButton, FieldError],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="tf-container">
       <form [formGroup]="tfForm">
-        <app-question-title
+        <qn-question-title
           [control]="questionTextControl"
           (titleBlur)="onTitleBlur($event)"
-        ></app-question-title>
+        ></qn-question-title>
         <p>Correct Answer:</p>
         <fieldset class="tf-options">
           <legend class="sr-only">Correct Answer</legend>
@@ -76,8 +76,8 @@ type TfFormGroup = FormGroup<{
 
         @if (answerControl.invalid && answerControl.touched) {
           @if (answerControl.hasError('required')) {
-            <app-field-error id="please-select-the-correct-answer-error"
-              >Please select the correct answer.</app-field-error
+            <qn-field-error id="please-select-the-correct-answer-error"
+              >Please select the correct answer.</qn-field-error
             >
           }
         }

@@ -8,7 +8,7 @@ import { durationInMinutes } from '@shared/utils/utilities';
 import { StudentQuizApiDto } from '../../models/student-quizzes.model';
 
 @Component({
-  selector: 'app-student-scheduled-quizzes',
+  selector: 'qn-student-scheduled-quizzes',
   imports: [DatePipe, TableModule],
   template: `
     <section class="quiz-section" aria-labelledby="scheduled-heading">

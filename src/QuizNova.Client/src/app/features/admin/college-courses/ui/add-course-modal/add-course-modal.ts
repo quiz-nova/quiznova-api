@@ -28,7 +28,7 @@ type AddCourseFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-add-course-modal',
+  selector: 'qn-add-course-modal',
   imports: [
     Dialog,
     FieldError,
@@ -66,18 +66,18 @@ type AddCourseFormGroup = FormGroup<{
           </p-floatlabel>
           @if (nameControl.invalid && nameControl.touched) {
             @if (nameControl.hasError('required')) {
-              <app-field-error id="course-name-is-required-error"
-                >Course name is required.</app-field-error
+              <qn-field-error id="course-name-is-required-error"
+                >Course name is required.</qn-field-error
               >
             }
             @if (nameControl.hasError('minlength')) {
-              <app-field-error id="course-name-minlength-error"
-                >Course name must be at least 3 characters.</app-field-error
+              <qn-field-error id="course-name-minlength-error"
+                >Course name must be at least 3 characters.</qn-field-error
               >
             }
             @if (nameControl.hasError('maxlength')) {
-              <app-field-error id="course-name-maxlength-error"
-                >Course name cannot exceed 30 characters.</app-field-error
+              <qn-field-error id="course-name-maxlength-error"
+                >Course name cannot exceed 30 characters.</qn-field-error
               >
             }
           }
@@ -116,8 +116,8 @@ type AddCourseFormGroup = FormGroup<{
             <label for="minimum-passing-marks">Minimum Passing Marks</label>
           </p-floatlabel>
           @if (minimumPassingMarksControl.invalid && minimumPassingMarksControl.touched) {
-            <app-field-error id="minimum-passing-marks-must-be-greater-than-zero-error"
-              >Minimum passing marks must be greater than zero.</app-field-error
+            <qn-field-error id="minimum-passing-marks-must-be-greater-than-zero-error"
+              >Minimum passing marks must be greater than zero.</qn-field-error
             >
           }
         </div>
@@ -136,8 +136,8 @@ type AddCourseFormGroup = FormGroup<{
             <label for="maximum-marks">Maximum Marks</label>
           </p-floatlabel>
           @if (maximumMarksControl.invalid && maximumMarksControl.touched) {
-            <app-field-error id="maximum-marks-must-be-greater-than-zero-error"
-              >Maximum marks must be greater than zero.</app-field-error
+            <qn-field-error id="maximum-marks-must-be-greater-than-zero-error"
+              >Maximum marks must be greater than zero.</qn-field-error
             >
           }
         </div>

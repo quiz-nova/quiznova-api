@@ -27,7 +27,7 @@ type QuestionHeaderFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-question-header',
+  selector: 'qn-question-header',
   imports: [ReactiveFormsModule, Button, FieldError],
   template: `
     <header class="question-header">
@@ -64,12 +64,12 @@ type QuestionHeaderFormGroup = FormGroup<{
         />
         @if (marksControl.invalid && marksControl.touched) {
           @if (marksControl.hasError('required')) {
-            <app-field-error id="marks-is-required-error">Marks field is required.</app-field-error>
+            <qn-field-error id="marks-is-required-error">Marks field is required.</qn-field-error>
           }
           @if (marksControl.hasError('min') || marksControl.hasError('max')) {
-            <app-field-error id="marks-must-be-between-1-and-max-error">
+            <qn-field-error id="marks-must-be-between-1-and-max-error">
               Marks must be between 1 and {{ maxMarks() }}.
-            </app-field-error>
+            </qn-field-error>
           }
         }
       </div>

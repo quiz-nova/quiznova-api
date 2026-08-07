@@ -35,16 +35,16 @@ type EssayFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-essay-form',
+  selector: 'qn-essay-form',
   imports: [ReactiveFormsModule, QuestionTitle, FieldError, Textarea],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="essay-question-container">
       <form class="essay-question-form" [formGroup]="essayForm">
-        <app-question-title
+        <qn-question-title
           [control]="questionTextControl"
           (titleBlur)="onTitleBlur($event)"
-        ></app-question-title>
+        ></qn-question-title>
 
         <div class="field-container">
           <label class="field-label" for="answerReference"
@@ -68,13 +68,13 @@ type EssayFormGroup = FormGroup<{
 
           @if (answerReferenceControl.invalid && answerReferenceControl.touched) {
             @if (answerReferenceControl.hasError('minlength')) {
-              <app-field-error id="answer-reference-minlength-error"
-                >Reference answer must be at least 3 characters long.</app-field-error
+              <qn-field-error id="answer-reference-minlength-error"
+                >Reference answer must be at least 3 characters long.</qn-field-error
               >
             }
             @if (answerReferenceControl.hasError('maxlength')) {
-              <app-field-error id="answer-reference-maxlength-error"
-                >Reference answer cannot exceed 1000 characters.</app-field-error
+              <qn-field-error id="answer-reference-maxlength-error"
+                >Reference answer cannot exceed 1000 characters.</qn-field-error
               >
             }
           }

@@ -36,27 +36,27 @@ export class CreateQuizPage {
     this.startsAtInput = page.locator('#quiz-starts-at input');
     this.endsAtInput = page.locator('#quiz-ends-at input');
     this.publishBtn = page.locator('button:has-text("Publish Quiz")');
-    this.addQuestionBtn = page.locator('app-add-question:not(.pill-style) button');
+    this.addQuestionBtn = page.locator('qn-add-question:not(.pill-style) button');
     this.courseSelect = page.locator('p-select[inputid="quiz-course"]');
     this.questionTypeSelect = page.locator(
-      'app-add-question:not(.pill-style) p-select[inputid="questionType"]',
+      'qn-add-question:not(.pill-style) p-select[inputid="questionType"]',
     );
 
-    this.mcqForm = page.locator('app-mcq-form');
-    this.mcqTitleArea = page.locator('app-mcq-form app-question-title textarea');
-    this.mcqChoiceInputs = page.locator('app-mcq-form input.choice-input');
-    this.mcqRadios = page.locator('app-mcq-form p-radiobutton input[type="radio"]');
-    this.mcqDeleteButtons = page.locator('app-mcq-form app-delete-button button');
-    this.mcqAddChoiceBtn = page.locator('app-mcq-form button:has-text("+Add Choice")');
-    this.mcqMarksInput = page.locator('app-question-header input[type="number"]').nth(0);
+    this.mcqForm = page.locator('qn-mcq-form');
+    this.mcqTitleArea = page.locator('qn-mcq-form qn-question-title textarea');
+    this.mcqChoiceInputs = page.locator('qn-mcq-form input.choice-input');
+    this.mcqRadios = page.locator('qn-mcq-form p-radiobutton input[type="radio"]');
+    this.mcqDeleteButtons = page.locator('qn-mcq-form qn-delete-button button');
+    this.mcqAddChoiceBtn = page.locator('qn-mcq-form button:has-text("+Add Choice")');
+    this.mcqMarksInput = page.locator('qn-question-header input[type="number"]').nth(0);
 
-    this.essayTitleArea = page.locator('app-essay-form app-question-title textarea');
-    this.essayReferenceArea = page.locator('app-essay-form textarea#answerReference');
-    this.essayMarksInput = page.locator('app-question-header input[type="number"]').nth(1);
+    this.essayTitleArea = page.locator('qn-essay-form qn-question-title textarea');
+    this.essayReferenceArea = page.locator('qn-essay-form textarea#answerReference');
+    this.essayMarksInput = page.locator('qn-question-header input[type="number"]').nth(1);
 
-    this.tfTitleArea = page.locator('app-tf-form app-question-title textarea');
-    this.tfRadios = page.locator('app-tf-form p-radiobutton input[type="radio"]');
-    this.tfMarksInput = page.locator('app-question-header input[type="number"]').nth(2);
+    this.tfTitleArea = page.locator('qn-tf-form qn-question-title textarea');
+    this.tfRadios = page.locator('qn-tf-form p-radiobutton input[type="radio"]');
+    this.tfMarksInput = page.locator('qn-question-header input[type="number"]').nth(2);
   }
 
   async goto(): Promise<void> {
@@ -153,17 +153,17 @@ export class CreateQuizPage {
 
         const questionDiv = this.page.locator('div.question').last();
         const questionTitleInput = questionDiv.locator(
-          'app-mcq-form textarea.question-title__input',
+          'qn-mcq-form textarea.question-title__input',
         );
         await questionTitleInput.waitFor({ state: 'visible' });
         await questionTitleInput.fill(q.text);
         await questionTitleInput.blur();
 
         const choices = q.choices || ['Option A', 'Option B'];
-        const choiceInputs = questionDiv.locator('app-mcq-form input.choice-input');
+        const choiceInputs = questionDiv.locator('qn-mcq-form input.choice-input');
         for (let i = 0; i < choices.length; i++) {
           if (i >= 2) {
-            await questionDiv.locator('app-mcq-form button:has-text("+Add Choice")').click();
+            await questionDiv.locator('qn-mcq-form button:has-text("+Add Choice")').click();
           }
           const choiceInput = choiceInputs.nth(i);
           await choiceInput.fill(choices[i]);
@@ -172,11 +172,11 @@ export class CreateQuizPage {
 
         const radioIndex = q.correctChoiceIndex !== undefined ? q.correctChoiceIndex : 0;
         await questionDiv
-          .locator('app-mcq-form p-radiobutton input[type="radio"]')
+          .locator('qn-mcq-form p-radiobutton input[type="radio"]')
           .nth(radioIndex)
           .click({ force: true });
 
-        const marksInput = questionDiv.locator('app-question-header input[type="number"]');
+        const marksInput = questionDiv.locator('qn-question-header input[type="number"]');
         await marksInput.fill(q.marks);
         await marksInput.blur();
       } else if (q.type === 'tf') {
@@ -184,20 +184,18 @@ export class CreateQuizPage {
         await this.addQuestionBtn.click();
 
         const questionDiv = this.page.locator('div.question').last();
-        const questionTitleInput = questionDiv.locator(
-          'app-tf-form textarea.question-title__input',
-        );
+        const questionTitleInput = questionDiv.locator('qn-tf-form textarea.question-title__input');
         await questionTitleInput.waitFor({ state: 'visible' });
         await questionTitleInput.fill(q.text);
         await questionTitleInput.blur();
 
         const selectTrue = q.correctTf !== false;
         const radioInput = questionDiv
-          .locator('app-tf-form input[type="radio"]')
+          .locator('qn-tf-form input[type="radio"]')
           .nth(selectTrue ? 0 : 1);
         await radioInput.click({ force: true });
 
-        const marksInput = questionDiv.locator('app-question-header input[type="number"]');
+        const marksInput = questionDiv.locator('qn-question-header input[type="number"]');
         await marksInput.fill(q.marks);
         await marksInput.blur();
       } else if (q.type === 'essay') {
@@ -206,17 +204,17 @@ export class CreateQuizPage {
 
         const questionDiv = this.page.locator('div.question').last();
         const questionTitleInput = questionDiv.locator(
-          'app-essay-form textarea.question-title__input',
+          'qn-essay-form textarea.question-title__input',
         );
         await questionTitleInput.waitFor({ state: 'visible' });
         await questionTitleInput.fill(q.text);
         await questionTitleInput.blur();
 
-        const answerReferenceInput = questionDiv.locator('app-essay-form textarea#answerReference');
+        const answerReferenceInput = questionDiv.locator('qn-essay-form textarea#answerReference');
         await answerReferenceInput.fill(q.expectedAnswer || 'Expected answer text');
         await answerReferenceInput.blur();
 
-        const marksInput = questionDiv.locator('app-question-header input[type="number"]');
+        const marksInput = questionDiv.locator('qn-question-header input[type="number"]');
         await marksInput.fill(q.marks);
         await marksInput.blur();
       }

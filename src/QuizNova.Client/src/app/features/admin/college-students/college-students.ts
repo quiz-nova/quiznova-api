@@ -26,7 +26,7 @@ import { DeleteStudentModal } from './ui/delete-student-modal/delete-student-mod
 import { EditStudentModal } from './ui/edit-student-modal/edit-student-modal';
 
 @Component({
-  selector: 'app-college-students',
+  selector: 'qn-college-students',
   imports: [
     TableModule,
     Skeleton,
@@ -41,11 +41,11 @@ import { EditStudentModal } from './ui/edit-student-modal/edit-student-modal';
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="Student Roster"
           description="A simple roster view of enrollment load."
         />
-        <app-add-student-modal (created)="reloadStudents()"></app-add-student-modal>
+        <qn-add-student-modal (created)="reloadStudents()"></qn-add-student-modal>
       </header>
 
       <div class="filters-grid">
@@ -105,14 +105,14 @@ import { EditStudentModal } from './ui/edit-student-modal/edit-student-modal';
                 <td>{{ student.enrolledCoursesCount }}</td>
                 <td>
                   <div class="actions">
-                    <app-edit-student-modal
+                    <qn-edit-student-modal
                       [student]="student"
                       (updated)="reloadStudents()"
-                    ></app-edit-student-modal>
-                    <app-delete-student-modal
+                    ></qn-edit-student-modal>
+                    <qn-delete-student-modal
                       [student]="student"
                       (deleted)="reloadStudents()"
-                    ></app-delete-student-modal>
+                    ></qn-delete-student-modal>
                   </div>
                 </td>
               }

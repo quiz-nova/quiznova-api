@@ -4,7 +4,7 @@ import { QuestionTagContract } from '@shared/models/quiz/question-component.cont
 import { QuestionType } from '@shared/models/quiz/question.model';
 
 @Component({
-  selector: 'app-essay-tag',
+  selector: 'qn-essay-tag',
   imports: [],
   template: ` <p class="essay-tag">Text Response</p> `,
   styleUrl: './essay-tag.css',

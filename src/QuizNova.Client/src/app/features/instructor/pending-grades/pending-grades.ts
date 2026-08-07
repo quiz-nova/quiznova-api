@@ -17,7 +17,7 @@ import { NoPendingGrades } from './ui/no-pending-grades/no-pending-grades';
 import { PendingGradesStats } from './ui/pending-grades-stats/pending-grades-stats';
 
 @Component({
-  selector: 'app-pending-grades',
+  selector: 'qn-pending-grades',
   imports: [
     ProgressSpinner,
     RoleDashboardHeader,
@@ -30,7 +30,7 @@ import { PendingGradesStats } from './ui/pending-grades-stats/pending-grades-sta
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="Pending Grades"
           description="Essay submissions awaiting your review"
         />
@@ -41,16 +41,16 @@ import { PendingGradesStats } from './ui/pending-grades-stats/pending-grades-sta
           <p-progress-spinner ariaLabel="Loading pending grades" />
         </div>
       } @else if (pendingResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load pending grades. Please try again.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else {
         <!-- Stats row -->
-        <app-pending-grades-stats [stats]="stats()" />
+        <qn-pending-grades-stats [stats]="stats()" />
 
         <!-- Pending list -->
         @if (pendingList().length === 0) {
-          <app-no-pending-grades />
+          <qn-no-pending-grades />
         } @else {
           <section class="list-container" aria-label="Pending grading submissions">
             <div class="list-header">
@@ -117,7 +117,7 @@ import { PendingGradesStats } from './ui/pending-grades-stats/pending-grades-sta
                 Page {{ pendingResource.value()?.pageNumber ?? 1 }} of
                 {{ pendingResource.value()?.totalPages ?? 1 }}
               </p>
-              <app-navigation-buttons
+              <qn-navigation-buttons
                 [canGoPrevious]="pendingResource.value()?.hasPreviousPage ?? false"
                 [canGoNext]="pendingResource.value()?.hasNextPage ?? false"
                 (previousButtonClicked)="goToPreviousPage()"

@@ -10,7 +10,7 @@ import {
 } from '@shared/models/quiz-attempt/question-answer.model';
 
 @Component({
-  selector: 'app-student-essay-answer-review',
+  selector: 'qn-student-essay-answer-review',
   imports: [],
   template: `
     <article

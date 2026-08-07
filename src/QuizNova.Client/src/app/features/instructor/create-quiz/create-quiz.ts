@@ -28,7 +28,7 @@ import { QuizMetadataForm } from './ui/quiz-metadata-form/quiz-metadata-form';
 import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
 
 @Component({
-  selector: 'app-create-quiz',
+  selector: 'qn-create-quiz',
   imports: [
     AddQuestion,
     QuestionHeader,
@@ -47,28 +47,28 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
     <section class="create-quiz">
       <div class="outline">
         @if (createQuizStore.numberOfQuestions() > 0) {
-          <app-questions-outline
+          <qn-questions-outline
             (questionSelected)="createQuizStore.setCurrentQuestionId($event)"
-          ></app-questions-outline>
+          ></qn-questions-outline>
         } @else {
-          <app-questions-outline-placeholder />
+          <qn-questions-outline-placeholder />
         }
       </div>
       <main class="main">
         <header class="header">
-          <app-role-dashboard-header
+          <qn-role-dashboard-header
             title="Create Quiz"
             description="Build your quiz by adding questions below"
           />
-          <app-quiz-publish-panel (publish)="onPublishQuiz()" />
+          <qn-quiz-publish-panel (publish)="onPublishQuiz()" />
         </header>
-        <app-quiz-metadata-form
+        <qn-quiz-metadata-form
           (formReady)="createQuizStore.registerForm($event)"
           (formDestroyed)="createQuizStore.unregisterForm($event)"
           (valueChange)="createQuizStore.setHeaderMetadata($event)"
           (courseIdChanged)="onCourseIdChanged($event)"
-        ></app-quiz-metadata-form>
-        <app-quiz-header />
+        ></qn-quiz-metadata-form>
+        <qn-quiz-header />
         <div class="questions-workspace">
           <div class="questions-content">
             <div class="questions-list">
@@ -86,7 +86,7 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
                   animate.enter="element-enter"
                   animate.leave="element-leave"
                 >
-                  <app-question-header
+                  <qn-question-header
                     [index]="index"
                     [question]="question"
                     [maxMarks]="getMaxMarksForQuestion(question.marks)"
@@ -98,7 +98,7 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
                     <ng-container
                       [ngComponentOutlet]="mapperService.getSuitableQuestionTag(question.type)"
                     ></ng-container>
-                  </app-question-header>
+                  </qn-question-header>
 
                   <ng-container
                     [ngComponentOutlet]="
@@ -115,23 +115,23 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
               (visible)="onAddQuestionButtonVisible($event)"
               appObserveVisibility
             >
-              <app-add-question
+              <qn-add-question
                 (questionAdded)="createQuizStore.addQuestion($event)"
-              ></app-add-question>
+              ></qn-add-question>
             </div>
             @if (!isAddQuestionButtonVisible()) {
               <div class="add-question-sticky-container">
-                <app-add-question
+                <qn-add-question
                   class="pill-style"
                   (questionAdded)="createQuizStore.addQuestion($event)"
                   animate.leave="float-add-question-button-leave"
                   animate.enter="float-add-question-button-enter"
                 >
-                </app-add-question>
+                </qn-add-question>
               </div>
             }
             @if (createQuizStore.numberOfQuestions() === 0) {
-              <app-no-questions></app-no-questions>
+              <qn-no-questions></qn-no-questions>
             }
           </div>
         </div>
@@ -139,7 +139,7 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
     </section>
 
     @if (showConfirmModal()) {
-      <app-confirm-action-modal
+      <qn-confirm-action-modal
         (confirmed)="onLeave(true)"
         (cancelled)="onLeave(false)"
         title="Leave Quiz Builder"
@@ -150,7 +150,7 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
     }
 
     @if (showPublishConfirmModal()) {
-      <app-confirm-action-modal
+      <qn-confirm-action-modal
         (confirmed)="onConfirmPublish()"
         (cancelled)="onCancelPublish()"
         title="Publish Quiz"

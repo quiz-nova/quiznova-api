@@ -5,7 +5,7 @@ import { ProgressBar } from 'primeng/progressbar';
 import { QuizAttemptStore } from '../../quiz-attempt.store';
 
 @Component({
-  selector: 'app-questions-progress-bar',
+  selector: 'qn-questions-progress-bar',
   imports: [ProgressBar],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

@@ -12,7 +12,7 @@ import { ReviewQuizHeader } from './ui/review-quiz-header/review-quiz-header';
 import { ReviewQuizStatusCard } from './ui/review-quiz-status-card/review-quiz-status-card';
 
 @Component({
-  selector: 'app-review-quiz',
+  selector: 'qn-review-quiz',
   imports: [
     ProgressSpinner,
     ReviewQuizHeader,
@@ -28,14 +28,14 @@ import { ReviewQuizStatusCard } from './ui/review-quiz-status-card/review-quiz-s
           <p-progress-spinner ariaLabel="Loading attempt review" />
         </div>
       } @else if (reviewQuizStore.error()('load'); as errorMessage) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>{{ errorMessage }}</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else if (reviewQuizStore.quizAttempt()) {
-        <app-review-quiz-header />
+        <qn-review-quiz-header />
 
-        <app-result-banner />
-        <app-review-quiz-status-card />
+        <qn-result-banner />
+        <qn-review-quiz-status-card />
 
         <section class="review-questions" aria-label="Question-by-question review">
           <h2 class="review-questions__title">Question-by-Question Review</h2>
@@ -69,9 +69,9 @@ import { ReviewQuizStatusCard } from './ui/review-quiz-status-card/review-quiz-s
           </div>
         </section>
       } @else {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Attempt review is unavailable.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       }
     </section>
   `,

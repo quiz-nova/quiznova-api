@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 @Component({
-  selector: 'app-demo-credentials',
+  selector: 'qn-demo-credentials',
   standalone: true,
   template: `
     <div class="demo-credentials">

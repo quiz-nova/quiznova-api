@@ -14,7 +14,7 @@ import { EnrollmentService } from '@shared/services/enrollment.service';
 import { AdminDashboardCharts } from './ui/admin-dashboard-charts/admin-dashboard-charts';
 
 @Component({
-  selector: 'app-admin-dashboard',
+  selector: 'qn-admin-dashboard',
   imports: [
     ProgressSpinner,
     RoleDashboardHeader,
@@ -25,7 +25,7 @@ import { AdminDashboardCharts } from './ui/admin-dashboard-charts/admin-dashboar
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           [description]="'Welcome back, ' + welcomeName()"
           title="Admin Dashboard"
         />
@@ -36,13 +36,13 @@ import { AdminDashboardCharts } from './ui/admin-dashboard-charts/admin-dashboar
           <p-progress-spinner ariaLabel="loading" />
         </div>
       } @else if (summaryResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load dashboard data.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else {
         <section class="card-grid">
           @for (card of cards(); track card.title) {
-            <app-role-dashboard-card
+            <qn-role-dashboard-card
               [title]="card.title"
               [value]="card.value"
               [icon]="card.icon"
@@ -53,7 +53,7 @@ import { AdminDashboardCharts } from './ui/admin-dashboard-charts/admin-dashboar
         </section>
 
         <div class="charts-section">
-          <app-admin-dashboard-charts
+          <qn-admin-dashboard-charts
             [summary]="summaryResource.value() ?? null"
             [enrollmentCounts]="enrollmentResource.value()"
           />

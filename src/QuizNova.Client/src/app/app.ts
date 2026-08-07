@@ -5,7 +5,7 @@ import { APP_SETTINGS } from '@Core/config/app.settings';
 import { Toast } from 'primeng/toast';
 
 @Component({
-  selector: 'app-root',
+  selector: 'qn-app',
   imports: [RouterOutlet, Toast],
   templateUrl: './app.html',
   styles: [

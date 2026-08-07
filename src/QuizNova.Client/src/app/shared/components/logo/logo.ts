@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-logo',
+  selector: 'qn-logo',
   imports: [],
   template: `
     <div class="content">

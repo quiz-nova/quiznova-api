@@ -13,7 +13,7 @@ import { Overlay } from 'primeng/overlay';
 import 'emoji-picker-element';
 
 @Component({
-  selector: 'app-emoji-picker',
+  selector: 'qn-emoji-picker',
   imports: [InputText, Overlay, Button],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { QuizAttemptStore } from '../../quiz-attempt.store';
 
 @Component({
-  selector: 'app-quiz-attempt-header',
+  selector: 'qn-quiz-attempt-header',
   imports: [],
   template: `
     <header class="attempt-header">

@@ -28,7 +28,7 @@ import { QuizAttemptHeader } from './ui/quiz-attempt-header/quiz-attempt-header'
 import { QuizFinishedMessage } from './ui/quiz-finished-message/quiz-finished-message';
 
 @Component({
-  selector: 'app-quiz-attempt',
+  selector: 'qn-quiz-attempt',
   host: {
     '(window:beforeunload)': 'unloadNotification($event)',
   },
@@ -53,30 +53,30 @@ import { QuizFinishedMessage } from './ui/quiz-finished-message/quiz-finished-me
           <p-progress-spinner ariaLabel="Loading quiz attempt" />
         </div>
       } @else if (quizAttemptStore.error()('load'); as errorMessage) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>{{ errorMessage }}</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else if (quizAttemptStore.isFulfilled()('submit')) {
-        <app-quiz-finished-message (seeResults)="goToResults()" />
+        <qn-quiz-finished-message (seeResults)="goToResults()" />
       } @else {
-        <app-quiz-attempt-header />
+        <qn-quiz-attempt-header />
 
         @if (quizAttemptStore.error()('submit'); as submitErrorMessage) {
-          <app-operation-failed>
+          <qn-operation-failed>
             <p>{{ submitErrorMessage }}</p>
-          </app-operation-failed>
+          </qn-operation-failed>
         }
 
         @if (quizAttemptStore.error()('submit-answer'); as submitAnswerErrorMessage) {
-          <app-operation-failed>
+          <qn-operation-failed>
             <p>{{ submitAnswerErrorMessage }}</p>
-          </app-operation-failed>
+          </qn-operation-failed>
         }
 
         @if (quizAttemptStore.error()('start'); as startErrorMessage) {
-          <app-operation-failed>
+          <qn-operation-failed>
             <p>{{ startErrorMessage }}</p>
-          </app-operation-failed>
+          </qn-operation-failed>
         }
 
         <div class="attempt-main">
@@ -84,9 +84,7 @@ import { QuizFinishedMessage } from './ui/quiz-finished-message/quiz-finished-me
             @let question =
               quizAttemptStore.quizQuestions()[quizAttemptStore.currentQuestionIndex()];
 
-            <app-question-attempt-header
-              [questionType]="question.type"
-            ></app-question-attempt-header>
+            <qn-question-attempt-header [questionType]="question.type"></qn-question-attempt-header>
 
             <ng-container
               [ngComponentOutlet]="
@@ -97,7 +95,7 @@ import { QuizFinishedMessage } from './ui/quiz-finished-message/quiz-finished-me
               }"
             ></ng-container>
 
-            <app-navigation-buttons
+            <qn-navigation-buttons
               [canGoPrevious]="quizAttemptStore.canGoPrevious()"
               [canGoNext]="quizAttemptStore.canGoNext()"
               (previousButtonClicked)="quizAttemptStore.GoToPreviousQuestion()"
@@ -116,8 +114,8 @@ import { QuizFinishedMessage } from './ui/quiz-finished-message/quiz-finished-me
           </div>
 
           <aside class="sidebar-column" aria-label="Quiz tools">
-            <app-questions-navigator />
-            <app-questions-progress-bar />
+            <qn-questions-navigator />
+            <qn-questions-progress-bar />
             <p-button
               [fluid]="true"
               [loading]="quizAttemptStore.isPending()('submit')"
@@ -131,7 +129,7 @@ import { QuizFinishedMessage } from './ui/quiz-finished-message/quiz-finished-me
       }
 
       @if (showLeaveConfirmModal()) {
-        <app-confirm-action-modal
+        <qn-confirm-action-modal
           (confirmed)="onLeave(true)"
           (cancelled)="onLeave(false)"
           title="Leave Quiz"
@@ -143,7 +141,7 @@ import { QuizFinishedMessage } from './ui/quiz-finished-message/quiz-finished-me
       }
 
       @if (showSubmitConfirmModal()) {
-        <app-confirm-action-modal
+        <qn-confirm-action-modal
           (confirmed)="onConfirmSubmit()"
           (cancelled)="showSubmitConfirmModal.set(false)"
           title="Submit Quiz"

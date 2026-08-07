@@ -7,7 +7,7 @@ import { AuthService } from '@Features/auth/auth.service';
 import { User } from '@shared/models/users/user.model';
 
 @Component({
-  selector: 'app-tab',
+  selector: 'qn-tab',
   imports: [RouterLink, RouterLinkActive],
   template: `
     <a

@@ -7,14 +7,14 @@ import { Header } from './header';
 import { Hero } from './hero';
 
 @Component({
-  selector: 'app-landing',
+  selector: 'qn-landing',
   imports: [Contact, About, Features, Hero, Header],
   template: `
-    <app-header></app-header>
-    <app-hero></app-hero>
-    <app-features></app-features>
-    <app-about></app-about>
-    <app-contact></app-contact>
+    <qn-header></qn-header>
+    <qn-hero></qn-hero>
+    <qn-features></qn-features>
+    <qn-about></qn-about>
+    <qn-contact></qn-contact>
   `,
   styles: `
     :host {

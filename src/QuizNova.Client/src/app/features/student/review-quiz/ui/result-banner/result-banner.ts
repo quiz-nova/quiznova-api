@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ReviewQuizStore } from '../../review-quiz.store';
 
 @Component({
-  selector: 'app-result-banner',
+  selector: 'qn-result-banner',
   imports: [],
   template: `
     <section class="result-banner" aria-label="Attempt result summary">

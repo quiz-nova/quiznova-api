@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-quiz-countdown-tag',
+  selector: 'qn-quiz-countdown-tag',
   imports: [],
   template: `
     <span

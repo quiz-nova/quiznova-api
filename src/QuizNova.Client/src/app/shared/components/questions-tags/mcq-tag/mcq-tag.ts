@@ -4,7 +4,7 @@ import { QuestionTagContract } from '@shared/models/quiz/question-component.cont
 import { QuestionType } from '@shared/models/quiz/question.model';
 
 @Component({
-  selector: 'app-mcq-tag',
+  selector: 'qn-mcq-tag',
   imports: [],
   template: ` <p class="mcq-tag">{{ tag() }}</p> `,
   styleUrl: './mcq-tag.css',

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-no-course-chat-selected-placeholder',
+  selector: 'qn-no-course-chat-selected-placeholder',
   standalone: true,
   template: `
     <div class="select-course-placeholder">

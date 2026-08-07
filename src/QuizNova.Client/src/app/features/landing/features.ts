@@ -5,7 +5,7 @@ import { FadeInOnScrollDirective } from '@shared/directives/fade-in-on-scroll.di
 import { FeatureCard, featureCards } from './feature-card';
 
 @Component({
-  selector: 'app-features',
+  selector: 'qn-features',
   imports: [FadeInOnScrollDirective, FeatureCard],
   template: `
     <section class="features" id="features">
@@ -22,11 +22,11 @@ import { FeatureCard, featureCards } from './feature-card';
         </article>
         <div class="cards">
           @for (feature of cards(); track feature.id; let i = $index) {
-            <app-feature-card [delay]="i * 50" appFadeInOnScroll>
+            <qn-feature-card [delay]="i * 50" appFadeInOnScroll>
               <i [class]="feature.icon"></i>
               <h3 class="card-title">{{ feature.title }}</h3>
               <p class="card-content">{{ feature.content }}</p>
-            </app-feature-card>
+            </qn-feature-card>
           }
         </div>
       </div>
@@ -45,11 +45,11 @@ import { FeatureCard, featureCards } from './feature-card';
       gap: 1.5rem;
     }
 
-    .cards app-feature-card .card-title {
+    .cards qn-feature-card .card-title {
       font-size: var(--fs-500);
     }
 
-    .cards app-feature-card .card-content {
+    .cards qn-feature-card .card-content {
       color: var(--clr-gray-600);
       font-size: var(--fs-400);
       word-spacing: 3px;
@@ -59,7 +59,7 @@ import { FeatureCard, featureCards } from './feature-card';
       color: var(--clr-green-400);
     }
 
-    .cards app-feature-card i {
+    .cards qn-feature-card i {
       color: var(--clr-green-400);
     }
   `,

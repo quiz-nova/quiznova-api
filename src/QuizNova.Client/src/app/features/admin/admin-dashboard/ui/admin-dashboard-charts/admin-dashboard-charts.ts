@@ -8,7 +8,7 @@ import { CourseEnrollmentCount } from '@shared/models/enrollment/course-enrollme
 import { chartColor } from '@shared/utils/chart-colors';
 
 @Component({
-  selector: 'app-admin-dashboard-charts',
+  selector: 'qn-admin-dashboard-charts',
   imports: [UIChart, ChartPlaceholder],
   template: `
     <section class="charts-grid" aria-label="College analytics">
@@ -23,7 +23,7 @@ import { chartColor } from '@shared/utils/chart-colors';
               height="300"
             />
           } @placeholder {
-            <app-chart-placeholder />
+            <qn-chart-placeholder />
           }
         </div>
       </article>
@@ -38,7 +38,7 @@ import { chartColor } from '@shared/utils/chart-colors';
               height="300"
             />
           } @placeholder {
-            <app-chart-placeholder />
+            <qn-chart-placeholder />
           }
         </div>
       </article>

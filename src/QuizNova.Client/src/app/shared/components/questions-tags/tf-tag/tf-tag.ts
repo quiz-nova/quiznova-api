@@ -4,7 +4,7 @@ import { QuestionTagContract } from '@shared/models/quiz/question-component.cont
 import { QuestionType } from '@shared/models/quiz/question.model';
 
 @Component({
-  selector: 'app-tf-tag',
+  selector: 'qn-tf-tag',
   imports: [],
   template: ` <p class="question-tag">{{ tag() }}</p> `,
   styleUrl: './tf-tag.css',

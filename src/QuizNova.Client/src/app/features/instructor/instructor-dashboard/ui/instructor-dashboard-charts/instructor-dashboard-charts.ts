@@ -8,7 +8,7 @@ import { Course } from '@shared/models/course/course.model';
 import { chartColor } from '@shared/utils/chart-colors';
 
 @Component({
-  selector: 'app-instructor-dashboard-charts',
+  selector: 'qn-instructor-dashboard-charts',
   imports: [UIChart, ChartPlaceholder],
   template: `
     <section class="charts-grid" aria-label="Course analytics">
@@ -23,7 +23,7 @@ import { chartColor } from '@shared/utils/chart-colors';
               height="300"
             />
           } @placeholder {
-            <app-chart-placeholder />
+            <qn-chart-placeholder />
           }
         </div>
       </article>
@@ -38,7 +38,7 @@ import { chartColor } from '@shared/utils/chart-colors';
               height="300"
             />
           } @placeholder {
-            <app-chart-placeholder />
+            <qn-chart-placeholder />
           }
         </div>
       </article>

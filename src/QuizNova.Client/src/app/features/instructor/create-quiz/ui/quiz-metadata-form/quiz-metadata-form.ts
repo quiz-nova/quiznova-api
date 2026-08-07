@@ -44,7 +44,7 @@ export type QuizHeaderFormGroup = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-quiz-metadata-form',
+  selector: 'qn-quiz-metadata-form',
   imports: [ReactiveFormsModule, Select, DatePicker, InputText, FieldError],
   template: `
     <form class="metadata-form" [formGroup]="quizHeaderForm">
@@ -64,18 +64,18 @@ export type QuizHeaderFormGroup = FormGroup<{
 
         @if (titleControl.invalid && (titleControl.touched || titleControl.dirty)) {
           @if (titleControl.hasError('required')) {
-            <app-field-error id="quiz-title-is-required-error"
-              >Quiz title is required.</app-field-error
+            <qn-field-error id="quiz-title-is-required-error"
+              >Quiz title is required.</qn-field-error
             >
           }
           @if (titleControl.hasError('minlength')) {
-            <app-field-error id="quiz-title-minlength-error"
-              >Quiz title must be at least 3 characters.</app-field-error
+            <qn-field-error id="quiz-title-minlength-error"
+              >Quiz title must be at least 3 characters.</qn-field-error
             >
           }
           @if (titleControl.hasError('maxlength')) {
-            <app-field-error id="quiz-title-maxlength-error"
-              >Quiz title cannot exceed 30 characters.</app-field-error
+            <qn-field-error id="quiz-title-maxlength-error"
+              >Quiz title cannot exceed 30 characters.</qn-field-error
             >
           }
         }
@@ -99,7 +99,7 @@ export type QuizHeaderFormGroup = FormGroup<{
 
         @if (courseIdControl.invalid && (courseIdControl.touched || courseIdControl.dirty)) {
           @if (courseIdControl.hasError('required')) {
-            <app-field-error id="course-is-required-error">Course is required.</app-field-error>
+            <qn-field-error id="course-is-required-error">Course is required.</qn-field-error>
           }
         }
       </div>
@@ -124,8 +124,8 @@ export type QuizHeaderFormGroup = FormGroup<{
 
         @if (startsAtControl.invalid) {
           @if (startsAtControl.hasError('required')) {
-            <app-field-error id="starts-at-is-required-error"
-              >Start time is required.</app-field-error
+            <qn-field-error id="starts-at-is-required-error"
+              >Start time is required.</qn-field-error
             >
           }
         }
@@ -153,7 +153,7 @@ export type QuizHeaderFormGroup = FormGroup<{
 
         @if (endsAtControl.invalid) {
           @if (endsAtControl.hasError('required')) {
-            <app-field-error id="ends-at-is-required-error">End time is required.</app-field-error>
+            <qn-field-error id="ends-at-is-required-error">End time is required.</qn-field-error>
           }
         }
 
@@ -161,9 +161,9 @@ export type QuizHeaderFormGroup = FormGroup<{
           quizHeaderForm.hasError('invalidTimeRange') &&
           (startsAtControl.touched || endsAtControl.touched)
         ) {
-          <app-field-error id="end-time-must-be-after-start-time-error">
+          <qn-field-error id="end-time-must-be-after-start-time-error">
             End time must be after start time.
-          </app-field-error>
+          </qn-field-error>
         }
       </div>
     </form>

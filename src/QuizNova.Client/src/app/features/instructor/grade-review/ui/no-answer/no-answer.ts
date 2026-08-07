@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-no-answer',
+  selector: 'qn-no-answer',
   imports: [],
   template: `
     <div class="no-answer" role="status">

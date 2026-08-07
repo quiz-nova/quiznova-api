@@ -5,7 +5,7 @@ import { Question } from '@shared/models/quiz/question.model';
 import { Essay, isEssay } from '@shared/models/quiz/questions/essay.model';
 
 @Component({
-  selector: 'app-essay-question-not-answered',
+  selector: 'qn-essay-question-not-answered',
   imports: [],
   template: `
     <article class="review-question" aria-label="Unanswered essay question">

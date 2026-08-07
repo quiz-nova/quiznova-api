@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-no-questions',
+  selector: 'qn-no-questions',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="no-questions">

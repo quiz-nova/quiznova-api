@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CreateQuizStore } from '../../stores/create-quiz.store';
 
 @Component({
-  selector: 'app-quiz-header',
+  selector: 'qn-quiz-header',
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

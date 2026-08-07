@@ -31,7 +31,7 @@ export type EssayAttemptForm = FormGroup<{
 }>;
 
 @Component({
-  selector: 'app-essay-attempt',
+  selector: 'qn-essay-attempt',
   imports: [ReactiveFormsModule, FieldError],
   template: `
     <article class="question-card" aria-label="Essay question">
@@ -50,8 +50,8 @@ export type EssayAttemptForm = FormGroup<{
           aria-describedby="essay-response-error"
         ></textarea>
         @if (studentResponseControl.invalid && studentResponseControl.touched) {
-          <app-field-error id="essay-response-error"
-            >Response must be between 3 and 1000 characters.</app-field-error
+          <qn-field-error id="essay-response-error"
+            >Response must be between 3 and 1000 characters.</qn-field-error
           >
         }
       </form>

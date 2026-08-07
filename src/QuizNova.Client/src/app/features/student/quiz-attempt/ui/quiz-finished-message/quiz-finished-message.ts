@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { Button } from 'primeng/button';
 
 @Component({
-  selector: 'app-quiz-finished-message',
+  selector: 'qn-quiz-finished-message',
   imports: [Button],
   template: `
     <div class="quiz-completed-card">

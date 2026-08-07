@@ -21,7 +21,7 @@ import { shortId } from '@shared/utils/utilities';
 import { ManageCourseStore } from '../../manage-course.store';
 
 @Component({
-  selector: 'app-manage-course-modal',
+  selector: 'qn-manage-course-modal',
   imports: [Dialog, FormsModule, ProgressSpinner, Select, Button],
   providers: [ManageCourseStore],
   template: `

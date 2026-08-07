@@ -26,7 +26,7 @@ import { DeleteInstructorModal } from './ui/delete-instructor-modal/delete-instr
 import { EditInstructorModal } from './ui/edit-instructor-modal/edit-instructor-modal';
 
 @Component({
-  selector: 'app-college-instructors',
+  selector: 'qn-college-instructors',
   imports: [
     TableModule,
     Skeleton,
@@ -41,11 +41,11 @@ import { EditInstructorModal } from './ui/edit-instructor-modal/edit-instructor-
   template: `
     <section class="page">
       <header class="page-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           title="Instructor Directory"
           description="A quick view of teaching assignments and quiz activity."
         />
-        <app-add-instructor-modal (created)="reloadInstructors()"></app-add-instructor-modal>
+        <qn-add-instructor-modal (created)="reloadInstructors()"></qn-add-instructor-modal>
       </header>
 
       <div class="filters-grid">
@@ -120,14 +120,14 @@ import { EditInstructorModal } from './ui/edit-instructor-modal/edit-instructor-
                 <td>{{ instructor.quizzesCount }}</td>
                 <td>
                   <div class="actions">
-                    <app-edit-instructor-modal
+                    <qn-edit-instructor-modal
                       [instructor]="instructor"
                       (updated)="reloadInstructors()"
-                    ></app-edit-instructor-modal>
-                    <app-delete-instructor-modal
+                    ></qn-edit-instructor-modal>
+                    <qn-delete-instructor-modal
                       [instructor]="instructor"
                       (deleted)="reloadInstructors()"
-                    ></app-delete-instructor-modal>
+                    ></qn-delete-instructor-modal>
                   </div>
                 </td>
               }

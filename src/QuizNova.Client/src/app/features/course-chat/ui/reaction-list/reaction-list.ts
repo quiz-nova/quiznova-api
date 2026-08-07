@@ -5,7 +5,7 @@ import { Message, Reaction } from '@shared/models/chat/chat.model';
 import { CourseChatStore } from '../../course-chat.store';
 
 @Component({
-  selector: 'app-reaction-list',
+  selector: 'qn-reaction-list',
   standalone: true,
   template: `
     @if (groups().length > 0) {

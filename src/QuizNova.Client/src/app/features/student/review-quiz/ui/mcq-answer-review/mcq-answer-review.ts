@@ -10,7 +10,7 @@ import {
 } from '@shared/models/quiz-attempt/question-answer.model';
 
 @Component({
-  selector: 'app-mcq-answer-review',
+  selector: 'qn-mcq-answer-review',
   imports: [],
   template: `
     <article

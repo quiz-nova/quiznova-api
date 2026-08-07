@@ -7,7 +7,7 @@ import { QuestionComponentMapperService } from '@shared/services/question-compon
 import { QuizAttemptStore } from '../../quiz-attempt.store';
 
 @Component({
-  selector: 'app-question-attempt-header',
+  selector: 'qn-question-attempt-header',
   imports: [NgComponentOutlet],
   template: `
     <header class="question-attempt-header">

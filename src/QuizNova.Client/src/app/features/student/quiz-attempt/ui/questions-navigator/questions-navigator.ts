@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { QuizAttemptStore } from '../../quiz-attempt.store';
 
 @Component({
-  selector: 'app-questions-navigator',
+  selector: 'qn-questions-navigator',
   imports: [],
   template: `
     <section class="navigator-card" aria-label="Question navigator">

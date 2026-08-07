@@ -5,7 +5,7 @@ import { Button } from 'primeng/button';
 import { FadeInOnScrollDirective } from '@shared/directives/fade-in-on-scroll.directive';
 
 @Component({
-  selector: 'app-about',
+  selector: 'qn-about',
   imports: [FadeInOnScrollDirective, Button],
   template: `
     <section class="about" id="about">

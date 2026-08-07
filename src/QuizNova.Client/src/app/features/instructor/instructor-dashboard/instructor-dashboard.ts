@@ -16,7 +16,7 @@ import { QuizService } from '@shared/services/quiz.service';
 import { InstructorDashboardCharts } from './ui/instructor-dashboard-charts/instructor-dashboard-charts';
 
 @Component({
-  selector: 'app-instructor-dashboard',
+  selector: 'qn-instructor-dashboard',
   imports: [
     ProgressSpinner,
     RoleDashboardHeader,
@@ -27,7 +27,7 @@ import { InstructorDashboardCharts } from './ui/instructor-dashboard-charts/inst
   template: `
     <section class="dashboard">
       <header class="dashboard-header">
-        <app-role-dashboard-header
+        <qn-role-dashboard-header
           [description]="'Welcome back, ' + welcomeName()"
           title="Instructor Dashboard"
         />
@@ -38,13 +38,13 @@ import { InstructorDashboardCharts } from './ui/instructor-dashboard-charts/inst
           <p-progress-spinner ariaLabel="Loading instructor dashboard" />
         </div>
       } @else if (summaryResource.error()) {
-        <app-operation-failed>
+        <qn-operation-failed>
           <p>Failed to load dashboard data.</p>
-        </app-operation-failed>
+        </qn-operation-failed>
       } @else {
         <section class="card-grid" aria-label="Instructor summary">
           @for (card of cards(); track card.title) {
-            <app-role-dashboard-card
+            <qn-role-dashboard-card
               [title]="card.title"
               [value]="card.value"
               [icon]="card.icon"
@@ -54,7 +54,7 @@ import { InstructorDashboardCharts } from './ui/instructor-dashboard-charts/inst
         </section>
 
         <div class="charts-section">
-          <app-instructor-dashboard-charts
+          <qn-instructor-dashboard-charts
             [coursesList]="summaryResource.value().coursesList"
             [performanceList]="summaryResource.value().performanceList"
           />

@@ -7,7 +7,7 @@ import { Instructor } from '@shared/models/users/instructor.model';
 import { InstructorService } from '@shared/services/instructor.service';
 
 @Component({
-  selector: 'app-delete-instructor-modal',
+  selector: 'qn-delete-instructor-modal',
   imports: [Dialog, Button],
   template: `
     <p-button

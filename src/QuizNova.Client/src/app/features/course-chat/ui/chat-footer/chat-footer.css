@@ -13,9 +13,9 @@
   justify-content: space-between;
   padding: 0.5rem 1rem;
   border: 1px solid var(--clr-green-300);
+  border-inline-start: 4px solid var(--clr-green-400);
   border-radius: var(--radius-sm);
   background: var(--clr-green-50);
-  border-left: 4px solid var(--clr-green-400);
 }
 
 .replying-content {

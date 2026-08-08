@@ -104,7 +104,7 @@
 }
 
 .char-count {
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--clr-gray-500);
   font-size: var(--fs-300);
   white-space: nowrap;
@@ -125,7 +125,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-left: auto;
+  margin-inline-start: auto;
   padding: 0.625rem 1.5rem;
   border: none;
   border-radius: var(--radius-md);

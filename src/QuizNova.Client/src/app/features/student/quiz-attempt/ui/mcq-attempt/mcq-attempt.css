@@ -30,7 +30,7 @@ h2 {
   background: var(--clr-white);
   color: var(--clr-gray-600);
   font-weight: 600;
-  text-align: left;
+  text-align: start;
   transition: all 0.2s ease-in-out;
 }
 

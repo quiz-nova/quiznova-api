@@ -76,7 +76,7 @@ textarea {
 .question {
   padding: 1rem;
   border: 1px solid var(--clr-gray-500);
-  border-left: 6px solid var(--clr-green-400);
+  border-inline-start: 6px solid var(--clr-green-400);
   border-radius: var(--radius-md);
 }
 
@@ -102,16 +102,15 @@ textarea {
 
 .add-question-sticky-container {
   position: fixed;
-  right: clamp(1rem, 2vw, 2rem);
   bottom: 1.25rem;
+  inset-inline-end: clamp(1rem, 2vw, 2rem);
   z-index: 1100;
   pointer-events: none;
 }
 
 @media (width < 960px) {
   .add-question-sticky-container {
-    right: 1rem;
-    left: 1rem;
+    inset-inline: 1rem;
     display: flex;
     justify-content: center;
   }

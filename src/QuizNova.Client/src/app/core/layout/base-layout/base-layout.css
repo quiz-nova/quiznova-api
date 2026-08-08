@@ -53,21 +53,21 @@
   .base-layout__sidebar {
     position: fixed;
     top: 4.25rem;
-    left: -280px;
+    inset-inline-start: -280px;
     z-index: 1000;
     width: 280px;
     height: calc(100dvh - 4.25rem);
-    transition: left 0.3s ease-in-out;
+    transition: inset-inline-start 0.3s ease-in-out;
   }
 
   .base-layout__sidebar.opened {
-    left: 0;
+    inset-inline-start: 0;
   }
 
   .base-layout__backdrop {
     position: fixed;
+    inset: 4.25rem 0 0;
     z-index: 999;
     background: color-mix(in srgb, var(--clr-black-900) 50%, transparent);
-    inset: 4.25rem 0 0;
   }
 }

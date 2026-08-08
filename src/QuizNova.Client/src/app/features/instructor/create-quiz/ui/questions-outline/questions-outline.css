@@ -89,7 +89,7 @@ h2 {
   min-height: 0;
   margin: 0;
   padding: 0;
-  padding-right: 0.5rem;
+  padding-inline-end: 0.5rem;
   list-style: none;
   overflow-y: auto;
   scrollbar-gutter: stable;
@@ -104,7 +104,7 @@ h2 {
   border: 1px solid var(--clr-gray-300);
   border-radius: var(--radius-md);
   background-color: var(--clr-gray-50);
-  text-align: left;
+  text-align: start;
   transition:
     border-color 0.25s ease,
     background-color 0.25s ease,

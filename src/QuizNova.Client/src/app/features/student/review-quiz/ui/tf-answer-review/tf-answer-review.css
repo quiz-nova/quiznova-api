@@ -7,14 +7,14 @@
   gap: 0.6rem;
   padding: 0.9rem;
   border: 1px solid var(--clr-red-200);
-  border-left: 4px solid var(--clr-red-500); /* impeccable-disable-line side-tab */
+  border-inline-start: 4px solid var(--clr-red-500);
   border-radius: var(--radius-md);
   background: var(--clr-red-50);
 }
 
 .review-question--correct {
   border-color: var(--clr-emerald-200);
-  border-left: 4px solid var(--clr-green-500); /* impeccable-disable-line side-tab */
+  border-inline-start: 4px solid var(--clr-green-500);
   background: var(--clr-emerald-50);
 }
 

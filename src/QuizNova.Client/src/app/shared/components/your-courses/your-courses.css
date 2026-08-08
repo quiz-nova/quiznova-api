@@ -9,7 +9,7 @@
 
 .sidebar-title {
   margin-bottom: 1.5rem;
-  padding-left: 0.5rem;
+  padding-inline-start: 0.5rem;
   color: var(--clr-green-600);
   font-size: var(--fs-500);
   font-weight: 600;

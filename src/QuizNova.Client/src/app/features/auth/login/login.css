@@ -10,9 +10,9 @@
   flex-direction: column;
   width: 50%;
   height: 100vh;
+  border-inline-end: 1px solid rgb(255 255 255 / 8%);
   background-color: var(--clr-blue-400);
   font-size: var(--fs-500);
-  border-right: 1px solid rgb(255 255 255 / 8%);
 }
 
 @media (width < 767px) {

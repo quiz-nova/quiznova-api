@@ -9,7 +9,7 @@
   width: 320px;
   flex-shrink: 0;
   height: 100%;
-  border-right: 1px solid var(--clr-gray-200);
+  border-inline-end: 1px solid var(--clr-gray-200);
 }
 
 @media (width < 768px) {

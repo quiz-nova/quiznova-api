@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { APP_SETTINGS } from '@Core/config/app.settings';
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
 import { Skeleton } from 'primeng/skeleton';
@@ -37,51 +39,52 @@ import { EditInstructorModal } from './ui/edit-instructor-modal/edit-instructor-
     InputText,
     InputNumber,
     RoleDashboardHeader,
+    TranslatePipe,
   ],
   template: `
     <section class="page">
       <header class="page-header">
         <qn-role-dashboard-header
-          title="Instructor Directory"
-          description="A quick view of teaching assignments and quiz activity."
+          [title]="tokens.ADMIN.INSTRUCTOR_DIRECTORY | translate"
+          [description]="tokens.ADMIN.INSTRUCTOR_DIRECTORY_DESC | translate"
         />
         <qn-add-instructor-modal (created)="reloadInstructors()"></qn-add-instructor-modal>
       </header>
 
       <div class="filters-grid">
         <div class="filter-item">
-          <label for="instructor-search">Search</label>
+          <label for="instructor-search">{{ tokens.COMMON.SEARCH | translate }}</label>
           <input
             class="focus-green-ring"
             id="instructor-search"
             [(ngModel)]="searchTerm"
+            [placeholder]="tokens.ADMIN.SEARCH_INSTRUCTORS_PLACEHOLDER | translate"
             (ngModelChange)="pageNumber.set(1)"
             pInputText
-            placeholder="Search by name or email"
           />
         </div>
 
         <div class="filter-item">
-          <label for="courses-count">Courses count</label>
+          <label for="courses-count">{{ tokens.ADMIN.COURSES_COUNT | translate }}</label>
           <p-inputnumber
             [(ngModel)]="coursesCount"
             [min]="0"
             [showButtons]="true"
+            [placeholder]="tokens.ADMIN.ANY | translate"
             (ngModelChange)="onCoursesCountChange($event)"
             inputId="courses-count"
-            placeholder="Any"
           ></p-inputnumber>
         </div>
 
         <div class="filter-item">
-          <label for="quizzes-count">Quizzes count</label>
+          <label for="quizzes-count">{{ tokens.ADMIN.QUIZZES_COUNT | translate }}</label>
           <p-inputnumber
             [(ngModel)]="quizzesCount"
             [min]="0"
             [showButtons]="true"
+            [placeholder]="tokens.ADMIN.ANY | translate"
             (ngModelChange)="onQuizzesCountChange($event)"
             inputId="quizzes-count"
-            placeholder="Any"
           ></p-inputnumber>
         </div>
       </div>
@@ -101,10 +104,10 @@ import { EditInstructorModal } from './ui/edit-instructor-modal/edit-instructor-
         >
           <ng-template #header>
             <tr>
-              <th>Name</th>
-              <th>Courses</th>
-              <th>Quizzes</th>
-              <th style="width: 8rem">Actions</th>
+              <th>{{ tokens.COMMON.NAME | translate }}</th>
+              <th>{{ tokens.ADMIN.COURSES_COUNT | translate }}</th>
+              <th>{{ tokens.ADMIN.QUIZZES_COUNT | translate }}</th>
+              <th style="width: 8rem">{{ tokens.COMMON.ACTIONS | translate }}</th>
             </tr>
           </ng-template>
           <ng-template #body let-instructor>
@@ -138,10 +141,10 @@ import { EditInstructorModal } from './ui/edit-instructor-modal/edit-instructor-
               <td colspan="4">
                 @if (instructorsResource.error()) {
                   <div class="error">
-                    <p>Failed to load instructor data.</p>
+                    <p>{{ tokens.ADMIN.FAILED_LOAD_INSTRUCTORS | translate }}</p>
                   </div>
                 } @else {
-                  <p class="feedback">No instructors match your filters.</p>
+                  <p class="feedback">{{ tokens.ADMIN.NO_INSTRUCTORS_MATCH | translate }}</p>
                 }
               </td>
             </tr>
@@ -154,6 +157,7 @@ import { EditInstructorModal } from './ui/edit-instructor-modal/edit-instructor-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollegeInstructors {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly instructorService = inject(InstructorService);
   private readonly appSettings = inject(APP_SETTINGS);
   private readonly router = inject(Router);

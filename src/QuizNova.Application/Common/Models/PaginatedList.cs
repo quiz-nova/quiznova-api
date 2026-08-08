@@ -2,24 +2,17 @@ using System.Text.Json.Serialization;
 
 namespace QuizNova.Application.Common.Models;
 
-public class PaginatedList<T>
+[method: JsonConstructor]
+public class PaginatedList<T>(IReadOnlyCollection<T> items, int totalCount, int pageNumber, int pageSize)
 {
-    public int PageNumber { get; init; }
-    public int PageSize { get; init; }
-    public int TotalPages { get; init; }
-    public int TotalCount { get; init; }
-    public IReadOnlyCollection<T> Items { get; init; }
+    public int PageNumber { get; init; } = pageNumber;
+    public int PageSize { get; init; } = pageSize;
 
-    [JsonConstructor]
-    public PaginatedList(IReadOnlyCollection<T> items, int totalCount, int pageNumber, int pageSize)
-    {
-        PageNumber = pageNumber;
-        PageSize = pageSize;
-        TotalCount = totalCount;
-        Items = items;
+    public int TotalPages { get; init; } =
+        pageSize <= 0 ? 1 : Math.Max(1, (int)Math.Ceiling(totalCount / (double)pageSize));
 
-        TotalPages = pageSize <= 0 ? 1 : Math.Max(1, (int)Math.Ceiling(totalCount / (double)pageSize));
-    }
+    public int TotalCount { get; init; } = totalCount;
+    public IReadOnlyCollection<T> Items { get; init; } = items;
 
     public bool HasPreviousPage => PageNumber > 1;
     public bool HasNextPage => PageNumber < TotalPages;

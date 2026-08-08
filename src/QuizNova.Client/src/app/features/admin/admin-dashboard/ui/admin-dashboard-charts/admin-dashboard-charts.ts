@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
 import { CollegeSummary } from '@Features/admin/models/college-summary.model';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { UIChart } from 'primeng/chart';
 
 import { ChartPlaceholder } from '@shared/components/chart-placeholder/chart-placeholder';
@@ -9,11 +11,11 @@ import { chartColor } from '@shared/utils/chart-colors';
 
 @Component({
   selector: 'qn-admin-dashboard-charts',
-  imports: [UIChart, ChartPlaceholder],
+  imports: [UIChart, ChartPlaceholder, TranslatePipe],
   template: `
     <section class="charts-grid" aria-label="College analytics">
       <article class="chart-card">
-        <h3 class="chart-title">College Composition</h3>
+        <h3 class="chart-title">{{ tokens.ADMIN.COMPOSITION_CHART | translate }}</h3>
         <div class="chart-container">
           @defer (on viewport({rootMargin: '100px'}); prefetch on viewport({rootMargin: '200px'})) {
             <p-chart
@@ -28,7 +30,7 @@ import { chartColor } from '@shared/utils/chart-colors';
         </div>
       </article>
       <article class="chart-card">
-        <h3 class="chart-title">Course Enrollments</h3>
+        <h3 class="chart-title">{{ tokens.ADMIN.ENROLLMENTS_CHART | translate }}</h3>
         <div class="chart-container">
           @defer (on viewport({rootMargin: '100px'}); prefetch on viewport({rootMargin: '200px'})) {
             <p-chart
@@ -48,13 +50,19 @@ import { chartColor } from '@shared/utils/chart-colors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminDashboardCharts {
+  private readonly translate = inject(TranslateService);
+
+  protected readonly tokens = TRANSLATION_TOKENS;
+
   readonly summary = input.required<CollegeSummary | null>();
   readonly enrollmentCounts = input.required<CourseEnrollmentCount[]>();
 
   protected readonly compositionChartData = computed(() => {
     const s = this.summary();
+    const studentsLabel = this.translate.instant(TRANSLATION_TOKENS.NAV.STUDENTS);
+    const instructorsLabel = this.translate.instant(TRANSLATION_TOKENS.NAV.INSTRUCTORS);
     return {
-      labels: ['Students', 'Instructors'],
+      labels: [studentsLabel, instructorsLabel],
       datasets: [
         {
           data: [s?.totalStudents ?? 0, s?.totalInstructors ?? 0],
@@ -95,11 +103,12 @@ export class AdminDashboardCharts {
 
   protected readonly enrollmentsChartData = computed(() => {
     const counts = this.enrollmentCounts();
+    const label = this.translate.instant(TRANSLATION_TOKENS.INSTRUCTOR.ENROLLED_STUDENTS_LABEL);
     return {
       labels: counts.map((c) => c.courseName),
       datasets: [
         {
-          label: 'Enrolled Students',
+          label,
           backgroundColor: chartColor('--clr-green-400'),
           hoverBackgroundColor: chartColor('--clr-green-600'),
           borderRadius: 6,

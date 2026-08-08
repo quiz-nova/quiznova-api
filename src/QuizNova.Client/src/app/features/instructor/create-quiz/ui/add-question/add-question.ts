@@ -6,6 +6,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 import { Select } from 'primeng/select';
 
@@ -20,11 +22,13 @@ type AddQuestionFormGroup = FormGroup<{
 
 @Component({
   selector: 'qn-add-question',
-  imports: [ReactiveFormsModule, Select, Button],
+  imports: [ReactiveFormsModule, Select, Button, TranslatePipe],
   template: `
     <div class="add-question">
       <div class="question-type-group">
-        <label class="dropdown-label" for="questionType">Question Type</label>
+        <label class="dropdown-label" for="questionType">{{
+          tokens.INSTRUCTOR.QUESTION_TYPE | translate
+        }}</label>
         <p-select
           class="dropdown-field dropdown-field--wide"
           [formControl]="questionTypeControl"
@@ -37,9 +41,9 @@ type AddQuestionFormGroup = FormGroup<{
       </div>
       <p-button
         [disabled]="!store.canAddMoreQuestions()"
+        [label]="tokens.INSTRUCTOR.ADD_QUESTION | translate"
         (onClick)="onAddQuestion()"
         icon="pi pi-plus"
-        label="Add Question"
         severity="success"
         type="button"
       />
@@ -49,6 +53,7 @@ type AddQuestionFormGroup = FormGroup<{
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddQuestion {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly fb = inject(NonNullableFormBuilder);
   protected readonly store = inject(CreateQuizStore);
 

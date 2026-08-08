@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { UIChart } from 'primeng/chart';
 
 import { ChartPlaceholder } from '@shared/components/chart-placeholder/chart-placeholder';
@@ -9,11 +11,11 @@ import { chartColor } from '@shared/utils/chart-colors';
 
 @Component({
   selector: 'qn-instructor-dashboard-charts',
-  imports: [UIChart, ChartPlaceholder],
+  imports: [UIChart, ChartPlaceholder, TranslatePipe],
   template: `
     <section class="charts-grid" aria-label="Course analytics">
       <article class="chart-card">
-        <h3 class="chart-title">Students Enrolled in My Courses</h3>
+        <h3 class="chart-title">{{ tokens.INSTRUCTOR.STUDENTS_ENROLLED_CHART | translate }}</h3>
         <div class="chart-container">
           @defer (on viewport({rootMargin: '100px'}); prefetch on viewport({rootMargin: '200px'})) {
             <p-chart
@@ -28,7 +30,7 @@ import { chartColor } from '@shared/utils/chart-colors';
         </div>
       </article>
       <article class="chart-card">
-        <h3 class="chart-title">Average Score Per Course</h3>
+        <h3 class="chart-title">{{ tokens.INSTRUCTOR.AVG_SCORE_CHART | translate }}</h3>
         <div class="chart-container">
           @defer (on viewport({rootMargin: '100px'}); prefetch on viewport({rootMargin: '200px'})) {
             <p-chart
@@ -48,16 +50,21 @@ import { chartColor } from '@shared/utils/chart-colors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstructorDashboardCharts {
+  private readonly translate = inject(TranslateService);
+
+  protected readonly tokens = TRANSLATION_TOKENS;
+
   readonly coursesList = input.required<Course[]>();
   readonly performanceList = input.required<CoursePerformance[]>();
 
   protected readonly enrolledChartData = computed(() => {
     const courses = this.coursesList();
+    const label = this.translate.instant(TRANSLATION_TOKENS.INSTRUCTOR.ENROLLED_STUDENTS_LABEL);
     return {
       labels: courses.map((c) => c.courseName),
       datasets: [
         {
-          label: 'Enrolled Students',
+          label,
           backgroundColor: chartColor('--clr-green-100'),
           borderColor: chartColor('--clr-green-400'),
           borderWidth: 1.5,
@@ -110,6 +117,7 @@ export class InstructorDashboardCharts {
 
   protected readonly performanceChartData = computed(() => {
     const perf = this.performanceList();
+    const label = this.translate.instant(TRANSLATION_TOKENS.INSTRUCTOR.AVG_SCORE_PERCENT_LABEL);
     const backgroundColors = perf.map((c) =>
       c.avgScore >= 80
         ? chartColor('--clr-green-100')
@@ -136,7 +144,7 @@ export class InstructorDashboardCharts {
       labels: perf.map((c) => c.name),
       datasets: [
         {
-          label: 'Average Score (%)',
+          label,
           backgroundColor: backgroundColors,
           borderColor: borderColors,
           borderWidth: 1.5,

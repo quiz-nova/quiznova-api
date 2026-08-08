@@ -49,7 +49,6 @@ export function parseUserRole(role: string): UserRole {
   return normalizedRole as UserRole;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Record<string, any> matches Angular's HttpParams API which accepts arbitrary query params
 export function buildParameters(query: Record<string, any>): HttpParams {
   let params = new HttpParams();
 

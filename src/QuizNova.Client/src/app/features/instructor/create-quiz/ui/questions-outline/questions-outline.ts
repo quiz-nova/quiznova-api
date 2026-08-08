@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Tag } from 'primeng/tag';
 
 import { Question } from '@shared/models/quiz/question.model';
@@ -8,12 +10,12 @@ import { CreateQuizStore } from '../../stores/create-quiz.store';
 
 @Component({
   selector: 'qn-questions-outline',
-  imports: [Tag],
+  imports: [Tag, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <aside class="questions-outline" aria-label="Questions outline">
       <header class="questions-outline__header">
-        <h2>Questions</h2>
+        <h2>{{ tokens.INSTRUCTOR.QUESTIONS_OUTLINE | translate }}</h2>
         <div class="questions-outline__badges">
           <span class="questions-outline__counter">{{ store.questions().length }}</span>
           @if (store.effectiveRemainingMarks() !== null) {
@@ -21,7 +23,7 @@ import { CreateQuizStore } from '../../stores/create-quiz.store';
               class="questions-outline__remaining"
               [class.questions-outline__remaining--zero]="store.effectiveRemainingMarks()! <= 0"
             >
-              {{ store.effectiveRemainingMarks() }} marks left
+              {{ store.effectiveRemainingMarks() }} {{ tokens.COMMON.POINTS | translate }}
             </span>
           }
         </div>
@@ -46,7 +48,9 @@ import { CreateQuizStore } from '../../stores/create-quiz.store';
                     [value]="question.type.toUpperCase()"
                     [icon]="getTagIcon(question.type)"
                   />
-                  <span class="questions-outline__item-marks">• {{ question.marks }} pts</span>
+                  <span class="questions-outline__item-marks"
+                    >• {{ question.marks }} {{ tokens.COMMON.POINTS | translate }}</span
+                  >
                 </span>
               </span>
             </button>
@@ -58,6 +62,7 @@ import { CreateQuizStore } from '../../stores/create-quiz.store';
   styleUrl: './questions-outline.css',
 })
 export class QuestionsOutline {
+  protected readonly tokens = TRANSLATION_TOKENS;
   protected readonly store = inject(CreateQuizStore);
 
   readonly questionSelected = output<string>();

@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
-  effect,
   ElementRef,
   ViewChild,
-  ChangeDetectionStrategy,
+  effect,
   inject,
 } from '@angular/core';
+
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { Message } from '@shared/models/chat/chat.model';
 import { UserRole } from '@shared/models/users/user-role.model';
@@ -17,15 +20,15 @@ import { ReactionList } from '../reaction-list/reaction-list';
 @Component({
   selector: 'qn-message-window',
   standalone: true,
-  imports: [CommonModule, ReactionList],
+  imports: [CommonModule, ReactionList, TranslatePipe],
   template: `
     <div class="messages-window" #scrollContainer>
       @if (store.isPending()('loadChatRoom')) {
         <div class="centered-state">
-          <i class="fa-solid fa-spinner fa-spin"></i> Loading message history...
+          <i class="fa-solid fa-spinner fa-spin"></i> {{ tokens.CHAT.LOADING_HISTORY | translate }}
         </div>
       } @else if (store.messages().length === 0) {
-        <div class="centered-state">No messages yet. Start the conversation!</div>
+        <div class="centered-state">{{ tokens.CHAT.NO_MESSAGES | translate }}</div>
       } @else {
         <div class="messages-list">
           @for (msg of store.messages(); track msg.id) {
@@ -40,7 +43,7 @@ import { ReactionList } from '../reaction-list/reaction-list';
                     class="role-badge"
                     [class.instructor]="msg.sender.role === UserRole.instructor"
                   >
-                    {{ msg.sender.role }}
+                    {{ getRoleTranslationKey(msg.sender.role) | translate }}
                   </span>
                   <time class="message-time" [attr.datetime]="msg.createdAt">
                     {{ msg.createdAt | date: 'shortTime' }}
@@ -66,7 +69,11 @@ import { ReactionList } from '../reaction-list/reaction-list';
                   </div>
 
                   <div class="bubble-actions">
-                    <button class="action-btn" (click)="store.setReplyTo(msg)" title="Reply">
+                    <button
+                      class="action-btn"
+                      [title]="tokens.CHAT.REPLY | translate"
+                      (click)="store.setReplyTo(msg)"
+                    >
                       <i class="fa-solid fa-reply"></i>
                     </button>
                   </div>
@@ -84,6 +91,7 @@ import { ReactionList } from '../reaction-list/reaction-list';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessageWindow {
+  protected readonly tokens = TRANSLATION_TOKENS;
   readonly store = inject(CourseChatStore);
 
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
@@ -95,6 +103,12 @@ export class MessageWindow {
       this.store.messages();
       this.scrollToBottom();
     });
+  }
+
+  getRoleTranslationKey(role: UserRole): string {
+    if (role === UserRole.admin) return this.tokens.ROLES.ADMIN;
+    if (role === UserRole.instructor) return this.tokens.ROLES.INSTRUCTOR;
+    return this.tokens.ROLES.STUDENT;
   }
 
   getMessageById(id: string): Message | undefined {

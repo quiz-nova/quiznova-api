@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { APP_SETTINGS } from '@Core/config/app.settings';
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
@@ -45,68 +47,69 @@ import { ManageCourseModal } from './ui/manage-course-modal/manage-course-modal'
     InputNumber,
     Select,
     RoleDashboardHeader,
+    TranslatePipe,
   ],
   template: `
     <section class="page">
       <header class="page-header">
         <qn-role-dashboard-header
-          title="Course Status"
-          description="Each row shows ownership, enrollment, and quiz coverage."
+          [title]="tokens.ADMIN.COURSE_STATUS_TITLE | translate"
+          [description]="tokens.ADMIN.COURSE_STATUS_DESC | translate"
         />
         <qn-add-course-modal (created)="reloadCourses()" />
       </header>
 
       <div class="filters-grid">
         <div class="filter-item">
-          <label for="course-search">Search</label>
+          <label for="course-search">{{ tokens.COMMON.SEARCH | translate }}</label>
           <input
             class="focus-green-ring"
             id="course-search"
             [(ngModel)]="searchTerm"
+            [placeholder]="tokens.ADMIN.SEARCH_COURSES_PLACEHOLDER | translate"
             (ngModelChange)="pageNumber.set(1)"
             pInputText
-            placeholder="Search by course ID or course name"
           />
         </div>
 
         <div class="filter-item">
-          <label for="quizzes-count">Quizzes count</label>
+          <label for="quizzes-count">{{ tokens.ADMIN.QUIZZES_COUNT | translate }}</label>
           <p-inputnumber
             [(ngModel)]="quizzesCount"
             [min]="0"
             [showButtons]="true"
+            [placeholder]="tokens.ADMIN.ANY | translate"
             (ngModelChange)="onQuizzesCountChange($event)"
             inputId="quizzes-count"
-            placeholder="Any"
           ></p-inputnumber>
         </div>
 
         <div class="filter-item">
-          <label for="enrolled-count">Enrolled students</label>
+          <label for="enrolled-count">{{ tokens.ADMIN.ENROLLED_STUDENTS | translate }}</label>
           <p-inputnumber
             [(ngModel)]="enrolledStudentsCount"
             [min]="0"
             [showButtons]="true"
+            [placeholder]="tokens.ADMIN.ANY | translate"
             (ngModelChange)="onEnrolledStudentsCountChange($event)"
             inputId="enrolled-count"
-            placeholder="Any"
           ></p-inputnumber>
         </div>
 
         <div class="filter-item">
-          <label for="instructor-filter">Instructor</label>
+          <label for="instructor-filter">{{ tokens.COMMON.INSTRUCTOR | translate }}</label>
           <p-select
             [(ngModel)]="instructorId"
             [options]="instructorOptions()"
             [filter]="true"
             [showClear]="true"
+            [placeholder]="tokens.ADMIN.ALL_INSTRUCTORS | translate"
             (ngModelChange)="pageNumber.set(1)"
             (onShow)="onInstructorDropdownShow()"
             inputId="instructor-filter"
             optionLabel="name"
             optionValue="id"
             filterBy="name"
-            placeholder="All instructors"
             appendTo="body"
           ></p-select>
         </div>
@@ -127,12 +130,12 @@ import { ManageCourseModal } from './ui/manage-course-modal/manage-course-modal'
         >
           <ng-template #header>
             <tr>
-              <th>Id</th>
-              <th>Course</th>
-              <th>Instructor</th>
-              <th>Enrolled</th>
-              <th>Quizzes</th>
-              <th style="width: 8rem">Actions</th>
+              <th>{{ tokens.COMMON.ID | translate }}</th>
+              <th>{{ tokens.COMMON.COURSE | translate }}</th>
+              <th>{{ tokens.COMMON.INSTRUCTOR | translate }}</th>
+              <th>{{ tokens.ADMIN.ENROLLED_STUDENTS | translate }}</th>
+              <th>{{ tokens.ADMIN.QUIZZES_COUNT | translate }}</th>
+              <th style="width: 8rem">{{ tokens.COMMON.ACTIONS | translate }}</th>
             </tr>
           </ng-template>
           <ng-template #body let-course>
@@ -147,7 +150,7 @@ import { ManageCourseModal } from './ui/manage-course-modal/manage-course-modal'
               } @else {
                 <td>{{ shortId(course.id) }}</td>
                 <td>{{ course.courseName }}</td>
-                <td>{{ course.instructorName || 'Unassigned' }}</td>
+                <td>{{ course.instructorName || (tokens.ADMIN.UNASSIGNED | translate) }}</td>
                 <td>{{ course.enrolledStudentsCount }}</td>
                 <td>{{ course.quizzesCount }}</td>
                 <td>
@@ -164,10 +167,10 @@ import { ManageCourseModal } from './ui/manage-course-modal/manage-course-modal'
               <td colspan="6">
                 @if (coursesResource.error()) {
                   <div class="error">
-                    <p>Failed to load course data.</p>
+                    <p>{{ tokens.ADMIN.FAILED_LOAD_COURSES | translate }}</p>
                   </div>
                 } @else {
-                  <p class="feedback">No courses match your filters.</p>
+                  <p class="feedback">{{ tokens.ADMIN.NO_COURSES_MATCH | translate }}</p>
                 }
               </td>
             </tr>
@@ -180,6 +183,7 @@ import { ManageCourseModal } from './ui/manage-course-modal/manage-course-modal'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollegeCourses {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly appSettings = inject(APP_SETTINGS);
   private readonly coursesService = inject(CoursesService);
   private readonly instructorService = inject(InstructorService);

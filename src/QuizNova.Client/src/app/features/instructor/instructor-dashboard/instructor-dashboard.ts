@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
 import { AuthService } from '@Features/auth/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { of, forkJoin } from 'rxjs';
 
@@ -23,29 +25,30 @@ import { InstructorDashboardCharts } from './ui/instructor-dashboard-charts/inst
     OperationFailed,
     RoleDashboardCard,
     InstructorDashboardCharts,
+    TranslatePipe,
   ],
   template: `
     <section class="dashboard">
       <header class="dashboard-header">
         <qn-role-dashboard-header
-          [description]="'Welcome back, ' + welcomeName()"
-          title="Instructor Dashboard"
+          [description]="tokens.DASHBOARD.WELCOME_USER | translate: { name: welcomeName() }"
+          [title]="tokens.DASHBOARD.INSTRUCTOR_TITLE | translate"
         />
       </header>
 
       @if (summaryResource.isLoading()) {
         <div class="status-container">
-          <p-progress-spinner ariaLabel="Loading instructor dashboard" />
+          <p-progress-spinner [ariaLabel]="tokens.COMMON.LOADING | translate" />
         </div>
       } @else if (summaryResource.error()) {
         <qn-operation-failed>
-          <p>Failed to load dashboard data.</p>
+          <p>{{ tokens.COMMON.NO_DATA | translate }}</p>
         </qn-operation-failed>
       } @else {
         <section class="card-grid" aria-label="Instructor summary">
           @for (card of cards(); track card.title) {
             <qn-role-dashboard-card
-              [title]="card.title"
+              [title]="card.title | translate"
               [value]="card.value"
               [icon]="card.icon"
               [theme]="card.theme"
@@ -69,6 +72,8 @@ export class InstructorDashboard {
   private readonly authService = inject(AuthService);
   private readonly coursesService = inject(CoursesService);
   private readonly quizService = inject(QuizService);
+
+  protected readonly tokens = TRANSLATION_TOKENS;
 
   protected readonly welcomeName = computed(
     () => this.authService.currentUser()?.personalInformation?.name || 'Instructor',
@@ -108,13 +113,13 @@ export class InstructorDashboard {
 
     return [
       {
-        title: 'My Courses',
+        title: TRANSLATION_TOKENS.NAV.MY_COURSES,
         value: summary.courses.coursesCount,
         icon: 'fa-solid fa-book-open',
         theme: 'green' as const,
       },
       {
-        title: 'Total Quizzes',
+        title: TRANSLATION_TOKENS.INSTRUCTOR.TOTAL_QUIZZES,
         value: summary.quizzes.quizzesCount,
         icon: 'fa-regular fa-clipboard',
         theme: 'gray' as const,

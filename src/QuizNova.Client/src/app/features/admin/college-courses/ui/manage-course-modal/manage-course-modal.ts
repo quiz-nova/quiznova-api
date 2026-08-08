@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { ProgressSpinner } from 'primeng/progressspinner';
@@ -22,13 +24,13 @@ import { ManageCourseStore } from '../../manage-course.store';
 
 @Component({
   selector: 'qn-manage-course-modal',
-  imports: [Dialog, FormsModule, ProgressSpinner, Select, Button],
+  imports: [Dialog, FormsModule, ProgressSpinner, Select, Button, TranslatePipe],
   providers: [ManageCourseStore],
   template: `
     <p-button
-      [attr.aria-label]="'Manage ' + course().courseName"
+      [attr.aria-label]="(tokens.COMMON.MANAGE | translate) + ' ' + course().courseName"
+      [label]="tokens.COMMON.MANAGE | translate"
       (onClick)="openDialog()"
-      label="Manage"
       severity="secondary"
       type="button"
     />
@@ -38,8 +40,8 @@ import { ManageCourseStore } from '../../manage-course.store';
       [modal]="true"
       [dismissableMask]="true"
       [style]="{ width: 'min(42rem, 95vw)' }"
+      [header]="tokens.ADMIN.MANAGE_COURSE_TITLE | translate"
       (visibleChange)="onDialogVisibilityChange($event)"
-      header="Manage Course"
     >
       @if (store.isPending()('loadCourse')) {
         <div class="dialog-spinner">
@@ -51,28 +53,28 @@ import { ManageCourseStore } from '../../manage-course.store';
         <div class="manage-layout">
           <div>
             <p class="course-title">{{ store.course()?.courseName }}</p>
-            <p class="course-subtitle">Assign instructor and manage enrolled students.</p>
+            <p class="course-subtitle">{{ tokens.ADMIN.MANAGE_COURSE_DESC | translate }}</p>
           </div>
 
           <div class="form-field">
-            <label for="manage-course-instructor">Instructor</label>
+            <label for="manage-course-instructor">{{ tokens.COMMON.INSTRUCTOR | translate }}</label>
             <div class="inline-action">
               <p-select
                 [(ngModel)]="selectedInstructorId"
                 [options]="store.instructorOptions()"
                 [filter]="true"
                 [showClear]="true"
+                [placeholder]="tokens.ADMIN.NO_INSTRUCTOR_PLACEHOLDER | translate"
                 inputId="manage-course-instructor"
                 optionLabel="name"
                 optionValue="id"
                 filterBy="name"
-                placeholder="No instructor"
                 appendTo="body"
               ></p-select>
               <p-button
                 [disabled]="!hasInstructorChange()"
+                [label]="tokens.COMMON.SAVE | translate"
                 (onClick)="onUpdateInstructor()"
-                label="Save"
                 severity="success"
                 type="button"
               />
@@ -80,24 +82,30 @@ import { ManageCourseStore } from '../../manage-course.store';
           </div>
 
           <div class="form-field">
-            <label for="manage-course-student">Enroll student</label>
+            <label for="manage-course-student">{{
+              tokens.ADMIN.ENROLL_STUDENT_LABEL | translate
+            }}</label>
             <div class="inline-action">
               <p-select
                 [(ngModel)]="selectedStudentId"
                 [options]="store.availableStudentOptions()"
                 [filter]="true"
                 [showClear]="true"
+                [placeholder]="tokens.ADMIN.SELECT_STUDENT_PLACEHOLDER | translate"
                 inputId="manage-course-student"
                 optionLabel="name"
                 optionValue="id"
                 filterBy="name"
-                placeholder="Select a student"
                 appendTo="body"
               ></p-select>
               <p-button
                 [loading]="store.isPending()('enrollStudent')"
                 [disabled]="!selectedStudentId()"
-                [label]="store.isPending()('enrollStudent') ? 'Enrolling...' : 'Enroll'"
+                [label]="
+                  store.isPending()('enrollStudent')
+                    ? (tokens.ADMIN.ENROLLING | translate)
+                    : (tokens.ADMIN.ENROLL | translate)
+                "
                 (onClick)="onEnrollStudent()"
                 severity="success"
                 type="button"
@@ -106,7 +114,12 @@ import { ManageCourseStore } from '../../manage-course.store';
           </div>
 
           <div class="enrolled-list">
-            <p class="list-heading">Enrolled students ({{ store.enrolledStudents().length }})</p>
+            <p class="list-heading">
+              {{
+                tokens.ADMIN.ENROLLED_STUDENTS_HEADER
+                  | translate: { count: store.enrolledStudents().length }
+              }}
+            </p>
             @if (store.enrolledStudents().length) {
               @for (student of store.enrolledStudents(); track student.id) {
                 <div class="student-row">
@@ -115,15 +128,15 @@ import { ManageCourseStore } from '../../manage-course.store';
                   <p-button
                     [rounded]="true"
                     [text]="true"
+                    [ariaLabel]="tokens.ADMIN.REMOVE_STUDENT | translate"
                     (onClick)="onRemoveStudent(student.id)"
-                    ariaLabel="Remove student from course"
                     icon="pi pi-trash"
                     severity="danger"
                   />
                 </div>
               }
             } @else {
-              <p class="empty-state">No students enrolled.</p>
+              <p class="empty-state">{{ tokens.ADMIN.NO_STUDENTS_ENROLLED | translate }}</p>
             }
           </div>
 
@@ -138,6 +151,7 @@ import { ManageCourseStore } from '../../manage-course.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManageCourseModal {
+  protected readonly tokens = TRANSLATION_TOKENS;
   readonly course = input.required<Course>();
   readonly changed = output<void>();
   protected readonly shortId = shortId;

@@ -8,24 +8,28 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 
+import { LanguageSelector } from '@shared/components/language-selector/language-selector';
 import { Logo } from '@shared/components/logo/logo';
 
 export interface HeaderLink {
   id: number;
   label: string; // Name Will Appear To The User
   name: string; // Name We Will Use In HTML attribute
+  key: string;
 }
 export const headerLinks: HeaderLink[] = [
-  { id: 1, label: 'Features', name: 'features' },
-  { id: 2, label: 'About', name: 'about' },
-  { id: 3, label: 'Contact', name: 'contact' },
+  { id: 1, label: 'Features', name: 'features', key: 'NAV.FEATURES' },
+  { id: 2, label: 'About', name: 'about', key: 'NAV.ABOUT' },
+  { id: 3, label: 'Contact', name: 'contact', key: 'NAV.CONTACT' },
 ];
 
 @Component({
   selector: 'qn-header',
-  imports: [RouterLink, Logo, Button],
+  imports: [RouterLink, Logo, Button, LanguageSelector, TranslatePipe],
   template: `
     <div class="container">
       <header>
@@ -33,7 +37,11 @@ export const headerLinks: HeaderLink[] = [
 
         <button
           class="icon"
-          [attr.aria-label]="menuClicked() ? 'Close menu' : 'Open menu'"
+          [attr.aria-label]="
+            menuClicked()
+              ? (tokens.COMMON.CLOSE_MENU | translate)
+              : (tokens.COMMON.OPEN_MENU | translate)
+          "
           [attr.aria-expanded]="menuClicked()"
           (click)="onClick()"
           type="button"
@@ -43,7 +51,7 @@ export const headerLinks: HeaderLink[] = [
 
         <nav class="links header__panel" [class.menu-open]="activateBurgerIcon() && menuClicked()">
           @for (link of sortedLinks(); track link.id) {
-            <a [attr.href]="'#' + link.name">{{ link.label }}</a>
+            <a [attr.href]="'#' + link.name">{{ link.key | translate }}</a>
           }
         </nav>
 
@@ -51,9 +59,10 @@ export const headerLinks: HeaderLink[] = [
           class="buttons header__panel"
           [class.menu-open]="activateBurgerIcon() && menuClicked()"
         >
+          <qn-language-selector />
           <p-button
             [outlined]="true"
-            label="Log in"
+            [label]="tokens.NAV.LOGIN | translate"
             routerLink="/auth/login"
             severity="secondary"
             type="button"
@@ -78,7 +87,7 @@ export const headerLinks: HeaderLink[] = [
         content: '';
         position: absolute;
         top: 100%;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
         height: 1px;
         background: linear-gradient(90deg, transparent, var(--clr-gray-200), transparent);
@@ -110,7 +119,7 @@ export const headerLinks: HeaderLink[] = [
         flex-direction: column;
         gap: 1rem;
         width: 100%;
-        margin-left: 0;
+        margin-inline-start: 0;
       }
     }
 
@@ -123,7 +132,7 @@ export const headerLinks: HeaderLink[] = [
         transform 0.25s var(--ease-standard);
 
       @media (width < 768px) {
-        padding-left: 1rem;
+        padding-inline-start: 1rem;
       }
 
       &:hover {
@@ -197,6 +206,7 @@ export const headerLinks: HeaderLink[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header implements OnInit, OnDestroy {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly media = window.matchMedia('(width <= 767px)');
   protected readonly activateBurgerIcon = signal(this.media.matches);
   protected readonly headerLinks = signal<HeaderLink[]>(headerLinks).asReadonly();

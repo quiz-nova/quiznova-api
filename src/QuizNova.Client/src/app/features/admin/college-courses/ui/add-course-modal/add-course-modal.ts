@@ -7,6 +7,8 @@ import {
   type FormGroup,
 } from '@angular/forms';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { FloatLabel } from 'primeng/floatlabel';
@@ -38,17 +40,23 @@ type AddCourseFormGroup = FormGroup<{
     ReactiveFormsModule,
     Select,
     Button,
+    TranslatePipe,
   ],
   template: `
-    <p-button (onClick)="openDialog()" label="Add Course" severity="success" type="button" />
+    <p-button
+      [label]="tokens.ADMIN.ADD_COURSE_TITLE | translate"
+      (onClick)="openDialog()"
+      severity="success"
+      type="button"
+    />
 
     <p-dialog
       [visible]="isDialogOpen()"
       [modal]="true"
       [dismissableMask]="true"
       [style]="{ width: 'min(40rem, 95vw)' }"
+      [header]="tokens.ADMIN.ADD_COURSE_TITLE | translate"
       (visibleChange)="onDialogVisibilityChange($event)"
-      header="Add Course"
     >
       <form class="add-form" [formGroup]="addCourseForm" (ngSubmit)="onSubmit()">
         <div class="form-field">
@@ -62,40 +70,42 @@ type AddCourseFormGroup = FormGroup<{
               type="text"
               aria-describedby="course-name-is-required-error course-name-minlength-error course-name-maxlength-error"
             />
-            <label for="course-name">Course Name</label>
+            <label for="course-name">{{ tokens.ADMIN.COURSE_NAME_LABEL | translate }}</label>
           </p-floatlabel>
           @if (nameControl.invalid && nameControl.touched) {
             @if (nameControl.hasError('required')) {
-              <qn-field-error id="course-name-is-required-error"
-                >Course name is required.</qn-field-error
-              >
+              <qn-field-error id="course-name-is-required-error">{{
+                tokens.ADMIN.COURSE_NAME_REQUIRED | translate
+              }}</qn-field-error>
             }
             @if (nameControl.hasError('minlength')) {
-              <qn-field-error id="course-name-minlength-error"
-                >Course name must be at least 3 characters.</qn-field-error
-              >
+              <qn-field-error id="course-name-minlength-error">{{
+                tokens.ADMIN.COURSE_NAME_MIN | translate
+              }}</qn-field-error>
             }
             @if (nameControl.hasError('maxlength')) {
-              <qn-field-error id="course-name-maxlength-error"
-                >Course name cannot exceed 30 characters.</qn-field-error
-              >
+              <qn-field-error id="course-name-maxlength-error">{{
+                tokens.ADMIN.COURSE_NAME_MAX | translate
+              }}</qn-field-error>
             }
           }
         </div>
 
         <div class="form-field">
-          <label class="field-label" for="course-instructor">Instructor</label>
+          <label class="field-label" for="course-instructor">{{
+            tokens.COMMON.INSTRUCTOR | translate
+          }}</label>
           <p-select
             [options]="instructorOptions()"
             [filter]="true"
             [showClear]="true"
             [formControl]="instructorIdControl"
+            [placeholder]="tokens.ADMIN.NO_INSTRUCTOR_PLACEHOLDER | translate"
             (onShow)="loadInstructors()"
             inputId="course-instructor"
             optionLabel="name"
             optionValue="id"
             filterBy="name"
-            placeholder="No instructor"
             appendTo="body"
           ></p-select>
         </div>
@@ -113,12 +123,14 @@ type AddCourseFormGroup = FormGroup<{
               inputId="minimum-passing-marks"
               aria-describedby="minimum-passing-marks-must-be-greater-than-zero-error"
             />
-            <label for="minimum-passing-marks">Minimum Passing Marks</label>
+            <label for="minimum-passing-marks">{{
+              tokens.ADMIN.MIN_PASSING_MARKS_LABEL | translate
+            }}</label>
           </p-floatlabel>
           @if (minimumPassingMarksControl.invalid && minimumPassingMarksControl.touched) {
-            <qn-field-error id="minimum-passing-marks-must-be-greater-than-zero-error"
-              >Minimum passing marks must be greater than zero.</qn-field-error
-            >
+            <qn-field-error id="minimum-passing-marks-must-be-greater-than-zero-error">{{
+              tokens.ADMIN.MIN_PASSING_MARKS_VALID | translate
+            }}</qn-field-error>
           }
         </div>
 
@@ -133,30 +145,30 @@ type AddCourseFormGroup = FormGroup<{
               inputId="maximum-marks"
               aria-describedby="maximum-marks-must-be-greater-than-zero-error"
             />
-            <label for="maximum-marks">Maximum Marks</label>
+            <label for="maximum-marks">{{ tokens.ADMIN.MAX_MARKS_LABEL | translate }}</label>
           </p-floatlabel>
           @if (maximumMarksControl.invalid && maximumMarksControl.touched) {
-            <qn-field-error id="maximum-marks-must-be-greater-than-zero-error"
-              >Maximum marks must be greater than zero.</qn-field-error
-            >
+            <qn-field-error id="maximum-marks-must-be-greater-than-zero-error">{{
+              tokens.ADMIN.MAX_MARKS_VALID | translate
+            }}</qn-field-error>
           }
         </div>
 
         @if (submitError()) {
-          <p class="submit-error">Failed to create course. Please check your input.</p>
+          <p class="submit-error">{{ tokens.ADMIN.FAILED_CREATE_COURSE | translate }}</p>
         }
 
         <div class="form-actions">
           <p-button
             [text]="true"
+            [label]="tokens.COMMON.CANCEL | translate"
             (onClick)="closeDialog()"
-            label="Cancel"
             severity="secondary"
             type="button"
           />
           <p-button
             [loading]="isSubmitting()"
-            label="Save Course"
+            [label]="tokens.ADMIN.SAVE_COURSE | translate"
             severity="success"
             type="submit"
           />
@@ -168,6 +180,7 @@ type AddCourseFormGroup = FormGroup<{
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCourseModal {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly coursesService = inject(CoursesService);
   private readonly instructorService = inject(InstructorService);

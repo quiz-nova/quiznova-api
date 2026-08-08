@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
+
 @Component({
   selector: 'qn-logo',
-  imports: [],
+  imports: [TranslatePipe],
   template: `
     <div class="content">
       <svg class="icon" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -26,7 +29,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           </linearGradient>
         </defs>
       </svg>
-      <span>QuizNova</span>
+      <span>{{ tokens.COMMON.BRAND_NAME | translate }}</span>
     </div>
   `,
   styles: [
@@ -56,4 +59,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Logo {}
+export class Logo {
+  protected readonly tokens = TRANSLATION_TOKENS;
+}

@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 
@@ -8,13 +10,13 @@ import { CoursesService } from '@shared/services/courses.service';
 
 @Component({
   selector: 'qn-delete-course-modal',
-  imports: [Dialog, Button],
+  imports: [Dialog, Button, TranslatePipe],
   template: `
     <p-button
       [rounded]="true"
       [text]="true"
+      [ariaLabel]="tokens.COMMON.DELETE_ACTION | translate"
       (onClick)="openDialog()"
-      ariaLabel="Delete course"
       icon="pi pi-trash"
       severity="danger"
     />
@@ -24,30 +26,31 @@ import { CoursesService } from '@shared/services/courses.service';
       [modal]="true"
       [dismissableMask]="true"
       [style]="{ width: 'min(30rem, 95vw)' }"
+      [header]="tokens.ADMIN.DELETE_COURSE_TITLE | translate"
       (visibleChange)="onDialogVisibilityChange($event)"
-      header="Delete Course"
     >
       <p class="message">
-        Are you sure you want to delete <strong>{{ course().courseName }}</strong
+        {{ tokens.ADMIN.DELETE_COURSE_CONFIRM | translate }}
+        <strong>{{ course().courseName }}</strong
         >?
       </p>
 
       @if (submitError()) {
-        <p class="submit-error">Failed to delete course. Please try again.</p>
+        <p class="submit-error">{{ tokens.ADMIN.FAILED_DELETE_COURSE | translate }}</p>
       }
 
       <div class="actions">
         <p-button
           [text]="true"
+          [label]="tokens.COMMON.CANCEL | translate"
           (onClick)="closeDialog()"
-          label="Cancel"
           severity="secondary"
           type="button"
         />
         <p-button
           [loading]="isSubmitting()"
+          [label]="tokens.COMMON.DELETE_ACTION | translate"
           (onClick)="onDelete()"
-          label="Delete"
           severity="danger"
           type="button"
         />
@@ -58,6 +61,7 @@ import { CoursesService } from '@shared/services/courses.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteCourseModal {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly coursesService = inject(CoursesService);
 
   readonly course = input.required<Course>();

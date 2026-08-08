@@ -2,7 +2,9 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
 import { AuthService } from '@Features/auth/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { of } from 'rxjs';
 
@@ -12,26 +14,26 @@ import { EnrollmentService } from '@shared/services/enrollment.service';
 
 @Component({
   selector: 'qn-student-courses',
-  imports: [ProgressSpinner, DatePipe, RoleDashboardHeader, OperationFailed],
+  imports: [ProgressSpinner, DatePipe, RoleDashboardHeader, OperationFailed, TranslatePipe],
   template: `
     <section class="page">
       <header class="page-header">
         <qn-role-dashboard-header
-          title="My Enrolled Courses"
-          description="View and access the courses you are currently enrolled in"
+          [title]="tokens.STUDENT.MY_COURSES | translate"
+          [description]="tokens.NAV.COURSES | translate"
         />
       </header>
 
       @if (coursesResource.isLoading()) {
         <div class="spinner">
-          <p-progress-spinner ariaLabel="Loading courses" />
+          <p-progress-spinner [ariaLabel]="tokens.COMMON.LOADING | translate" />
         </div>
       } @else if (coursesResource.error()) {
         <qn-operation-failed>
-          <p>Failed to load your courses. Please try again later.</p>
+          <p>{{ tokens.COMMON.NO_DATA | translate }}</p>
         </qn-operation-failed>
       } @else if (!(coursesResource.value()?.length ?? 0)) {
-        <p class="feedback">You are not enrolled in any courses yet.</p>
+        <p class="feedback">{{ tokens.STUDENT.NO_COURSES | translate }}</p>
       } @else {
         <section class="course-grid" aria-label="Enrolled courses">
           @for (course of coursesResource.value() ?? []; track course.courseId) {
@@ -46,7 +48,7 @@ import { EnrollmentService } from '@shared/services/enrollment.service';
               </div>
 
               <p class="course-id">
-                Enrolled on:
+                {{ tokens.STUDENT.ENROLLED_ON | translate }}:
                 <time [attr.datetime]="course.enrolledOnUtc">{{
                   course.enrolledOnUtc | date: 'mediumDate'
                 }}</time>
@@ -54,11 +56,11 @@ import { EnrollmentService } from '@shared/services/enrollment.service';
 
               <dl class="course-stats">
                 <div>
-                  <dt>Instructor</dt>
+                  <dt>{{ tokens.ROLES.INSTRUCTOR | translate }}</dt>
                   <dd>{{ course.instructor.name }}</dd>
                 </div>
                 <div>
-                  <dt>Quizzes Taken</dt>
+                  <dt>{{ tokens.NAV.QUIZZES | translate }}</dt>
                   <dd>{{ course.student.quizzesTaken }}</dd>
                 </div>
               </dl>
@@ -75,6 +77,7 @@ export class Enrollments {
   private readonly authService = inject(AuthService);
   private readonly enrollmentService = inject(EnrollmentService);
 
+  protected readonly tokens = TRANSLATION_TOKENS;
   protected readonly studentId = computed(() => this.authService.currentUser()?.id ?? null);
 
   protected readonly coursesResource = rxResource({

@@ -1,5 +1,7 @@
 import { signal } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { provideTranslateService } from '@ngx-translate/core';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -37,17 +39,21 @@ describe('QuestionsOutline Component', () => {
 
   it('should render question count and remaining marks', async () => {
     const { container } = await render(QuestionsOutline, {
+      providers: [provideTranslateService()],
       componentProviders: [{ provide: CreateQuizStore, useValue: mockStore }],
     });
 
-    expect(screen.getByText('Questions')).toBeInTheDocument();
+    expect(screen.getByText(TRANSLATION_TOKENS.INSTRUCTOR.QUESTIONS_OUTLINE)).toBeInTheDocument();
     const counter = container.querySelector('.questions-outline__counter');
     expect(counter?.textContent?.trim()).toBe('2');
-    expect(screen.getByText(/8 marks left/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(new RegExp(`8.*${TRANSLATION_TOKENS.COMMON.POINTS}`)),
+    ).toBeInTheDocument();
   });
 
   it('should render question list items and highlight active item', async () => {
     await render(QuestionsOutline, {
+      providers: [provideTranslateService()],
       componentProviders: [{ provide: CreateQuizStore, useValue: mockStore }],
     });
 
@@ -62,6 +68,7 @@ describe('QuestionsOutline Component', () => {
     const questionSelectedSpy = vi.fn();
 
     await render(QuestionsOutline, {
+      providers: [provideTranslateService()],
       componentProviders: [{ provide: CreateQuizStore, useValue: mockStore }],
       on: { questionSelected: questionSelectedSpy },
     });

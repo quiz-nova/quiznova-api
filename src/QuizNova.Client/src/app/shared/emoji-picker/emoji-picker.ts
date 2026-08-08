@@ -54,7 +54,6 @@ export class EmojiPicker {
     this.emojiOverlay.show(event.target as HTMLElement);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- emoji-picker-element event
   addEmoji(event: any): void {
     const emoji = event.detail.unicode;
     const input = this.inputElement.nativeElement;

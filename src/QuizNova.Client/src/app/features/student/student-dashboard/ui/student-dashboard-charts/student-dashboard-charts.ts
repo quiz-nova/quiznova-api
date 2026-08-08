@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { UIChart } from 'primeng/chart';
 
 import { ChartPlaceholder } from '@shared/components/chart-placeholder/chart-placeholder';
@@ -8,11 +10,11 @@ import { chartColor } from '@shared/utils/chart-colors';
 
 @Component({
   selector: 'qn-student-dashboard-charts',
-  imports: [UIChart, ChartPlaceholder],
+  imports: [UIChart, ChartPlaceholder, TranslatePipe],
   template: `
     <section class="charts-grid" aria-label="Student analytics">
       <article class="chart-card">
-        <h3 class="chart-title">My Score Trend</h3>
+        <h3 class="chart-title">{{ tokens.STUDENT.SCORE_TREND_CHART | translate }}</h3>
         <div class="chart-container">
           @defer (on viewport({rootMargin: '100px'}); prefetch on viewport({rootMargin: '200px'})) {
             <p-chart
@@ -32,6 +34,10 @@ import { chartColor } from '@shared/utils/chart-colors';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentDashboardCharts {
+  private readonly translate = inject(TranslateService);
+
+  protected readonly tokens = TRANSLATION_TOKENS;
+
   readonly quizAttempts = input<QuizAttempt[]>([]);
 
   protected readonly scoreTrendData = computed(() => {
@@ -39,11 +45,13 @@ export class StudentDashboardCharts {
       .filter((a) => a.submittedAt)
       .sort((a, b) => new Date(a.submittedAt!).getTime() - new Date(b.submittedAt!).getTime());
 
+    const label = this.translate.instant(TRANSLATION_TOKENS.STUDENT.SCORE_LABEL);
+
     return {
       labels: attempts.map((a) => a.quizTitle),
       datasets: [
         {
-          label: 'Score',
+          label,
           backgroundColor: chartColor('--clr-green-400'),
           borderColor: chartColor('--clr-green-400'),
           borderWidth: 2,

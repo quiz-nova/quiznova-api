@@ -1,3 +1,5 @@
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { provideTranslateService } from '@ngx-translate/core';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -18,13 +20,16 @@ describe('AddQuestion Component', () => {
 
   it('should render question type options and add button', async () => {
     await render(AddQuestion, {
+      providers: [provideTranslateService()],
       componentProviders: [{ provide: CreateQuizStore, useValue: mockStore }],
     });
 
-    const label = screen.getByText('Question Type');
+    const label = screen.getByText(TRANSLATION_TOKENS.INSTRUCTOR.QUESTION_TYPE);
     expect(label).toBeInTheDocument();
 
-    const addButton = screen.getByRole('button', { name: /Add Question/i });
+    const addButton = screen.getByRole('button', {
+      name: TRANSLATION_TOKENS.INSTRUCTOR.ADD_QUESTION,
+    });
     expect(addButton).toBeEnabled();
   });
 
@@ -32,12 +37,15 @@ describe('AddQuestion Component', () => {
     const questionAddedSpy = vi.fn();
 
     await render(AddQuestion, {
+      providers: [provideTranslateService()],
       componentProviders: [{ provide: CreateQuizStore, useValue: mockStore }],
       on: { questionAdded: questionAddedSpy },
     });
 
     const user = userEvent.setup();
-    const addButton = screen.getByRole('button', { name: /Add Question/i });
+    const addButton = screen.getByRole('button', {
+      name: TRANSLATION_TOKENS.INSTRUCTOR.ADD_QUESTION,
+    });
 
     await user.click(addButton);
 
@@ -54,10 +62,13 @@ describe('AddQuestion Component', () => {
     };
 
     await render(AddQuestion, {
+      providers: [provideTranslateService()],
       componentProviders: [{ provide: CreateQuizStore, useValue: disabledStore }],
     });
 
-    const addButton = screen.getByRole('button', { name: /Add Question/i });
+    const addButton = screen.getByRole('button', {
+      name: TRANSLATION_TOKENS.INSTRUCTOR.ADD_QUESTION,
+    });
     expect(addButton).toBeDisabled();
   });
 });

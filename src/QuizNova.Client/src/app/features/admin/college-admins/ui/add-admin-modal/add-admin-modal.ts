@@ -7,6 +7,8 @@ import {
   type FormGroup,
 } from '@angular/forms';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
 import { FloatLabel } from 'primeng/floatlabel';
@@ -28,17 +30,31 @@ type AddAdminFormGroup = FormGroup<{
 
 @Component({
   selector: 'qn-add-admin-modal',
-  imports: [ReactiveFormsModule, FloatLabel, InputText, Password, Dialog, FieldError, Button],
+  imports: [
+    ReactiveFormsModule,
+    FloatLabel,
+    InputText,
+    Password,
+    Dialog,
+    FieldError,
+    Button,
+    TranslatePipe,
+  ],
   template: `
-    <p-button (onClick)="openDialog()" label="Add Admin" severity="success" type="button" />
+    <p-button
+      [label]="tokens.ADMIN.ADD_ADMIN_TITLE | translate"
+      (onClick)="openDialog()"
+      severity="success"
+      type="button"
+    />
 
     <p-dialog
       [visible]="isDialogOpen()"
       [dismissableMask]="true"
       [modal]="true"
       [style]="{ width: 'min(40rem, 95vw)' }"
+      [header]="tokens.ADMIN.ADD_ADMIN_TITLE | translate"
       (visibleChange)="onDialogVisibilityChange($event)"
-      header="Add Admin"
     >
       <form class="add-form" [formGroup]="AddAdminForm" (ngSubmit)="onSubmit()">
         <div class="form-field">
@@ -52,16 +68,18 @@ type AddAdminFormGroup = FormGroup<{
               type="text"
               aria-describedby="name-is-required-error name-minlength-error"
             />
-            <label for="admin-name">Name</label>
+            <label for="admin-name">{{ tokens.COMMON.NAME | translate }}</label>
           </p-floatlabel>
           @if (nameControl.invalid && nameControl.touched) {
             @if (nameControl.hasError('required')) {
-              <qn-field-error id="name-is-required-error">Name is required.</qn-field-error>
+              <qn-field-error id="name-is-required-error">{{
+                tokens.ADMIN.NAME_REQUIRED | translate
+              }}</qn-field-error>
             }
             @if (nameControl.hasError('minlength')) {
-              <qn-field-error id="name-minlength-error"
-                >Name must be at least 3 characters.</qn-field-error
-              >
+              <qn-field-error id="name-minlength-error">{{
+                tokens.ADMIN.NAME_MIN_LENGTH | translate
+              }}</qn-field-error>
             }
           }
         </div>
@@ -77,15 +95,17 @@ type AddAdminFormGroup = FormGroup<{
               type="email"
               aria-describedby="email-is-required-error please-enter-a-valid-email-address-error"
             />
-            <label for="admin-email">Email</label>
+            <label for="admin-email">{{ tokens.COMMON.EMAIL | translate }}</label>
           </p-floatlabel>
           @if (emailControl.invalid && emailControl.touched) {
             @if (emailControl.hasError('required')) {
-              <qn-field-error id="email-is-required-error">Email is required.</qn-field-error>
+              <qn-field-error id="email-is-required-error">{{
+                tokens.AUTH.EMAIL_REQUIRED | translate
+              }}</qn-field-error>
             } @else if (emailControl.hasError('email')) {
-              <qn-field-error id="please-enter-a-valid-email-address-error"
-                >Please enter a valid email address.</qn-field-error
-              >
+              <qn-field-error id="please-enter-a-valid-email-address-error">{{
+                tokens.COMMON.VALID_EMAIL | translate
+              }}</qn-field-error>
             }
           }
         </div>
@@ -103,22 +123,23 @@ type AddAdminFormGroup = FormGroup<{
               inputId="admin-password"
               aria-describedby="password-is-required-error password-minlength-error password-strong-error"
             />
-            <label for="admin-password">Password</label>
+            <label for="admin-password">{{ tokens.COMMON.PASSWORD | translate }}</label>
           </p-floatlabel>
           @if (passwordControl.invalid && passwordControl.touched) {
             @if (passwordControl.hasError('required')) {
-              <qn-field-error id="password-is-required-error">Password is required.</qn-field-error>
+              <qn-field-error id="password-is-required-error">{{
+                tokens.ADMIN.PASSWORD_REQUIRED | translate
+              }}</qn-field-error>
             }
             @if (passwordControl.hasError('minlength')) {
-              <qn-field-error id="password-minlength-error"
-                >Password must be at least 8 characters.</qn-field-error
-              >
+              <qn-field-error id="password-minlength-error">{{
+                tokens.ADMIN.PASSWORD_MIN_LENGTH | translate
+              }}</qn-field-error>
             }
             @if (passwordControl.hasError('strongPassword')) {
-              <qn-field-error id="password-strong-error"
-                >Password must contain uppercase, lowercase, number, and special
-                character.</qn-field-error
-              >
+              <qn-field-error id="password-strong-error">{{
+                tokens.ADMIN.PASSWORD_STRENGTH_VALID | translate
+              }}</qn-field-error>
             }
           }
         </div>
@@ -136,34 +157,34 @@ type AddAdminFormGroup = FormGroup<{
               type="text"
               aria-describedby="phone-number-is-required-error phone-minlength-error phone-maxlength-error"
             />
-            <label for="admin-phone">Phone Number</label>
+            <label for="admin-phone">{{ tokens.COMMON.PHONE | translate }}</label>
           </p-floatlabel>
           @if (phoneNumberControl.invalid && phoneNumberControl.touched) {
-            <qn-field-error id="phone-number-is-required-error"
-              >Phone number is required.</qn-field-error
-            >
+            <qn-field-error id="phone-number-is-required-error">{{
+              tokens.ADMIN.PHONE_REQUIRED | translate
+            }}</qn-field-error>
           }
         </div>
 
         @if (submitError()) {
-          <p class="submit-error">Failed to create admin. Please check your input.</p>
+          <p class="submit-error">{{ tokens.ADMIN.FAILED_CREATE_ADMIN | translate }}</p>
         }
 
         @if (submitSuccess()) {
-          <p class="submit-success">Admin created successfully.</p>
+          <p class="submit-success">{{ tokens.ADMIN.ADMIN_CREATED_SUCCESS | translate }}</p>
         }
 
         <div class="form-actions">
           <p-button
             [text]="true"
+            [label]="tokens.COMMON.CANCEL | translate"
             (onClick)="closeDialog()"
-            label="Cancel"
             severity="secondary"
             type="button"
           />
           <p-button
             [loading]="isSubmitting()"
-            label="Save Admin"
+            [label]="tokens.ADMIN.SAVE_ADMIN | translate"
             severity="success"
             type="submit"
           />
@@ -175,6 +196,7 @@ type AddAdminFormGroup = FormGroup<{
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddAdminModal {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly adminService = inject(AdminService);
 

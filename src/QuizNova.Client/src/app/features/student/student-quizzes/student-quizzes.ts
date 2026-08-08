@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
 import { AuthService } from '@Features/auth/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { map, of } from 'rxjs';
 
@@ -21,26 +23,27 @@ import { StudentScheduledQuizzes } from './ui/student-scheduled-quizzes/student-
     StudentAvailableQuizzes,
     StudentScheduledQuizzes,
     OperationFailed,
+    TranslatePipe,
   ],
   template: `
     <section class="quizzes-page">
       <qn-role-dashboard-header
-        title="Quizzes"
-        description="Take available quizzes before they expire and check upcoming schedules."
+        [title]="tokens.NAV.QUIZZES | translate"
+        [description]="tokens.STUDENT.AVAILABLE_QUIZZES | translate"
       />
 
       @if (quizzesResource.isLoading()) {
         <div class="spinner">
-          <p-progress-spinner ariaLabel="Loading quizzes" />
+          <p-progress-spinner [ariaLabel]="tokens.COMMON.LOADING | translate" />
         </div>
       } @else if (quizzesResource.error()) {
         <qn-operation-failed>
-          <p>Failed to load quizzes.</p>
+          <p>{{ tokens.COMMON.NO_DATA | translate }}</p>
         </qn-operation-failed>
       } @else {
         @if (availableQuizzes().length === 0 && scheduledQuizzes().length === 0) {
           <div class="empty-state" role="status">
-            <p>You don't have any quizzes at the moment.</p>
+            <p>{{ tokens.COMMON.NO_DATA | translate }}</p>
           </div>
         } @else {
           <qn-student-available-quizzes [quizzes]="availableQuizzes()" [serverUtc]="serverUtc()" />
@@ -54,6 +57,7 @@ import { StudentScheduledQuizzes } from './ui/student-scheduled-quizzes/student-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentQuizzes {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly authService = inject(AuthService);
   private readonly quizService = inject(QuizService);
 

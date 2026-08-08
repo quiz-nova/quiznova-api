@@ -1,4 +1,6 @@
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
 import { AuthService } from '@Features/auth/auth.service';
+import { provideTranslateService } from '@ngx-translate/core';
 import { render, screen } from '@testing-library/angular';
 import { MessageService } from 'primeng/api';
 import { of } from 'rxjs';
@@ -10,6 +12,7 @@ import { QuizService } from '@shared/services/quiz.service';
 import { CreateQuiz } from './create-quiz';
 
 describe('CreateQuiz Container Component', () => {
+  const tokens = TRANSLATION_TOKENS;
   const mockAuthService = {
     currentUser: vi.fn().mockReturnValue({ id: 'inst-1', role: 'Instructor' }),
   };
@@ -30,6 +33,7 @@ describe('CreateQuiz Container Component', () => {
   it('should render page title, publish panel, and empty questions prompt initially', async () => {
     await render(CreateQuiz, {
       providers: [
+        provideTranslateService(),
         { provide: AuthService, useValue: mockAuthService },
         { provide: CoursesService, useValue: mockCoursesService },
         { provide: QuizService, useValue: mockQuizService },
@@ -37,8 +41,8 @@ describe('CreateQuiz Container Component', () => {
       ],
     });
 
-    expect(screen.getByText('Create Quiz')).toBeInTheDocument();
-    expect(screen.getByText('No questions yet')).toBeInTheDocument();
+    expect(screen.getByText(tokens.INSTRUCTOR.CREATE_QUIZ_TITLE)).toBeInTheDocument();
+    expect(screen.getByText(tokens.INSTRUCTOR.CREATE_QUIZ_DESC)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Publish Quiz/i })).toBeDisabled();
   });
 });

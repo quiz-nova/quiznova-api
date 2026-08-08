@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { APP_SETTINGS } from '@Core/config/app.settings';
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { InputText } from 'primeng/inputtext';
 import { Skeleton } from 'primeng/skeleton';
 import { TableModule, TablePageEvent } from 'primeng/table';
@@ -24,27 +26,35 @@ import { AddAdminModal } from './ui/add-admin-modal/add-admin-modal';
 
 @Component({
   selector: 'qn-college-admins',
-  imports: [TableModule, Skeleton, AddAdminModal, FormsModule, InputText, RoleDashboardHeader],
+  imports: [
+    TableModule,
+    Skeleton,
+    AddAdminModal,
+    FormsModule,
+    InputText,
+    RoleDashboardHeader,
+    TranslatePipe,
+  ],
   template: `
     <section class="page">
       <header class="page-header">
         <qn-role-dashboard-header
-          title="Admin Directory"
-          description="Manage administrative users and access ownership."
+          [title]="tokens.ADMIN.ADMIN_DIRECTORY | translate"
+          [description]="tokens.ADMIN.ADMIN_DIRECTORY_DESC | translate"
         />
         <qn-add-admin-modal (created)="reloadAdmins()"></qn-add-admin-modal>
       </header>
 
       <div class="filters-grid">
         <div class="filter-item">
-          <label for="admin-search">Search</label>
+          <label for="admin-search">{{ tokens.COMMON.SEARCH | translate }}</label>
           <input
             class="focus-green-ring"
             id="admin-search"
             [(ngModel)]="searchTerm"
+            [placeholder]="tokens.ADMIN.SEARCH_ADMINS_PLACEHOLDER | translate"
             (ngModelChange)="pageNumber.set(1)"
             pInputText
-            placeholder="Search by name or email"
           />
         </div>
       </div>
@@ -64,8 +74,8 @@ import { AddAdminModal } from './ui/add-admin-modal/add-admin-modal';
         >
           <ng-template #header>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
+              <th>{{ tokens.COMMON.NAME | translate }}</th>
+              <th>{{ tokens.COMMON.EMAIL | translate }}</th>
             </tr>
           </ng-template>
           <ng-template #body let-admin>
@@ -84,10 +94,10 @@ import { AddAdminModal } from './ui/add-admin-modal/add-admin-modal';
               <td colspan="2">
                 @if (adminsResource.error()) {
                   <div class="error">
-                    <p>Failed to load admin data.</p>
+                    <p>{{ tokens.ADMIN.FAILED_LOAD_ADMINS | translate }}</p>
                   </div>
                 } @else {
-                  <p class="feedback">No admins match your filters.</p>
+                  <p class="feedback">{{ tokens.ADMIN.NO_ADMINS_MATCH | translate }}</p>
                 }
               </td>
             </tr>
@@ -100,6 +110,7 @@ import { AddAdminModal } from './ui/add-admin-modal/add-admin-modal';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollegeAdmins {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly appSettings = inject(APP_SETTINGS);
   private readonly adminService = inject(AdminService);
   private readonly router = inject(Router);

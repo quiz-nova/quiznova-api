@@ -1,6 +1,7 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
+  inject,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
@@ -8,6 +9,9 @@ import { provideRouter, withComponentInputBinding, withViewTransitions } from '@
 
 import { APP_SETTINGS, appSettings, validateSettings } from '@Core/config/app.settings';
 import { authInterceptor } from '@Core/interceptors/auth.interceptor';
+import { LanguageService } from '@Core/services/language.service';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 import { MessageService } from 'primeng/api';
@@ -115,5 +119,13 @@ export const appConfig: ApplicationConfig = {
       useValue: appSettings,
     },
     provideAppInitializer(() => validateSettings(appSettings)),
+    provideAppInitializer(() => inject(LanguageService).initLanguage()),
+    provideTranslateService({
+      lang: 'en',
+      loader: provideTranslateHttpLoader({
+        prefix: './assets/i18n/',
+        suffix: '.json',
+      }),
+    }),
   ],
 };

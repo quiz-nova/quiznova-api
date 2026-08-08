@@ -1,43 +1,47 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { Logo } from '@shared/components/logo/logo';
 
 export interface ProductLinks {
   id: number;
   label: string;
   name: string;
+  key: string;
 }
 
 export const productLinks: ProductLinks[] = [
-  { id: 1, label: 'Features', name: '#features' },
-  { id: 2, label: 'About', name: '#about' },
-  { id: 3, label: 'Login', name: '/auth/login' },
+  { id: 1, label: 'Features', name: '#features', key: 'NAV.FEATURES' },
+  { id: 2, label: 'About', name: '#about', key: 'NAV.ABOUT' },
+  { id: 3, label: 'Login', name: '/auth/login', key: 'NAV.LOGIN' },
 ];
 
 @Component({
   selector: 'qn-contact',
-  imports: [Logo],
+  imports: [Logo, TranslatePipe],
   template: `
     <footer class="footer" id="contact">
       <div class="container">
         <div class="footer__top">
           <div class="footer__brand">
             <qn-logo />
-            <p>The modern quiz platform built for educational institutions.</p>
+            <p>{{ tokens.LANDING.PRODUCT_DESC | translate }}</p>
           </div>
 
           <div class="footer__columns">
             <div class="footer__column">
-              <h4>Product</h4>
+              <h4>{{ tokens.LANDING.FEATURES_TITLE | translate }}</h4>
               @for (link of productLinks(); track link.id) {
-                <a [attr.href]="link.name">{{ link.label }}</a>
+                <a [attr.href]="link.name">{{ link.key | translate }}</a>
               }
             </div>
           </div>
         </div>
 
         <div class="footer__bottom">
-          <p>© 2026 QuizNova. All rights reserved.</p>
+          <p>{{ tokens.LANDING.COPYRIGHT | translate }}</p>
         </div>
       </div>
     </footer>
@@ -70,7 +74,7 @@ export const productLinks: ProductLinks[] = [
       &::after {
         position: absolute;
         top: 100%;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
         height: 1px;
         background-color: rgba(255, 255, 255, 0.15);
@@ -128,5 +132,6 @@ export const productLinks: ProductLinks[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Contact {
+  protected readonly tokens = TRANSLATION_TOKENS;
   protected readonly productLinks = signal<ProductLinks[]>(productLinks).asReadonly();
 }

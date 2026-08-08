@@ -8,8 +8,10 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
 import { DEFAULT_USER_ROUTE, ROLES } from '@Core/config/role.config';
 import { AuthService } from '@Features/auth/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { Button } from 'primeng/button';
 import { FloatLabel } from 'primeng/floatlabel';
@@ -39,15 +41,16 @@ type LoginFormGroup = FormGroup<{
     Password,
     FieldError,
     Button,
+    TranslatePipe,
   ],
   template: `
     <section class="auth-page">
       <div class="auth-left-side">
         <div class="side-content">
           <qn-logo />
-          <h2>Welcome back</h2>
+          <h2>{{ tokens.AUTH.WELCOME_BACK | translate }}</h2>
           <p>
-            Access your dashboard, manage quizzes, and track student performance - all in one place.
+            {{ tokens.LANDING.HERO_SUBTITLE | translate }}
           </p>
 
           <qn-demo-credentials />
@@ -57,8 +60,8 @@ type LoginFormGroup = FormGroup<{
       <div class="auth-right-side">
         <qn-logo class="auth-logo"></qn-logo>
         <div class="auth-header">
-          <h2>Sign in</h2>
-          <p>Don't have an account? Contact Your Admin</p>
+          <h2>{{ tokens.AUTH.LOGIN_BUTTON | translate }}</h2>
+          <p>{{ tokens.AUTH.LOGIN_SUBTITLE | translate }}</p>
         </div>
 
         <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -74,16 +77,18 @@ type LoginFormGroup = FormGroup<{
                 autocomplete="username"
                 aria-describedby="email-is-required-error please-enter-a-valid-email-address-error"
               />
-              <label for="login-email">Email</label>
+              <label for="login-email">{{ tokens.AUTH.EMAIL_LABEL | translate }}</label>
             </p-floatlabel>
 
             @if (emailControl.invalid && emailControl.touched) {
               @if (emailControl.hasError('required')) {
-                <qn-field-error id="email-is-required-error">Email is required.</qn-field-error>
+                <qn-field-error id="email-is-required-error">{{
+                  tokens.AUTH.EMAIL_REQUIRED | translate
+                }}</qn-field-error>
               } @else if (emailControl.hasError('email')) {
-                <qn-field-error id="please-enter-a-valid-email-address-error"
-                  >Please enter a valid email address.</qn-field-error
-                >
+                <qn-field-error id="please-enter-a-valid-email-address-error">{{
+                  tokens.AUTH.VALID_EMAIL | translate
+                }}</qn-field-error>
               }
             }
           </div>
@@ -101,19 +106,19 @@ type LoginFormGroup = FormGroup<{
                 autocomplete="current-password"
                 aria-describedby="password-is-required-error"
               />
-              <label for="login-password">Password</label>
+              <label for="login-password">{{ tokens.AUTH.PASSWORD_LABEL | translate }}</label>
             </p-floatlabel>
 
             @if (passwordControl.invalid && passwordControl.touched) {
               @if (passwordControl.hasError('required')) {
-                <qn-field-error id="password-is-required-error"
-                  >Password is required.</qn-field-error
-                >
+                <qn-field-error id="password-is-required-error">{{
+                  tokens.AUTH.PASSWORD_REQUIRED | translate
+                }}</qn-field-error>
               }
             }
           </div>
           <fieldset class="roles-group">
-            <legend class="sr-only">Select your account role</legend>
+            <legend class="sr-only">{{ tokens.AUTH.SELECT_ROLE | translate }}</legend>
             <div class="roles">
               @for (role of userRoles; track role.id) {
                 <label class="role-box">
@@ -126,7 +131,11 @@ type LoginFormGroup = FormGroup<{
           <p-button
             [disabled]="loginForm.invalid"
             [loading]="isLogging()"
-            [label]="isLogging() ? 'Signing in...' : 'Sign in'"
+            [label]="
+              isLogging()
+                ? (tokens.COMMON.SUBMITTING | translate)
+                : (tokens.AUTH.LOGIN_BUTTON | translate)
+            "
             severity="success"
             styleClass="auth-submit"
             type="submit"
@@ -139,6 +148,7 @@ type LoginFormGroup = FormGroup<{
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Login {
+  protected readonly tokens = TRANSLATION_TOKENS;
   private readonly router = inject(Router);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly authService = inject(AuthService);

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SharedModule } from 'primeng/api';
 import { Button } from 'primeng/button';
 import { Dialog } from 'primeng/dialog';
@@ -8,7 +10,7 @@ import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'qn-confirm-action-modal',
-  imports: [FormsModule, Dialog, Button, InputText, SharedModule],
+  imports: [FormsModule, Dialog, Button, InputText, SharedModule, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <p-dialog
@@ -33,15 +35,16 @@ import { InputText } from 'primeng/inputtext';
           {{ warningMessage() }}
         </p>
         <p class="modal-instruction">
-          To confirm, type <strong>{{ confirmationPhrase() }}</strong> below:
+          {{ tokens.COMMON.TO_CONFIRM_TYPE | translate }}
+          <strong>{{ confirmationPhrase() }}</strong> {{ tokens.COMMON.BELOW_COLON | translate }}
         </p>
         <input
           class="modal-confirm-input"
           id="confirm-action-input"
           [(ngModel)]="confirmationInput"
+          [placeholder]="tokens.COMMON.CONFIRM_PHRASE_PLACEHOLDER | translate"
           pInputText
           type="text"
-          placeholder="Type the phrase to confirm"
           autocomplete="off"
         />
       </div>
@@ -50,8 +53,8 @@ import { InputText } from 'primeng/inputtext';
         <div class="modal-actions">
           <p-button
             [text]="true"
+            [label]="tokens.COMMON.CANCEL | translate"
             (onClick)="onCancel()"
-            label="Cancel"
             severity="secondary"
             type="button"
           />
@@ -69,6 +72,7 @@ import { InputText } from 'primeng/inputtext';
   styleUrl: './confirm-action-modal.css',
 })
 export class ConfirmActionModal {
+  protected readonly tokens = TRANSLATION_TOKENS;
   readonly title = input.required<string>();
   readonly warningMessage = input.required<string>();
   readonly confirmationPhrase = input.required<string>();

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[appObserveVisibility]',
+  selector: '[qnObserveVisibility]',
   standalone: true,
 })
 export class ObserveVisibilityDirective implements OnDestroy {

@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
 import { ConfirmActionModal } from '@shared/components/confirm-action-modal/confirm-action-modal';
@@ -42,6 +44,7 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
     NgComponentOutlet,
     RoleDashboardHeader,
     ConfirmActionModal,
+    TranslatePipe,
   ],
   template: `
     <section class="create-quiz">
@@ -57,8 +60,8 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
       <main class="main">
         <header class="header">
           <qn-role-dashboard-header
-            title="Create Quiz"
-            description="Build your quiz by adding questions below"
+            [title]="tokens.INSTRUCTOR.CREATE_QUIZ_TITLE | translate"
+            [description]="tokens.INSTRUCTOR.CREATE_QUIZ_DESC | translate"
           />
           <qn-quiz-publish-panel (publish)="onPublishQuiz()" />
         </header>
@@ -82,7 +85,7 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
                   [id]="question.id"
                   [threshold]="0.45"
                   (visible)="onQuestionVisibilityChanged($event, question.id)"
-                  appObserveVisibility
+                  qnObserveVisibility
                   animate.enter="element-enter"
                   animate.leave="element-leave"
                 >
@@ -113,7 +116,7 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
             <div
               class="add-question-main"
               (visible)="onAddQuestionButtonVisible($event)"
-              appObserveVisibility
+              qnObserveVisibility
             >
               <qn-add-question
                 (questionAdded)="createQuizStore.addQuestion($event)"
@@ -166,6 +169,7 @@ import { QuizPublishPanel } from './ui/quiz-publish-panel/quiz-publish-panel';
   providers: [CreateQuizStore],
 })
 export class CreateQuiz {
+  protected readonly tokens = TRANSLATION_TOKENS;
   protected readonly mapperService = inject(QuestionComponentMapperService);
   protected readonly createQuizStore = inject(CreateQuizStore);
   private readonly messageService = inject(MessageService);

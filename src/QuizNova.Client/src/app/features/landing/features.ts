@@ -1,28 +1,29 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
+
 import { FadeInOnScrollDirective } from '@shared/directives/fade-in-on-scroll.directive';
 
 import { FeatureCard, featureCards } from './feature-card';
 
 @Component({
   selector: 'qn-features',
-  imports: [FadeInOnScrollDirective, FeatureCard],
+  imports: [FadeInOnScrollDirective, FeatureCard, TranslatePipe],
   template: `
     <section class="features" id="features">
       <div class="container">
         <article class="section-heading">
-          <h2 appFadeInOnScroll>
-            Everything you need to
-            <span class="accent-word">run your assessments</span>
+          <h2 qnFadeInOnScroll>
+            {{ tokens.LANDING.FEATURES_TITLE | translate }}
           </h2>
-          <p [delay]="100" appFadeInOnScroll>
-            From quiz creation and real-time exams to grade review and course communication —
-            QuizNova covers the full assessment lifecycle for your institution.
+          <p [delay]="100" qnFadeInOnScroll>
+            {{ tokens.LANDING.HERO_SUBTITLE | translate }}
           </p>
         </article>
         <div class="cards">
           @for (feature of cards(); track feature.id; let i = $index) {
-            <qn-feature-card [delay]="i * 50" appFadeInOnScroll>
+            <qn-feature-card [delay]="i * 50" qnFadeInOnScroll>
               <i [class]="feature.icon"></i>
               <h3 class="card-title">{{ feature.title }}</h3>
               <p class="card-content">{{ feature.content }}</p>
@@ -66,5 +67,6 @@ import { FeatureCard, featureCards } from './feature-card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Features {
+  protected readonly tokens = TRANSLATION_TOKENS;
   protected readonly cards = signal(featureCards).asReadonly();
 }

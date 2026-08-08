@@ -1,36 +1,41 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { TRANSLATION_TOKENS } from '@Core/config/language.config';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Button } from 'primeng/button';
 
 import { FadeInOnScrollDirective } from '@shared/directives/fade-in-on-scroll.directive';
 
 @Component({
   selector: 'qn-hero',
-  imports: [RouterLink, FadeInOnScrollDirective, Button],
+  imports: [RouterLink, FadeInOnScrollDirective, Button, TranslatePipe],
   template: `
     <div class="container">
       <main>
-        <div class="content" appFadeInOnScroll>
-          <div class="icon" [delay]="50" appFadeInOnScroll>
+        <div class="content" qnFadeInOnScroll>
+          <div class="icon" [delay]="50" qnFadeInOnScroll>
             <i class="fa-solid fa-star"></i>
           </div>
-          <p [delay]="100" appFadeInOnScroll>Modern assessment platform for institutions</p>
+          <p [delay]="100" qnFadeInOnScroll>{{ tokens.LANDING.PRODUCT_DESC | translate }}</p>
         </div>
-        <h1 [delay]="150" appFadeInOnScroll>
-          Assessments made <span class="accent-word">simple</span>
+        <h1 [delay]="150" qnFadeInOnScroll>
+          {{ tokens.LANDING.HERO_TITLE | translate }}
         </h1>
-        <p class="system-description" [delay]="200" appFadeInOnScroll>
-          QuizNova is a comprehensive platform for colleges and institutions. From smart quiz
-          creation and real-time taking to automated grading and course chat — everything in one
-          place.
+        <p class="system-description" [delay]="200" qnFadeInOnScroll>
+          {{ tokens.LANDING.HERO_SUBTITLE | translate }}
         </p>
-        <div class="buttons" [delay]="250" appFadeInOnScroll>
-          <p-button label="Sign in" routerLink="/auth/login" severity="success" type="button" />
+        <div class="buttons" [delay]="250" qnFadeInOnScroll>
+          <p-button
+            [label]="tokens.NAV.LOGIN | translate"
+            routerLink="/auth/login"
+            severity="success"
+            type="button"
+          />
           <p-button
             [outlined]="true"
+            [label]="tokens.NAV.FEATURES | translate"
             (onClick)="scrollToFeatures()"
-            label="Explore features"
             severity="secondary"
             type="button"
           />
@@ -61,7 +66,7 @@ import { FadeInOnScrollDirective } from '@shared/directives/fade-in-on-scroll.di
       margin-block: 1rem;
       padding: 0.5rem 1rem;
       border: 1px solid var(--clr-green-100);
-      border-radius: 9999px; /* impeccable-disable-line design-system-radius */
+      border-radius: 9999px;
       background-color: var(--clr-green-50);
       color: var(--clr-green-800);
       font-weight: 600;
@@ -110,6 +115,7 @@ import { FadeInOnScrollDirective } from '@shared/directives/fade-in-on-scroll.di
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Hero {
+  protected readonly tokens = TRANSLATION_TOKENS;
   protected scrollToFeatures(): void {
     const el = document.getElementById('features');
     el?.scrollIntoView({ behavior: 'smooth' });

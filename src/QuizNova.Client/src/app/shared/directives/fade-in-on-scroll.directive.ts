@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnDestroy, effect, inject, input } from '@angular/core';
 
 @Directive({
-  selector: '[appFadeInOnScroll]',
+  selector: '[qnFadeInOnScroll]',
   standalone: true,
   host: {
     class: 'fade-in',

@@ -26,8 +26,33 @@ jobs:
 
       - name: Build
         run: dotnet build --no-restore --configuration Release
-      - name: Test
-        run: dotnet test
+      - name: Test with Coverage
+        run: >
+          dotnet test
+          --no-build
+          --configuration Release
+          --collect:"XPlat Code Coverage"
+          --settings coverlet.runsettings
+          --results-directory ./TestResults
+
+      - name: Generate Coverage Report
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.4.4
+        with:
+          reports: "TestResults/**/coverage.cobertura.xml"
+          targetdir: "TestResults/CoverageReport"
+          reporttypes: "Cobertura;MarkdownSummaryGithub"
+          title: "Backend Coverage"
+
+      - name: Publish Coverage to GitHub Step Summary
+        run: cat TestResults/CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Backend Coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: TestResults/CoverageReport/Cobertura.xml
+          flags: backend
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
 
   frontend:
     name: Frontend Build & Unit Testing & Linting
@@ -57,7 +82,34 @@ jobs:
 
       - name: Build
         run: npm run build
-      - name: Test
-        run: npm run test
+
+      - name: Test with Coverage
+        run: npm run test:coverage
+
+      - name: Generate Frontend Coverage Report
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.4.4
+        if: always()
+        with:
+          reports: "src/QuizNova.Client/coverage/lcov.info"
+          targetdir: "src/QuizNova.Client/coverage/Report"
+          reporttypes: "MarkdownSummaryGithub"
+          title: "Frontend Coverage"
+
+      - name: Publish Frontend Coverage to GitHub Step Summary
+        if: always()
+        run: |
+          REPORT="$GITHUB_WORKSPACE/src/QuizNova.Client/coverage/Report/SummaryGithub.md"
+          if [ -f "$REPORT" ]; then
+            cat "$REPORT" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload Frontend Coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: src/QuizNova.Client/coverage/lcov.info
+          flags: frontend
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
 
 

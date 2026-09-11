@@ -1,8 +1,14 @@
 terraform {
+  required_version = ">= 1.5.0"
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "=4.1.0"
+    }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.47"
     }
     github = {
       source  = "integrations/github"
@@ -16,16 +22,17 @@ terraform {
 }
 
 provider "azurerm" {
-  subscription_id                 = "83ab56f5-88ee-436d-87a5-994d3185bf00"
+  subscription_id                 = var.azure_subscription_id
   resource_provider_registrations = "none"
   features {}
 }
 
+provider "azuread" {}
+
 provider "github" {
-  # Authenticates using a GitHub Personal Access Token (PAT)
-  token = var.github_token
-  owner = "MoamenElbarqy"
+  owner = var.github_owner
 }
+
 provider "mongodbatlas" {
   public_key  = var.atlas_public_key
   private_key = var.atlas_private_key

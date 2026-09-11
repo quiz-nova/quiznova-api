@@ -16,12 +16,6 @@ variable "grafana_loki_password" {
   sensitive   = true
 }
 
-variable "github_token" {
-  type        = string
-  description = "GitHub Personal Access Token with repo scope"
-  sensitive   = true
-}
-
 variable "grafana_loki_instance_id" {
   description = "Grafana Loki Instance ID for credentials.login"
   type        = string
@@ -111,6 +105,24 @@ variable "atlas_private_key" {
 }
 
 variable "atlas_project_id" {
-  type = string
+  type      = string
   sensitive = true
+}
+
+variable "azure_subscription_id" {
+  type        = string
+  description = "The Azure subscription ID"
+  default     = "83ab56f5-88ee-436d-87a5-994d3185bf00"
+}
+
+variable "github_owner" {
+  type        = string
+  description = "The GitHub user or organization that owns the repository"
+  default     = "quiz-nova"
+}
+
+variable "github_repository_name" {
+  type        = string
+  description = "The GitHub repository name"
+  default     = "quiz-nova"
 }

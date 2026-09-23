@@ -1,5 +1,3 @@
-db_connection_string       = "your-neon-postgres-connection-string"
-jwt_secret                 = "your-jwt-secret-key"
-grafana_loki_password      = "your-grafana-loki-password"
-grafana_loki_instance_id   = "your-grafana-instance-id"
-grafana_loki_uri           = "https://your-grafana-loki-endpoint.grafana.net"
+grafana_loki_instance_id = "your-grafana-instance-id"
+grafana_loki_uri         = "https://your-grafana-loki-endpoint.grafana.net"
+grafana_otlp_endpoint    = "https://otlp-gateway-prod-eu-west-2.grafana.net/otlp"

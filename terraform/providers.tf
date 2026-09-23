@@ -18,6 +18,10 @@ terraform {
       source  = "mongodb/mongodbatlas"
       version = "~> 2.15.0"
     }
+    doppler = {
+      source  = "dopplerhq/doppler"
+      version = "~> 1.13.0"
+    }
   }
 }
 
@@ -33,9 +37,11 @@ provider "github" {
   owner = var.github_owner
 }
 
+provider "doppler" {}
+
 provider "mongodbatlas" {
-  public_key  = var.atlas_public_key
-  private_key = var.atlas_private_key
+  public_key  = data.doppler_secrets.app.map.ATLAS_PUBLIC_KEY
+  private_key = data.doppler_secrets.app.map.ATLAS_PRIVATE_KEY
 }
 
 data "azurerm_client_config" "current" {}

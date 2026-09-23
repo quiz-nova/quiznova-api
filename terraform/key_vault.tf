@@ -23,30 +23,30 @@ resource "azurerm_key_vault" "main" {
 # Key Vault Secrets
 resource "azurerm_key_vault_secret" "db_connection" {
   name         = "db-connection-string"
-  value        = var.db_connection_string
+  value        = data.doppler_secrets.app.map.DB_CONNECTION_STRING
   key_vault_id = azurerm_key_vault.main.id
 }
 
 resource "azurerm_key_vault_secret" "jwt_secret" {
   name         = "jwt-secret"
-  value        = var.jwt_secret
+  value        = data.doppler_secrets.app.map.JWT_SECRET
   key_vault_id = azurerm_key_vault.main.id
 }
 
 resource "azurerm_key_vault_secret" "mongodb_connection" {
   name         = "mongodb-connection-string"
-  value        = var.mongodb_connection_string
+  value        = data.doppler_secrets.app.map.MONGODB_CONNECTION_STRING
   key_vault_id = azurerm_key_vault.main.id
 }
 
 resource "azurerm_key_vault_secret" "grafana_loki_password" {
   name         = "grafana-loki-password"
-  value        = var.grafana_loki_password
+  value        = data.doppler_secrets.app.map.GRAFANA_LOKI_PASSWORD
   key_vault_id = azurerm_key_vault.main.id
 }
 
 resource "azurerm_key_vault_secret" "grafana_otlp_auth" {
   name         = "grafana-otlp-auth-header"
-  value        = "Authorization=Basic ${var.grafana_otlp_auth_header}"
+  value        = "Authorization=Basic ${data.doppler_secrets.app.map.GRAFANA_OTLP_AUTH_HEADER}"
   key_vault_id = azurerm_key_vault.main.id
 }

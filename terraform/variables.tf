@@ -1,21 +1,17 @@
-variable "db_connection_string" {
+# Doppler Configuration
+variable "doppler_project" {
   type        = string
-  description = "Connection string for Neon PostgreSQL"
-  sensitive   = true
+  description = "The Doppler project name"
+  default     = "quiznova-api"
 }
 
-variable "jwt_secret" {
+variable "doppler_config" {
   type        = string
-  description = "JWT Signing Secret Key"
-  sensitive   = true
+  description = "The Doppler config environment (e.g. prd, stg, dev)"
+  default     = "prd"
 }
 
-variable "grafana_loki_password" {
-  type        = string
-  description = "Grafana Loki API Key / Password"
-  sensitive   = true
-}
-
+# Monitoring & Logging
 variable "grafana_loki_instance_id" {
   description = "Grafana Loki Instance ID for credentials.login"
   type        = string
@@ -32,18 +28,7 @@ variable "grafana_otlp_endpoint" {
   default     = "https://otlp-gateway-prod-eu-west-2.grafana.net/otlp"
 }
 
-variable "grafana_otlp_auth_header" {
-  description = "Base64 encoded Instance ID : API Key / Password for Grafana OTLP OTel traces"
-  type        = string
-  sensitive   = true
-}
-
-variable "mongodb_connection_string" {
-  type        = string
-  description = "MongoDB Atlas Connection String"
-  sensitive   = true
-}
-
+# Application & Connection Settings
 variable "allowed_origins" {
   type = list(string)
   default = [
@@ -95,20 +80,7 @@ variable "mongodb_wait_queue_timeout_minutes" {
   default     = 2
 }
 
-variable "atlas_public_key" {
-  type = string
-}
-
-variable "atlas_private_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "atlas_project_id" {
-  type      = string
-  sensitive = true
-}
-
+# Azure & GitHub Configuration
 variable "azure_subscription_id" {
   type        = string
   description = "The Azure subscription ID"

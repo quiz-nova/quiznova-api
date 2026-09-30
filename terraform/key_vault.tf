@@ -50,3 +50,10 @@ resource "azurerm_key_vault_secret" "grafana_otlp_auth" {
   value        = "Authorization=Basic ${data.doppler_secrets.app.map.GRAFANA_OTLP_AUTH_HEADER}"
   key_vault_id = azurerm_key_vault.main.id
 }
+
+resource "azurerm_key_vault_secret" "ghcr_token" {
+  name         = "ghcr-token"
+  value        = coalesce(var.ghcr_token, try(data.doppler_secrets.app.map.GHCR_TOKEN, null))
+  key_vault_id = azurerm_key_vault.main.id
+}
+

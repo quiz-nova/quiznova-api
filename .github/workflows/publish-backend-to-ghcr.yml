@@ -2,7 +2,7 @@ name: Publish Backend to GHCR
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - "src/QuizNova.Api/**"
       - "src/QuizNova.Application/**"
@@ -40,8 +40,8 @@ jobs:
           file: src/QuizNova.Api/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ env.IMAGE_NAME }}-api:latest
-            ghcr.io/${{ env.IMAGE_NAME }}-api:${{ github.sha }}
+            ghcr.io/${{ env.IMAGE_NAME }}:latest
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       - name: Log in to Azure (OIDC)
         uses: azure/login@v2
@@ -55,4 +55,4 @@ jobs:
         with:
           containerAppName: quiznova-api
           resourceGroup: quiz-nova-resource-group
-          imageToDeploy: ghcr.io/${{ env.IMAGE_NAME }}-api:${{ github.sha }}
+          imageToDeploy: ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}

@@ -48,6 +48,18 @@ resource "azurerm_container_app" "backend_app" {
     identity            = azurerm_user_assigned_identity.aca.id
   }
 
+  secret {
+    name                = "ghcr-token"
+    key_vault_secret_id = azurerm_key_vault_secret.ghcr_token.id
+    identity            = azurerm_user_assigned_identity.aca.id
+  }
+
+  registry {
+    server               = "ghcr.io"
+    username             = var.ghcr_username
+    password_secret_name = "ghcr-token"
+  }
+
   template {
     min_replicas = 0
     max_replicas = 1
@@ -243,6 +255,7 @@ resource "azurerm_container_app" "backend_app" {
     azurerm_key_vault_secret.jwt_secret,
     azurerm_key_vault_secret.mongodb_connection,
     azurerm_key_vault_secret.grafana_loki_password,
-    azurerm_key_vault_secret.grafana_otlp_auth
+    azurerm_key_vault_secret.grafana_otlp_auth,
+    azurerm_key_vault_secret.ghcr_token
   ]
 }

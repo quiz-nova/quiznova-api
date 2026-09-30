@@ -8,11 +8,21 @@ resource "azuread_service_principal" "quiznova_sp" {
 resource "azuread_application_federated_identity_credential" "quiznova_main" {
   application_id = azuread_application.quiznova_app.id
   display_name   = azuread_application.quiznova_app.display_name
-  description    = "Federated credential for QuizNova main branch"
+  description    = "Federated credential for QuizNova API main branch"
+  audiences      = ["api://AzureADTokenExchange"]
+  issuer         = "https://token.actions.githubusercontent.com"
+  subject        = "repo:${var.github_owner}@${var.github_organization_id}/${var.github_repository_name}@${var.github_repository_id}:ref:refs/heads/main"
+}
+
+resource "azuread_application_federated_identity_credential" "quiznova_main_standard" {
+  application_id = azuread_application.quiznova_app.id
+  display_name   = "github-actions-quiz-nova-standard"
+  description    = "Federated credential for standard subject format"
   audiences      = ["api://AzureADTokenExchange"]
   issuer         = "https://token.actions.githubusercontent.com"
   subject        = "repo:${var.github_owner}/${var.github_repository_name}:ref:refs/heads/main"
 }
+
 
 resource "azurerm_role_assignment" "quiznova_contributor" {
   scope                = "/subscriptions/${var.azure_subscription_id}/resourceGroups/${azurerm_resource_group.app_rg.name}"

@@ -15,11 +15,13 @@ variable "doppler_config" {
 variable "grafana_loki_instance_id" {
   description = "Grafana Loki Instance ID for credentials.login"
   type        = string
+  default     = "1640218"
 }
 
 variable "grafana_loki_uri" {
   description = "The Grafana Loki ingest endpoint URI"
   type        = string
+  default     = "https://logs-prod-012.grafana.net"
 }
 
 variable "grafana_otlp_endpoint" {
@@ -96,5 +98,30 @@ variable "github_owner" {
 variable "github_repository_name" {
   type        = string
   description = "The GitHub repository name"
+  default     = "quiznova-api"
+}
+
+variable "github_organization_id" {
+  type        = string
+  description = "The GitHub Organization numeric ID"
+  default     = "325215040"
+}
+
+variable "github_repository_id" {
+  type        = string
+  description = "The GitHub Repository numeric ID"
+  default     = "1181284429"
+}
+
+variable "ghcr_username" {
+  type        = string
+  description = "GitHub username or organization used to pull from GHCR"
   default     = "quiz-nova"
+}
+
+variable "ghcr_token" {
+  type        = string
+  description = "GitHub Personal Access Token (Classic) with read:packages permission"
+  sensitive   = true
+  default     = null
 }

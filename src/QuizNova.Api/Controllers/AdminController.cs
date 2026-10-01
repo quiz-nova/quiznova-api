@@ -34,9 +34,7 @@ public sealed class AdminController(ISender sender) : ApiController
     {
         var result = await sender.Send(query, ct);
 
-        return result.Match(
-            Ok,
-            Problem);
+        return result.Match(Ok, Problem);
     }
 
     [EndpointSummary("Retrieves an admin by id.")]

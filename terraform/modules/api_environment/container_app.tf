@@ -12,39 +12,33 @@ resource "azurerm_container_app" "backend_app" {
   }
 
   secret {
-    name                = "db-connection-string"
-    key_vault_secret_id = azurerm_key_vault_secret.db_connection.id
-    identity            = azurerm_user_assigned_identity.aca.id
+    name  = "db-connection-string"
+    value = azurerm_key_vault_secret.db_connection.value
   }
 
   secret {
-    name                = "jwt-secret"
-    key_vault_secret_id = azurerm_key_vault_secret.jwt_secret.id
-    identity            = azurerm_user_assigned_identity.aca.id
+    name  = "jwt-secret"
+    value = azurerm_key_vault_secret.jwt_secret.value
   }
 
   secret {
-    name                = "mongodb-connection-string"
-    key_vault_secret_id = azurerm_key_vault_secret.mongodb_connection.id
-    identity            = azurerm_user_assigned_identity.aca.id
+    name  = "mongodb-connection-string"
+    value = azurerm_key_vault_secret.mongodb_connection.value
   }
 
   secret {
-    name                = "grafana-loki-password"
-    key_vault_secret_id = azurerm_key_vault_secret.grafana_loki_password.id
-    identity            = azurerm_user_assigned_identity.aca.id
+    name  = "grafana-loki-password"
+    value = azurerm_key_vault_secret.grafana_loki_password.value
   }
 
   secret {
-    name                = "grafana-otlp-auth-header"
-    key_vault_secret_id = azurerm_key_vault_secret.grafana_otlp_auth.id
-    identity            = azurerm_user_assigned_identity.aca.id
+    name  = "grafana-otlp-auth-header"
+    value = azurerm_key_vault_secret.grafana_otlp_auth.value
   }
 
   secret {
-    name                = "ghcr-token"
-    key_vault_secret_id = azurerm_key_vault_secret.ghcr_token.id
-    identity            = azurerm_user_assigned_identity.aca.id
+    name  = "ghcr-token"
+    value = azurerm_key_vault_secret.ghcr_token.value
   }
 
   registry {

@@ -14,5 +14,5 @@ resource "azurerm_container_app_environment" "app_env" {
 resource "mongodbatlas_project_ip_access_list" "allow_aca" {
   project_id = data.doppler_secrets.app.map.ATLAS_PROJECT_ID
   cidr_block = "0.0.0.0/0"
-  comment    = "Allow connection from Azure Container Apps ${var.environment_name} (secured via Key Vault credentials)"
+  comment    = "Allow Azure Container Apps ${var.environment_name}"
 }

@@ -31,22 +31,22 @@ resource "azurerm_role_assignment" "quiznova_contributor" {
 }
 
 resource "github_actions_environment_secret" "azure_client_id" {
-  repository      = var.github_repository_name
-  environment     = var.environment_name == "dev" ? "development" : (var.environment_name == "stg" ? "staging" : "production")
-  secret_name     = "AZURE_CLIENT_ID"
-  plaintext_value = azuread_application.quiznova_app.client_id
+  repository  = var.github_repository_name
+  environment = var.environment_name == "dev" ? "development" : (var.environment_name == "stg" ? "staging" : "production")
+  secret_name = "AZURE_CLIENT_ID"
+  value       = azuread_application.quiznova_app.client_id
 }
 
 resource "github_actions_environment_secret" "azure_tenant_id" {
-  repository      = var.github_repository_name
-  environment     = var.environment_name == "dev" ? "development" : (var.environment_name == "stg" ? "staging" : "production")
-  secret_name     = "AZURE_TENANT_ID"
-  plaintext_value = data.azurerm_client_config.current.tenant_id
+  repository  = var.github_repository_name
+  environment = var.environment_name == "dev" ? "development" : (var.environment_name == "stg" ? "staging" : "production")
+  secret_name = "AZURE_TENANT_ID"
+  value       = data.azurerm_client_config.current.tenant_id
 }
 
 resource "github_actions_environment_secret" "azure_subscription_id" {
-  repository      = var.github_repository_name
-  environment     = var.environment_name == "dev" ? "development" : (var.environment_name == "stg" ? "staging" : "production")
-  secret_name     = "AZURE_SUBSCRIPTION_ID"
-  plaintext_value = var.azure_subscription_id
+  repository  = var.github_repository_name
+  environment = var.environment_name == "dev" ? "development" : (var.environment_name == "stg" ? "staging" : "production")
+  secret_name = "AZURE_SUBSCRIPTION_ID"
+  value       = var.azure_subscription_id
 }

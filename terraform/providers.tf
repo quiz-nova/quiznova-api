@@ -2,9 +2,9 @@ terraform {
   required_version = ">= 1.5.0"
 
   backend "azurerm" {
-    resource_group_name  = "quiz-nova-resource-group"
+    resource_group_name  = "quiznova-rg"
     storage_account_name = "stquiznova"
-    container_name       = "quiznova-api-tfstate"
+    container_name       = "quiznova-api-prd-tfstate"
     key                  = "terraform.tfstate"
     use_azuread_auth     = true
   }

@@ -46,15 +46,9 @@ resource "azurerm_key_vault_secret" "mongodb_connection" {
   key_vault_id = azurerm_key_vault.main.id
 }
 
-resource "azurerm_key_vault_secret" "grafana_loki_password" {
-  name         = "grafana-loki-password"
-  value        = data.doppler_secrets.app.map.GRAFANA_LOKI_PASSWORD
-  key_vault_id = azurerm_key_vault.main.id
-}
-
-resource "azurerm_key_vault_secret" "grafana_otlp_auth" {
-  name         = "grafana-otlp-auth-header"
-  value        = "Authorization=Basic ${data.doppler_secrets.app.map.GRAFANA_OTLP_AUTH_HEADER}"
+resource "azurerm_key_vault_secret" "datadog_api_key" {
+  name         = "datadog-api-key"
+  value        = "dd-api-key=${data.doppler_secrets.app.map.DATADOG_API_KEY}"
   key_vault_id = azurerm_key_vault.main.id
 }
 

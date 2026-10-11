@@ -67,8 +67,10 @@ services:
       CorsSettings__PolicyName: "QuizNovaCorsPolicy"
       CorsSettings__AllowedOrigins__0: "http://localhost:4200"
       RateLimiterSettings__DisableRateLimiting: "true"
-      Serilog__WriteTo__1__Args__serverUrl: "http://seq:5341"
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://seq:5341/ingest/otlp
+      OTEL_SERVICE_NAME: quiznova-api
+      OTEL_RESOURCE_ATTRIBUTES: deployment.environment=dev,version=1.0.0
+      OTEL_EXPORTER_OTLP_ENDPOINT: https://otlp.us5.datadoghq.com
+      OTEL_EXPORTER_OTLP_HEADERS: dd-api-key=${DATADOG_API_KEY}
       OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
       DOTNET_DiagnosticPorts: /tmp/quiznova-api.socket,listen,nosuspend
     ports:
@@ -101,40 +103,10 @@ services:
 
     networks:
       - frontend
-  seq:
-    image: datalust/seq:latest
-    volumes:
-      - ./containers/seq:/data
-    environment:
-      ACCEPT_EULA: Y
-      SEQ_FIRSTRUN_NOAUTHENTICATION: "true"
-    container_name: quiznova-seq
-    ports:
-      - "5341:5341"
-      - "8081:80"
-    networks:
-      - backend
-    restart: unless-stopped
 
-  grafana:
-    image: grafana/grafana:latest
-    container_name: quiznova-grafana
-    environment:
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
-    ports:
-      - "3000:3000"
-    volumes:
-      - grafana-data:/var/lib/grafana
-    depends_on:
-      - api
-    restart: unless-stopped
-
-    networks:
-      - backend
 volumes:
   postgres_data:
   mongodb_data:
-  grafana-data:
 
 networks:
   frontend:

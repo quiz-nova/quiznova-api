@@ -27,13 +27,8 @@ resource "azurerm_container_app" "backend_app" {
   }
 
   secret {
-    name  = "grafana-loki-password"
-    value = azurerm_key_vault_secret.grafana_loki_password.value
-  }
-
-  secret {
-    name  = "grafana-otlp-auth-header"
-    value = azurerm_key_vault_secret.grafana_otlp_auth.value
+    name  = "datadog-api-key"
+    value = azurerm_key_vault_secret.datadog_api_key.value
   }
 
   secret {
@@ -128,64 +123,24 @@ resource "azurerm_container_app" "backend_app" {
       }
 
       env {
-        name  = "SERILOG__USING__0"
-        value = "Serilog.Sinks.Grafana.Loki"
-      }
-      env {
-        name  = "SERILOG__WRITETO__1__NAME"
-        value = "GrafanaLoki"
-      }
-      env {
-        name  = "SERILOG__WRITETO__1__ARGS__URI"
-        value = var.grafana_loki_uri
-      }
-      env {
-        name  = "SERILOG__WRITETO__1__ARGS__LABELS__0__KEY"
-        value = "app"
-      }
-      env {
-        name  = "SERILOG__WRITETO__1__ARGS__LABELS__0__VALUE"
-        value = "QuizNova.Api"
-      }
-      env {
-        name  = "SERILOG__WRITETO__1__ARGS__LABELS__1__KEY"
-        value = "env"
-      }
-      env {
-        name  = "SERILOG__WRITETO__1__ARGS__LABELS__1__VALUE"
-        value = var.environment_name
-      }
-      env {
         name        = "JwtSettings__Secret"
         secret_name = "jwt-secret"
       }
       env {
-        name  = "SERILOG__WRITETO__1__ARGS__CREDENTIALS__LOGIN"
-        value = var.grafana_loki_instance_id
-      }
-      env {
-        name        = "SERILOG__WRITETO__1__ARGS__CREDENTIALS__PASSWORD"
-        secret_name = "grafana-loki-password"
-      }
-      env {
-        name  = "SERILOG__WRITETO__1__ARGS__PERIOD"
-        value = "00:00:01"
-      }
-      env {
-        name  = "SERILOG__WRITETO__1__ARGS__EAGERLYEMITFIRSTEVENT"
-        value = "true"
-      }
-      env {
         name  = "OTEL_SERVICE_NAME"
-        value = "QuizNova.Api.${var.environment_name}"
+        value = "quiznova-api"
+      }
+      env {
+        name  = "OTEL_RESOURCE_ATTRIBUTES"
+        value = "deployment.environment=${var.environment_name},version=1.0.0"
       }
       env {
         name  = "OTEL_EXPORTER_OTLP_ENDPOINT"
-        value = var.grafana_otlp_endpoint
+        value = "https://otlp.us5.datadoghq.com"
       }
       env {
         name        = "OTEL_EXPORTER_OTLP_HEADERS"
-        secret_name = "grafana-otlp-auth-header"
+        secret_name = "datadog-api-key"
       }
       env {
         name  = "OTEL_EXPORTER_OTLP_PROTOCOL"
@@ -237,8 +192,7 @@ resource "azurerm_container_app" "backend_app" {
     azurerm_key_vault_secret.db_connection,
     azurerm_key_vault_secret.jwt_secret,
     azurerm_key_vault_secret.mongodb_connection,
-    azurerm_key_vault_secret.grafana_loki_password,
-    azurerm_key_vault_secret.grafana_otlp_auth,
+    azurerm_key_vault_secret.datadog_api_key,
     azurerm_key_vault_secret.ghcr_token
   ]
 }

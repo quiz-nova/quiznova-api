@@ -29,6 +29,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      security-events: write
     outputs:
       image_tag: ${{ steps.meta.outputs.tag }}
       deploy_env: ${{ steps.env_calc.outputs.deploy_env }}
@@ -72,6 +73,22 @@ jobs:
           tags: |
             ghcr.io/${{ env.IMAGE_NAME }}:latest
             ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('trivy-results.sarif') != ''
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: 'container-trivy'
+
 
   deploy:
     name: Deploy to Container Apps

@@ -24,6 +24,13 @@ RUN dotnet publish "src/QuizNova.Api/QuizNova.Api.csproj" \
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
+LABEL org.opencontainers.image.title="quiznova-api" \
+  org.opencontainers.image.description="QuizNova Backend REST & SignalR API" \
+  org.opencontainers.image.url="https://quiznova.dev" \
+  org.opencontainers.image.source="https://github.com/quiz-nova/quiznova-api" \
+  org.opencontainers.image.vendor="QuizNova" \
+  org.opencontainers.image.licenses="All rights reserved"
+
 USER root
 RUN apt-get update \
   && apt-get install -y --no-install-recommends libgssapi-krb5-2 \

@@ -6,6 +6,14 @@
     <LangVersion>latest</LangVersion>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <IsPackable>true</IsPackable>
+    <Authors>Moamen Elbarky</Authors>
+    <Company>QuizNova</Company>
+    <Product>QuizNova Platform</Product>
+    <Description>Online examination and quiz management platform built with ASP.NET Core Clean Architecture.</Description>
+    <Copyright>Copyright (c) 2026 Moamen Elbarky. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://quiznova.dev</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/quiz-nova/quiznova-api</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);SA1633;1591;NU1901;NU1902;NU1903;NU1904</NoWarn>

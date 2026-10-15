@@ -6,6 +6,11 @@ resource "azurerm_container_app" "backend_app" {
   revision_mode                = "Single"
   workload_profile_name        = "Consumption"
 
+  tags = merge(local.common_tags, {
+    Component = "api"
+    Tier      = "backend"
+  })
+
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.aca.id]

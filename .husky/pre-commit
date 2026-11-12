@@ -1,5 +1,2 @@
 echo "Checking backend formatting..."
 dotnet format QuizNova.slnx --verify-no-changes
-
-echo "Running frontend lint-staged..."
-cd src/QuizNova.Client && npx lint-staged

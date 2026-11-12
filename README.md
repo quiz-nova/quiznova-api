@@ -1,325 +1,253 @@
-<div align="center">
+# QuizNova API
 
-# 🚀 QuizNova
+**Live Application:** [quiznova.dev](https://quiznova.dev) _(Fallback mirror:
+[GitHub Pages](https://moamenelbarqy.github.io/quiz-nova/))_
 
-## [🔗 Live Demo](https://moamenelbarqy.github.io/quiz-nova/)
+Backend REST and SignalR API for the **QuizNova** assessment platform, built by
+[Moamen Elbarky](https://github.com/moamenelbarky) to explore Clean
+Architecture, Domain-Driven Design (DDD), document data modeling, and cloud
+automation.
 
-**Full-Stack Quiz Management System**  
-Built with **.NET 10** · **Angular 21** · **PostgreSQL** · **SignalR**
+[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18.3-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![CI](https://img.shields.io/github/actions/workflow/status/quiz-nova/quiznova-api/build-and-test.yml?branch=main&style=flat-square&label=CI)](https://github.com/quiz-nova/quiznova-api/actions)
 
-[![.NET](https://img.shields.io/badge/.NET-10-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
-[![Angular](https://img.shields.io/badge/Angular-21-DD0031?style=flat-square&logo=angular)](https://angular.dev/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-4169E1?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![CI](https://img.shields.io/github/actions/workflow/status/MoamenElbarqy/quiz-nova/build-and-test.yml?branch=main&style=flat-square&label=CI)](https://github.com/MoamenElbarqy/quiz-nova/actions)
-
-> **⚠️ RED FLAG — Scale-to-Zero:** The live demo frontend is hosted as a static GitHub Pages site, but the backend API runs on Azure Container Apps with **scale-to-zero**. The first backend request after inactivity may take **up to 10 seconds** while the API container cold-starts. Please be patient.
-
-</div>
-
----
-
-## 📑 Table of Contents
-
-- [📸 Screenshots](#-screenshots)
-- [🏗️ Architecture Overview](#️-architecture-overview)
-- [✨ Key Features](#-key-features)
-- [⚙️ Technical Deep Dives](#️-technical-deep-dives)
-- [🖥️ Frontend Architecture](#️-frontend-architecture)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [🧪 Testing Strategy](#-testing-strategy)
-- [🚦 Getting Started](#-getting-started)
-- [☁️ Infrastructure as Code (IaC)](#-infrastructure-as-code-iac)
-- [🔄 CI/CD Pipeline](#-cicd-pipeline)
-
+> [!NOTE] **Live Demo & Cold-Start Notice:** This project is deployed for
+> demonstration and learning purposes. The backend API runs on Azure Container
+> Apps with **scale-to-zero** enabled, so the first request after inactivity may
+> take **10–15 seconds** while the container cold-starts. Additionally, the live
+> demo may occasionally be unavailable if monthly free-tier cloud credits or
+> quotas are exhausted.
 
 ---
 
-## 📸 Screenshots
+## Table of Contents
 
-<details>
-<summary>📂 View Database Schema & Swagger UI Screenshots</summary>
-
-### 🗄️ Relational Schema
-
-<div align="center">
-  <img src="docs/images/relational-schema.png" alt="QuizNova Relational Schema" width="70%"/>
-</div>
-
-### 🔌 REST API — Swagger Endpoints
-
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <b>👑 Admin, Auth & College Endpoints</b><br/>
-      <img src="docs/images/swagger/swagger-admin-auth-college.png" alt="Swagger — Admin, Auth & College endpoints" width="100%"/>
-    </td>
-    <td width="50%" align="center">
-      <b>📚 Course & Grading Endpoints</b><br/>
-      <img src="docs/images/swagger/swagger-course-grading.png" alt="Swagger — Course & Grading endpoints" width="100%"/>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <b>👨‍🏫 Instructor Attempts Endpoints</b><br/>
-      <img src="docs/images/swagger/swagger-instructor-attempts.png" alt="Swagger — Instructor Attempts endpoints" width="100%"/>
-    </td>
-    <td width="50%" align="center">
-      <b>🧑‍🎓 Student Quiz Endpoints (Part 1)</b><br/>
-      <img src="docs/images/swagger/swagger-quiz-student.png" alt="Swagger — Student Quiz endpoints Part 1" width="100%"/>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <b>🧑‍🎓 Student Quiz Endpoints (Part 2)</b><br/>
-      <img src="docs/images/swagger/swagger-quiz-student-2.png" alt="Swagger — Student Quiz endpoints Part 2" width="100%"/>
-    </td>
-    <td width="50%"></td>
-  </tr>
-</table>
-
-### 🖥️ Application Pages
-
-<table>
-  <tr>
-    <td width="50%" align="center">
-      <b>🔑 Login Page</b><br/>
-      <img src="docs/images/screenshots/login.png" alt="Login Page" width="100%"/>
-    </td>
-    <td width="50%" align="center">
-      <b>💬 Course Chat Room</b><br/>
-      <img src="docs/images/screenshots/course-chat.png" alt="Course Chat Room" width="100%"/>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <b>👨‍🏫 Instructor — Create Quiz</b><br/>
-      <img src="docs/images/screenshots/create-quiz.png" alt="Instructor — Create Quiz" width="100%"/>
-    </td>
-    <td width="50%" align="center">
-      <b>🧑‍🎓 Student — Quiz Attempt</b><br/>
-      <img src="docs/images/screenshots/quiz-attempt.png" alt="Student — Quiz Attempt" width="100%"/>
-    </td>
-  </tr>
-</table>
-
-</details>
+- [Related Repositories & Wiki](#related-repositories--wiki)
+- [Architecture Overview](#architecture-overview)
+- [Key Features & Design Highlights](#key-features--design-highlights)
+- [Tech Stack](#tech-stack)
+- [Testing Strategy](#testing-strategy)
+- [Getting Started](#getting-started)
+- [Infrastructure & CI/CD](#infrastructure--cicd)
+- [Author](#author)
 
 ---
 
-## 🏗️ Architecture Overview
+## Related Repositories & Wiki
 
-QuizNova is designed using **Clean Architecture** principles, enforcing a strict inward dependency flow to keep the domain pure and testable.
+QuizNova is split across four repositories in the
+[`quiz-nova`](https://github.com/quiz-nova) organization:
 
-```
-┌────────────────────────────────────────────────────────┐
-│                    Presentation                        │
-│          API Controllers  ·  Angular Client            │
-├────────────────────────────────────────────────────────┤
-│                    Application                         │
-│       Commands / Queries (CQRS)  ·  MediatR            │
-│   FluentValidation  ·  Pipeline Behaviours             │
-├────────────────────────────────────────────────────────┤
-│                      Domain                            │
-│     Enriched Entities  ·  Value Objects  ·  Results    │
-├────────────────────────────────────────────────────────┤
-│                   Infrastructure                       │
-│   EF Core  ·  PostgreSQL  ·  Outbox  ·  Hybrid Cache    │
-│   OpenTelemetry  ·  Serilog  ·  Seq  ·  Loki Logging   │
-└────────────────────────────────────────────────────────┘
+- **[`quiznova-api`](https://github.com/quiz-nova/quiznova-api)** _(Current)_:
+  .NET 10 backend API, domain logic, and service-level Terraform configurations.
+- **[`quiznova-web`](https://github.com/quiz-nova/quiznova-web)**: Angular 21
+  frontend Single Page Application (SPA).
+- **[`quiznova-infra`](https://github.com/quiz-nova/quiznova-infra)**: Platform
+  Terraform configuration managing organization repositories, Azure state
+  storage, and Datadog monitors.
+- **[`quiznova-api.wiki`](https://github.com/quiz-nova/quiznova-api/wiki)**:
+  Engineering notes, database schemas, and architecture discussions:
+  - [From Relational Modeling to Document Modeling](https://github.com/quiz-nova/quiznova-api/wiki/From-Relational-Modeling-to-Document-Modeling)
+  - [Learning Domain-Driven Design (DDD)](https://github.com/quiz-nova/quiznova-api/wiki/DDD)
+  - [Stop Treating Objects as Dump Lines](https://github.com/quiz-nova/quiznova-api/wiki/Stop-treat-the-object-as-dump-lines)
+  - [Eventual Consistency & Denormalization](https://github.com/quiz-nova/quiznova-api/wiki/Eventual-Consistency)
+  - [Infrastructure as Code (IaC) Journey](https://github.com/quiz-nova/quiznova-api/wiki/IaC)
+  - [Managing Secrets with Doppler](https://github.com/quiz-nova/quiznova-api/wiki/Doppler)
+
+---
+
+## Architecture Overview
+
+QuizNova follows **Clean Architecture** principles, enforcing an inward
+dependency flow so the domain model stays isolated from database and framework
+concerns.
+
+```mermaid
+flowchart TD
+    subgraph Presentation["Presentation Layer (QuizNova.Api)"]
+        Controllers["REST Controllers"]
+        Hubs["SignalR Hubs (Course Chat)"]
+    end
+
+    subgraph Application["Application Layer (QuizNova.Application)"]
+        CQRS["MediatR Commands & Queries"]
+        Behaviors["Pipeline Behaviors (Validation, Caching, Logging, Domain Events)"]
+    end
+
+    subgraph Domain["Domain Layer (QuizNova.Domain)"]
+        Aggregates["Aggregate Roots (Quiz, QuizAttempt, Course, User, CourseChatRoom)"]
+        ValueObjects["Value Objects & Result<T> Pattern"]
+    end
+
+    subgraph Infrastructure["Infrastructure Layer (QuizNova.Infrastructure)"]
+        Mongo["MongoDB 7.0 (All Domain Data)"]
+        Postgres["PostgreSQL 18.3 (Outbox, Identity & L2 Cache)"]
+        Outbox["OutboxProcessorJob (LISTEN/NOTIFY)"]
+    end
+
+    Presentation --> Application
+    Application --> Domain
+    Infrastructure -.-> Application
+    Infrastructure -.-> Domain
+    Postgres -.-> Outbox
 ```
 
-- **CQRS via MediatR**: Pipeline Behaviours intercept requests for cross-cutting concerns (validation, logging, caching).
-- **Result Pattern**: Enforces error handling as control flow using a custom `Result<T>` monad and strongly typed `Error` objects instead of throwing exceptions.
-- **Rich Domain Model**: Aggregate roots enforce structural invariants at construction.
+- **CQRS via MediatR**: Requests pass through pipeline behaviors for
+  `FluentValidation`, caching, logging, and domain event publishing.
+- **Result Pattern**: Uses an explicit `Result<T>` type and strongly typed
+  `Error` objects instead of throwing exceptions for expected business failures.
+- **Rich Domain Models**: Entities enforce invariants through behavior methods
+  like `question.Solve(...)` and `course.Enroll(student)` rather than acting as
+  anemic data bags (see
+  [Wiki discussion](https://github.com/quiz-nova/quiznova-api/wiki/Stop-treat-the-object-as-dump-lines)).
 
 ---
 
-## ✨ Key Features
+## Key Features & Design Highlights
 
-- **🔐 Role-Based Access Control (RBAC)**: Custom permissions for **Admins** (system-wide auditing & enrollments), **Instructors** (quiz creation, manual essay grading, dashboards), and **Students** (quiz attempts, results, chat).
-- **📝 Gradual Quiz Engine**:
-  - Supports Multiple Choice (MCQ), True/False, and **Essay** (manually graded) questions.
-  - Interactive **gradual attempt flow** (`Start` → `SubmitAnswer` → `Complete`) with a countdown timer to prevent data loss.
-  - Extensible grading rules via a generic `CorrectionCondition` predicate.
-- **💬 Course Chat Rooms**: Real-time course chat channels powered by **SignalR** supporting instant messaging and emoji reactions, integrated with MediatR CQRS.
-- **🚦 Security & Rate Limiting**: Dedicated rate-limiting policies (`Global`, `Auth`, and `SubmitQuiz`) preventing brute-force attacks and request spamming.
-- **📊 Observability Stack**: Centralized logging with **Serilog**, distributed tracing via **OpenTelemetry**, log aggregation with **Grafana Loki/Seq**, and metrics scraped by **Prometheus** for **Grafana** visualization.
+### Polymorphic Question Hierarchy
 
----
+Questions and answers are modeled using a polymorphic hierarchy mapped to
+MongoDB documents via `BsonClassMap` discriminators (`mcq`, `tf`, `essay`):
 
-## ⚙️ Technical Deep Dives
+```mermaid
+classDiagram
+    class Question {
+        <<abstract>>
+        +Guid Id
+        +string Text
+        +int Points
+    }
+    class AutoGradedQuestion~TAnswer~ {
+        <<abstract>>
+        +CorrectionCondition
+    }
+    class ManuallyGradedQuestion {
+        <<abstract>>
+        +double? Score
+    }
+    class Mcq {
+        +Guid? CorrectChoiceId
+        +IReadOnlyList~Choice~ Choices
+        +Solve(selectedChoiceId) Result
+    }
+    class Tf {
+        +bool CorrectChoice
+        +Solve(studentChoice) Result
+    }
+    class Essay {
+        +string AnswerReference
+        +Solve(studentResponse) Result
+    }
 
-<details>
-<summary>🧩 Polymorphic Question & Answer System (Liskov Substitution Principle)</summary>
-
-Models questions and answers through a two-level polymorphic hierarchy mapping EF Core discriminators to separate types:
-
-```text
-                  ┌──────────────────┐
-                  │    Question      │  ← abstract base
-                  └────────┬─────────┘
-            ┌──────────────┴──────────────┐
-  ┌─────────┴────────────┐     ┌──────────┴───────────┐
-  │  AutoGradedQuestion  │     │ManuallyGradedQuestion│
-  │  <TAnswer>           │     │• Score (nullable)    │
-  └────────┬─────────────┘     └──────────┬───────────┘
-     ┌─────┴─────┐                        │
-  ┌──┴──┐     ┌──┴──┐               ┌─────┴─────┐
-  │ MCQ │     │ T/F │               │   Essay   │
-  └─────┘     └─────┘               └───────────┘
+    Question <|-- AutoGradedQuestion
+    Question <|-- ManuallyGradedQuestion
+    AutoGradedQuestion <|-- Mcq
+    AutoGradedQuestion <|-- Tf
+    ManuallyGradedQuestion <|-- Essay
 ```
 
-- **Open-Closed Principle (OCP)**: Each auto-graded type defines its own `CorrectionCondition` predicate mapping (`studentChoice => studentChoice == CorrectChoice`). The grading engine solver simply evaluates this predicate without knowing the concrete class.
-- **LSP in Practice**: The quiz attempt handler dispatches solver logic through the base `Question` type:
+### Core Capabilities
 
-  ```csharp
-  Result<QuestionAnswer> createAnswerResult = (question, request.Answer) switch
-  {
-      (Mcq mcqQuestion, SubmitMcqAnswerCommand mcqAnswer) =>
-          mcqQuestion.Solve(mcqAnswer.SelectedChoiceId, studentId, attempt.Id),
-      (Tf tfQuestion, SubmitTfAnswerCommand tfAnswer) =>
-          tfQuestion.Solve(tfAnswer.StudentChoice, studentId, attempt.Id),
-      (Essay essayQuestion, SubmitEssayAnswerCommand essayAnswer) =>
-          essayQuestion.Solve(essayAnswer.StudentResponse, studentId, attempt.Id),
-      _ => Error.Unexpected("QuizAttempt.Answer.AnswerTypeMismatch", "...")
-  };
-  ```
-
-</details>
-
-<details>
-<summary>⚡ Caching Pipeline & Inline Invalidation</summary>
-
-QuizNova uses a **Hybrid Cache** (L1 in-process + L2 PostgreSQL distributed cache via `Community.Microsoft.Extensions.Caching.PostgreSql`), bypassing the need for Redis in lightweight setups.
-
-- **Cache-Aside Pattern**: Handlers implement `ICachedQuery` to automatically cache response payloads through a MediatR caching pipeline behavior.
-- **Inline Invalidation**: Invalidation runs inline in commands immediately after `SaveChangesAsync()` to eliminate stale cache windows entirely:
-
-  ```csharp
-  await dbContext.SaveChangesAsync(ct);
-  await cacheInvalidator.InvalidateAsync(["quizzes"], ct);
-  ```
-
-</details>
-
-<details>
-<summary>📨 Transactional Outbox with LISTEN/NOTIFY Trigger</summary>
-
-Ensures reliable event dispatching without dual-write inconsistency:
-
-- **Atomicity**: Outbox messages are saved within the same database transaction as business entities.
-- **LISTEN/NOTIFY Push Mechanism**: A PostgreSQL trigger alerts the background service on record inserts via `pg_notify('outbox_channel', Id)`, reducing database CPU polling overhead:
-
-  ```sql
-  CREATE OR REPLACE FUNCTION notify_outbox_insert()
-  RETURNS trigger AS $$
-  BEGIN
-      PERFORM pg_notify('outbox_channel', NEW."Id"::text);
-      RETURN NEW;
-  END;
-  $$ LANGUAGE plpgsql;
-  ```
-
-- **Process Safety**: Employs `FOR UPDATE SKIP LOCKED` for concurrent safety across multiple app replicas.
-- **Resilience**: Features a 30-second fallback polling interval if notification channels drop.
-
-</details>
-
-<details>
-<summary>🧼 DDD Cleanups & Design Patterns</summary>
-
-- **Value Objects**: Primitive values are wrapped into value objects (e.g., `PersonalInformation` grouping `Name`, `Email`, `PhoneNumber`) with encapsulated validation, avoiding primitive obsession.
-- **Signal Store State Management**: Uses fine-grained **NgRx Signal Stores** with custom extensions like `withRequestStatus()` to encapsulate HTTP states (`idle → pending → fulfilled | error`).
-- **Deferred Layout Rendering**: Speeds up initial dashboard loading by wrapping heavy performance and enrollment charts in Angular `@defer (on viewport)` tags.
-
-</details>
+- **Role-Based Access Control (RBAC)**: Distinct permissions for **Admins**
+  (courses and enrollments), **Instructors** (quiz creation and essay grading),
+  and **Students** (quiz attempts and course chat).
+- **Gradual Quiz Attempt Flow**: Supports starting an attempt, submitting
+  individual answers (`MCQ`, `True/False`, `Essay`), and completing within a
+  timed window.
+- **Real-Time Course Chat**: Powered by **SignalR** for instant messaging and
+  emoji reactions inside courses.
+- **Hybrid Caching**: Combines L1 in-memory cache with L2 PostgreSQL distributed
+  cache via `ICachedQuery` pipeline behaviors and inline cache invalidation.
 
 ---
 
-## 🖥️ Frontend Architecture
+## Tech Stack
 
-- **NgRx Signal Store**: Reactive state management built on top of Angular Signals.
-- **Atomic Layout**: UI components are mapped dynamically using `NgComponentOutlet` for rendering polymorphic questions, maintaining a clean open-closed component model.
-- **Route Guards & Interceptors**:
-  - `role.guard.ts`: Role-based route protection and redirects.
-  - `auth.interceptor.ts`: Attaches Bearer JWT headers and manages silent token renewals using a `RefreshToken` exchange flow.
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technologies |
-|---|---|
-| **Backend** | .NET 10, EF Core 10, ASP.NET Core Identity, MediatR, FluentValidation, SignalR |
-| **Frontend** | Angular 21 (Signals), NgRx Signal Store, PrimeNG 21, Vanilla CSS (Stylelint CSS property order) |
-| **Databases & Cache** | PostgreSQL 18.3, Hybrid Cache (PostgreSQL L2 backend) |
-| **Observability** | OpenTelemetry, Serilog, Seq, Prometheus, Grafana, Grafana Loki |
-| **Containerization** | Docker, Docker Compose |
+| Layer                   | Technologies                                                 |
+| :---------------------- | :----------------------------------------------------------- |
+| **Backend**             | .NET 10, ASP.NET Core, MediatR, FluentValidation, SignalR    |
+| **Primary Database**    | MongoDB 7.0 / MongoDB Atlas (`MongoDB.Driver`)               |
+| **Outbox & Auth Store** | PostgreSQL 18.3, EF Core, ASP.NET Core Identity, HybridCache |
+| **Observability**       | Datadog                                                      |
+| **Cloud & Secrets**     | Azure Container Apps, Azure Key Vault, Terraform, Doppler    |
 
 ---
 
-## 🧪 Testing Strategy
+## Testing Strategy
 
-QuizNova implements a four-layer test pyramid:
+The repository organizes automated tests across four projects under `tests/`:
 
-- **Domain Unit Tests** (`QuizNova.Domain.UnitTests`): Business invariants, grading rules, attempt lifecycle.
-- **Application Unit Tests** (`QuizNova.Application.UnitTests`): Pipeline behaviors, mappings, validators.
-- **Subcutaneous Tests** (`QuizNova.Application.SubcutaneousTests`): MediatR handler pipelines with a real database.
-- **Integration Tests** (`QuizNova.Api.IntegrationTests`): Controller endpoint verification using **Testcontainers**.
-- **End-to-End Tests**: Playwright browser tests structured with the Page Object Model (POM) running in CI.
+- **`QuizNova.Domain.UnitTests`**: Tests domain invariants, question grading
+  rules, and attempt transitions.
+- **`QuizNova.Application.UnitTests`**: Tests MediatR pipeline behaviors,
+  mappers, and validators.
+- **`QuizNova.Application.SubcutaneousTests`**: Tests application command/query
+  handlers against real database instances.
+- **`QuizNova.Api.IntegrationTests`**: Verifies HTTP endpoints using
+  **Testcontainers** for PostgreSQL and MongoDB.
 
 ---
 
-## 🚦 Getting Started
+## Getting Started
 
-### ⚡ Quick Start (Docker)
+### 1. Start Local Databases
 
 ```bash
-git clone https://github.com/MoamenElbarqy/quiz-nova.git
-cd quiz-nova
-docker compose up -d
+git clone https://github.com/quiz-nova/quiznova-api.git
+cd quiznova-api
+cp .env.example .env
+docker compose up -d db mongodb
 ```
 
-| Service | URL |
-|---|---|
-| 🌐 Web App | [`http://localhost:4200`](http://localhost:4200) |
-| 📘 Swagger API | [`http://localhost:8080/swagger`](http://localhost:8080/swagger) |
-| 📙 Scalar API | [`http://localhost:8080/scalar`](http://localhost:8080/scalar) |
-| 📋 Seq Logs | [`http://localhost:5341`](http://localhost:5341) |
-| 📈 Grafana | [`http://localhost:3000`](http://localhost:3000) |
+### 2. Run the API
 
-### 🔐 Demo Credentials
+```bash
+dotnet run --project src/QuizNova.Api
+```
 
-Ready to explore? The application comes pre-seeded with demo accounts. Use any of the credentials below on the login page:
+Once running, the API is available at `http://localhost:8080` (with Swagger UI
+at `/swagger` and Scalar API reference at `/scalar`).
 
-| Role | Email | Password |
-|---|---|---|
-| 👑 Admin | `admin@quiznova.local` | `Admin123!` |
-| 👨‍🏫 Instructor | `ahmed.nasser@quiznova.local` | `Instructor123!` |
-| 🧑‍🎓 Student | `omar.yasser@quiznova.local` | `Student123!` |
+### Demo Credentials
 
-> 💡 The demo credentials are also displayed on the login page for quick reference.
+The database seeds three demo accounts on startup:
 
----
-
-## ☁️ Infrastructure as Code (IaC)
-
-QuizNova's cloud infrastructure is fully declared and managed using **Terraform**, providing a repeatable and automated deployment model for Azure and GitHub Pages.
-
-- **Azure Provider (`azurerm`)**: Declares and manages the core hosting resources:
-  - **Resource Group** in `swedencentral`.
-  - **Container App Environment** acting as the secure networking and log aggregation boundary.
-  - **Container App** hosting the .NET Web API container, configured with serverless Consumption billing and scaling profiles (`min_replicas = 0`, `max_replicas = 1`).
-- **GitHub Provider (`github`)**: Automates custom domain registration by updating GitHub Pages configuration to bind the static Angular frontend build to the custom domain (`quiznova.dev`).
-- **Secrets Management**: Sensitive values (such as the Neon PostgreSQL database connection string, JWT secrets, and Grafana logging credentials) are separated into local gitignored `.tfvars` files, ensuring no secrets are leaked to the public repository.
-- **GitOps Life Cycle Guard (`ignore_changes`)**: To prevent Terraform from rolling back new application deployments, Terraform is configured to ignore container image, environment, and probe updates. This separates infrastructure management from application CI/CD.
+| Role           | Email                         | Password         |
+| :------------- | :---------------------------- | :--------------- |
+| **Admin**      | `admin@quiznova.local`        | `Admin123!`      |
+| **Instructor** | `ahmed.nasser@quiznova.local` | `Instructor123!` |
+| **Student**    | `omar.yasser@quiznova.local`  | `Student123!`    |
 
 ---
 
-## 🔄 CI/CD Pipeline
+## Infrastructure & CI/CD
 
-The project features a split-path GitHub Actions workflow:
+### Terraform & Secrets
 
-- **CI (`ci.yml`)**: Builds and runs backend tests and frontend building/linting in parallel on every push or pull request. StyleCop and ESLint rules are treated as build errors.
-- **Deploy**: Deploys the frontend to GitHub Pages and packages the backend API into a Docker image published to GitHub Container Registry (GHCR).
+Service-level infrastructure lives under `terraform/`:
+
+- **Environments**: `terraform/environments/{dev,stg,prd}` calling the reusable
+  `terraform/modules/api_environment` module.
+- **Resources**: Provisions Azure Container Apps (configured with
+  scale-to-zero), Azure Key Vault secrets, and OIDC federated credentials.
+- **Secrets**: Managed centrally in **Doppler** and injected into Azure Key
+  Vault rather than storing plaintext `.tfvars` files (see
+  [IaC Wiki](https://github.com/quiz-nova/quiznova-api/wiki/IaC) and
+  [Doppler Wiki](https://github.com/quiz-nova/quiznova-api/wiki/Doppler)).
+
+### GitHub Actions Workflows
+
+- **`build-and-test.yml`**: Runs `dotnet format`, builds with warnings as
+  errors, executes unit/integration tests, and uploads coverage on every PR.
+- **`publish-backend-to-ghcr.yml`**: Builds the Docker image, pushes it to
+  GitHub Container Registry (GHCR), and deploys revisions to Azure Container
+  Apps via passwordless OIDC.
+
+---
+
+## Author
+
+Developed by **[Moamen Elbarky](https://github.com/moamenelbarky)**.

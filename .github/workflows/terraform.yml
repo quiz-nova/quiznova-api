@@ -1,0 +1,216 @@
+name: Terraform GitOps CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "terraform/**"
+      - ".github/workflows/terraform.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "terraform/**"
+      - ".github/workflows/terraform.yml"
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: "Target environment"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - stg
+          - prd
+      action:
+        description: "Action to perform"
+        required: true
+        default: "plan"
+        type: choice
+        options:
+          - plan
+          - apply
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+  security-events: write
+
+jobs:
+  validate:
+    name: Validate Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.16.5
+
+      - name: Check Formatting
+        run: terraform fmt -check -recursive terraform/
+
+      - name: Validate Dev Environment
+        run: |
+          terraform -chdir=terraform/environments/dev init -backend=false
+          terraform -chdir=terraform/environments/dev validate
+
+      - name: Validate Staging Environment
+        run: |
+          terraform -chdir=terraform/environments/stg init -backend=false
+          terraform -chdir=terraform/environments/stg validate
+
+      - name: Validate Production Environment
+        run: |
+          terraform -chdir=terraform/environments/prd init -backend=false
+          terraform -chdir=terraform/environments/prd validate
+
+  iac-security:
+    name: Checkov IaC Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Checkov IaC Scan
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform
+          framework: terraform
+          output_format: cli,sarif
+          output_file_path: console,checkov.sarif
+          soft_fail: true
+
+      - name: Upload Checkov results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && hashFiles('checkov.sarif') != ''
+        with:
+          sarif_file: checkov.sarif
+          category: "checkov-api-iac"
+
+  plan:
+    name: Terraform Plan
+    needs: [validate, iac-security]
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+      (github.event_name == 'workflow_dispatch' && inputs.action == 'plan')
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'production' || (inputs.target_env == 'prd' && 'production' || (inputs.target_env == 'stg' && 'staging' || 'development')) }}
+    defaults:
+      run:
+        working-directory: ${{ github.ref == 'refs/heads/main' && 'terraform/environments/prd' || (inputs.target_env == 'prd' && 'terraform/environments/prd' || (inputs.target_env == 'stg' && 'terraform/environments/stg' || 'terraform/environments/dev')) }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Environment Variables
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ] || [ "${{ inputs.target_env }}" == "prd" ]; then
+            echo "DOPPLER_CONFIG=prd" >> $GITHUB_ENV
+            echo "ENV_NAME=prd" >> $GITHUB_ENV
+          elif [ "${{ inputs.target_env }}" == "stg" ]; then
+            echo "DOPPLER_CONFIG=stg" >> $GITHUB_ENV
+            echo "ENV_NAME=stg" >> $GITHUB_ENV
+          else
+            echo "DOPPLER_CONFIG=dev" >> $GITHUB_ENV
+            echo "ENV_NAME=dev" >> $GITHUB_ENV
+          fi
+
+      - name: Log in to Azure (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install Doppler CLI
+        uses: dopplerhq/cli-action@v3
+
+      - name: Authenticate with Doppler OIDC
+        if: ${{ vars.DOPPLER_IDENTITY_ID != '' }}
+        run: |
+          TOKEN=$(curl -s -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=https://github.com/$GITHUB_REPOSITORY_OWNER" | jq -r '.value')
+          doppler oidc login --identity="${{ vars.DOPPLER_IDENTITY_ID }}" --token="$TOKEN"
+          echo "DOPPLER_TOKEN=$(doppler configure get token --plain)" >> $GITHUB_ENV
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.16.5
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Generate Terraform Plan
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -out=tfplan
+          terraform show -no-color tfplan > plan_summary.txt
+          echo "### Terraform Plan (${ENV_NAME})" >> $GITHUB_STEP_SUMMARY
+          echo '```hcl' >> $GITHUB_STEP_SUMMARY
+          tail -n 60 plan_summary.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+  apply:
+    name: Terraform Apply
+    needs: [validate, iac-security]
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && inputs.action == 'apply')
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ (inputs.target_env == 'dev' && 'development') || (inputs.target_env == 'stg' && 'staging') || 'production' }}
+    defaults:
+      run:
+        working-directory: ${{ (inputs.target_env == 'dev' && 'terraform/environments/dev') || (inputs.target_env == 'stg' && 'terraform/environments/stg') || 'terraform/environments/prd' }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Environment Variables
+        run: |
+          if [ "${{ inputs.target_env }}" == "dev" ]; then
+            echo "DOPPLER_CONFIG=dev" >> $GITHUB_ENV
+          elif [ "${{ inputs.target_env }}" == "stg" ]; then
+            echo "DOPPLER_CONFIG=stg" >> $GITHUB_ENV
+          else
+            echo "DOPPLER_CONFIG=prd" >> $GITHUB_ENV
+          fi
+
+      - name: Log in to Azure (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install Doppler CLI
+        uses: dopplerhq/cli-action@v3
+
+      - name: Authenticate with Doppler OIDC
+        if: ${{ vars.DOPPLER_IDENTITY_ID != '' }}
+        run: |
+          TOKEN=$(curl -s -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=https://github.com/$GITHUB_REPOSITORY_OWNER" | jq -r '.value')
+          doppler oidc login --identity="${{ vars.DOPPLER_IDENTITY_ID }}" --token="$TOKEN"
+          echo "DOPPLER_TOKEN=$(doppler configure get token --plain)" >> $GITHUB_ENV
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.16.5
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -input=false -auto-approve

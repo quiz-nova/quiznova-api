@@ -99,23 +99,6 @@ variable "ghcr_token" {
   default     = null
 }
 
-variable "grafana_loki_instance_id" {
-  type        = string
-  description = "Grafana Loki Instance ID"
-  default     = "1640218"
-}
-
-variable "grafana_loki_uri" {
-  type        = string
-  description = "Grafana Loki ingest endpoint URI"
-  default     = "https://logs-prod-012.grafana.net"
-}
-
-variable "grafana_otlp_endpoint" {
-  type        = string
-  description = "Grafana Cloud OTLP Gateway endpoint"
-  default     = "https://otlp-gateway-prod-eu-west-2.grafana.net/otlp"
-}
 
 variable "postgres_maximum_pool_size" {
   type        = number

@@ -1,0 +1,24 @@
+schema-version: v2.2
+dd-service: quiznova-api
+application: quiznova
+tier: backend
+type: web
+lifecycle: production
+description: QuizNova Clean Architecture API (.NET 10, EF Core, MongoDB)
+languages:
+  - csharp
+  - dotnet
+contacts:
+  - type: email
+    contact: moamen.elbarky@gmail.com
+links:
+  - name: GitHub Repository
+    type: repo
+    url: https://github.com/quiz-nova/quiznova-api
+  - name: Swagger API Documentation
+    type: doc
+    url: https://quiznova.dev/api/swagger
+tags:
+  - env:prd
+  - project:quiznova
+  - framework:aspnetcore

@@ -9,6 +9,10 @@ resource "azurerm_container_app_environment" "app_env" {
   name                = "quiznova-env-${var.environment_name}"
   resource_group_name = var.resource_group_name
   location            = var.location
+
+  tags = merge(local.common_tags, {
+    Component = "container-environment"
+  })
 }
 
 resource "mongodbatlas_project_ip_access_list" "allow_aca" {

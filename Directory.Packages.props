@@ -4,8 +4,8 @@
   </PropertyGroup>
   <!-- Versioning -->
   <ItemGroup>
-    <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
-    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="10.2.1" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.2.1" />
   </ItemGroup>
   <!-- DataBase & Caching -->
   <ItemGroup>

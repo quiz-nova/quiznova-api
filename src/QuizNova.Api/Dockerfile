@@ -21,7 +21,7 @@ RUN dotnet publish "src/QuizNova.Api/QuizNova.Api.csproj" \
   -o ./publish \
   /p:UseAppHost=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:11.0 AS runtime
 WORKDIR /app
 
 LABEL org.opencontainers.image.title="quiznova-api" \

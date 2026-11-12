@@ -132,7 +132,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Install Doppler CLI
-        uses: dopplerhq/cli-action@v3
+        uses: dopplerhq/cli-action@v4
 
       - name: Authenticate with Doppler OIDC
         if: ${{ vars.DOPPLER_IDENTITY_ID != '' }}
@@ -194,7 +194,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Install Doppler CLI
-        uses: dopplerhq/cli-action@v3
+        uses: dopplerhq/cli-action@v4
 
       - name: Authenticate with Doppler OIDC
         if: ${{ vars.DOPPLER_IDENTITY_ID != '' }}

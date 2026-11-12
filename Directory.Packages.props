@@ -69,7 +69,7 @@
   </ItemGroup>
   <!-- Testing -->
   <ItemGroup>
-    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageVersion Include="NSubstitute" Version="5.1.0" />
     <PackageVersion Include="xunit" Version="2.8.1" />

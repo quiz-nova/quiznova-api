@@ -5,6 +5,7 @@ WORKDIR /src
 
 COPY --chown=app:app ["Directory.Build.props", "."]
 COPY --chown=app:app ["Directory.Packages.props", "."]
+COPY --chown=app:app ["global.json", "."]
 COPY --chown=app:app ["QuizNova.slnx", "."]
 
 COPY --chown=app:app ["src/QuizNova.Api/QuizNova.Api.csproj", "src/QuizNova.Api/"]

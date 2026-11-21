@@ -20,6 +20,12 @@ variable "resource_group_name" {
   default     = "quiznova-rg"
 }
 
+variable "storage_account_name" {
+  type        = string
+  description = "Name of the storage account holding Terraform state"
+  default     = "stquiznova"
+}
+
 variable "location" {
   type        = string
   description = "Azure region"

@@ -39,9 +39,20 @@ resource "azuread_application_federated_identity_credential" "quiznova_main" {
   subject        = "${local.github_repo_subject}:ref:refs/heads/main"
 }
 
+data "azurerm_storage_account" "state" {
+  name                = var.storage_account_name
+  resource_group_name = var.resource_group_name
+}
+
 resource "azurerm_role_assignment" "quiznova_contributor" {
   scope                = "/subscriptions/${var.azure_subscription_id}/resourceGroups/${var.resource_group_name}"
   role_definition_name = "Contributor"
+  principal_id         = azuread_service_principal.quiznova_sp.object_id
+}
+
+resource "azurerm_role_assignment" "quiznova_state_blob" {
+  scope                = data.azurerm_storage_account.state.id
+  role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azuread_service_principal.quiznova_sp.object_id
 }
 

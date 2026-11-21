@@ -47,6 +47,7 @@ provider "azurerm" {
 provider "azuread" {}
 
 provider "github" {
+  token = data.doppler_secrets.provider.map.GITHUB_TOKEN
   owner = "quiz-nova"
 }
 

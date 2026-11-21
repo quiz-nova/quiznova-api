@@ -22,10 +22,16 @@ resource "azurerm_key_vault" "main" {
     Component = "key-vault"
   })
 
-  access_policy {
-    tenant_id          = data.azurerm_client_config.current.tenant_id
-    object_id          = data.azurerm_client_config.current.object_id
-    secret_permissions = ["Get", "List", "Set", "Delete", "Purge", "Recover", "Backup", "Restore"]
+  dynamic "access_policy" {
+    for_each = toset(distinct([
+      data.azurerm_client_config.current.object_id,
+      azuread_service_principal.quiznova_sp.object_id
+    ]))
+    content {
+      tenant_id          = data.azurerm_client_config.current.tenant_id
+      object_id          = access_policy.value
+      secret_permissions = ["Get", "List", "Set", "Delete", "Purge", "Recover", "Backup", "Restore"]
+    }
   }
 
   access_policy {

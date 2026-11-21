@@ -22,6 +22,10 @@ on:
           - staging
           - production
 
+concurrency:
+  group: publish-backend-${{ github.event_name == 'workflow_dispatch' && inputs.target_env || (github.ref == 'refs/heads/main' && 'production' || (github.ref == 'refs/heads/staging' && 'staging' || 'development')) }}
+  cancel-in-progress: false
+
 jobs:
   build-and-push:
     name: Build & Push Image
